@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
     "start": "node dist/index.js",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "lint:fix":"eslint --fix",
+    "lint:check":"eslint ."
   },
   "repository": {
     "type": "git",
