@@ -34,13 +34,13 @@ const options = {
           paths:{}
     },
     apis: ['../routes/**/*.js'],
-}
+};
 
 
 const swaggerSpec = swaggerJSDoc(options);
 
 const swaggerDocs = (app) =>{
-    app.use("/docs",swaggerUi.serve,swaggerUi.setup(swaggerSpec))
-}
+    app.use("/docs",swaggerUi.serve,swaggerUi.setup(swaggerSpec));
+};
 
 export default swaggerDocs;

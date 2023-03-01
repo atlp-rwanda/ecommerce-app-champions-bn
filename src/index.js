@@ -21,3 +21,4 @@ swaggerDocs(app);
 app.get('/', (_, res) => {
   res.status(200).json("Welcome to our Ecommerce App");
 });
+
