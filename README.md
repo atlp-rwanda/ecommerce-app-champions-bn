@@ -7,5 +7,5 @@
 3. Navigate to the project directory using the command ` cd commerce-app-champions-bn`
 4. Install dependencies by running : `npm install`
 5. Create a PostgreSQL database and update the `config/config.js` file with your database credentials.
-6. Run the database migrations using Sequelize by running the following command: ` npx sequelize-cli db:migrate`
+6. Run the database migrations using Sequelize by running the following command: `npm run migrate:up`
 7. Start the application by running: `npm run dev`
