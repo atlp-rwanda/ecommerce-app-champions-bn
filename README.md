@@ -1,3 +1,5 @@
+![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)
+
 # ecommerce-app-champions-bn
 
 ## Installation & required steps

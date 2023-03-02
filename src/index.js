@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import routes from "./routes/index";
 
 import swaggerDocs from "./api-docs/swagger";
 
@@ -24,3 +25,6 @@ swaggerDocs(app);
 app.get("/", (_, res) => {
   res.status(200).json("Welcome to our Ecommerce App");
 });
+app.use("/", routes);
+
+export default app;
