@@ -4,20 +4,25 @@
   "env": {
     "es6": true,
     "node": true,
-    "mocha": true
+    "jest": true
   },
   "overrides": [],
   "plugins": ["prettier"],
   "rules": {
     "one-var": "off",
-      "one-var-declaration-per-line": "off",
-      "new-cap": "off",
-      "consistent-return": "off",
-      "no-param-reassign": "off",
-      "comma-dangle": "off",
-      "import/no-named-as-default": "off",
-      "no-console": "off",
-      "semi":"error",
-      "quotes":"off"
+    "no-unused-vars":"off",
+    "one-var-declaration-per-line": "off",
+    "new-cap": "off",
+    "consistent-return": "off",
+    "no-param-reassign": "off",
+    "comma-dangle": "off",
+    "import/no-named-as-default": "off",
+    "import/no-extraneous-dependencies":"off",
+    "no-console": "off",
+    "semi":"error",
+    "quotes":"off",
+    "import/no-unresolved": [2, { "commonjs": true }],
+    "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+    "import/no-import-module-exports":"off"
   }
 }
