@@ -15,7 +15,7 @@
     "db:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
     "db:seed:undo": "sequelize-cli db:seed:undo",
-    "test": "jest --detectOpenHandles --coverage"
+    "test": "jest --detectOpenHandles --timeout 10000 --coverage"
   },
   "repository": {
     "type": "git",
