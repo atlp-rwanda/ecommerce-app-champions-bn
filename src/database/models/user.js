@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      userId: {
+      id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
@@ -23,15 +23,12 @@ module.exports = (sequelize, DataTypes) => {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
-      role: {
-        type: DataTypes.STRING,
-        defaultValue: "user"
-      }
     },
     {
       sequelize,
       modelName: "User",
-      tableName: "Users"
+      tableName: "users",
+      timestamps: true
     }
   );
   return User;
