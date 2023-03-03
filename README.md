@@ -1,4 +1,4 @@
-![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)
+![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
 
 # ecommerce-app-champions-bn
 
