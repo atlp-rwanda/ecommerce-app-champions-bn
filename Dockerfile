@@ -1,7 +1,14 @@
-FROM node:slim
+FROM node:alpine
+
+ARG PORT
+
 WORKDIR /app
-COPY . /app
+
+COPY ./ ./
+
 RUN npm install
-EXPOSE 3000
+
+EXPOSE $PORT
+
 CMD [ "npm","run","dev" ]
  
