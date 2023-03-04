@@ -32,6 +32,7 @@ jobs:
           chmod +x ./cc-test-reporter
       - run: npm install
       - run: npm test
+      - run: npm run build
       - name: Upload coverage to CodeClimate
         if: always()
         env:
