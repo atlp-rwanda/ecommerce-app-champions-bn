@@ -35,7 +35,7 @@ jobs:
       - name: Upload coverage to CodeClimate
         if: always()
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.f045c4c76184e519fd8ee79d345cda30955fbea8690f797c145c9c4dc0b6d352 }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TEST_REPORTER_ID }}
         run: |
           ./cc-test-reporter format-coverage -t lcov coverage/lcov.info
           ./cc-test-reporter upload-coverage
