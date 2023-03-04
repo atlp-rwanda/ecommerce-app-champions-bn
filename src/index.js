@@ -16,6 +16,4 @@ app.get("/", (_, res) => {
 });
 app.use("/", routes);
 
-
 export default app;
-
