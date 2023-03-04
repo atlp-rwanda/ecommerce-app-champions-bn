@@ -8,6 +8,8 @@ describe("testing all routes", () => {
     expect(response.statusCode).toBe(200);
   });
 });
+
+
 // testing adding a user endpoint
 describe("tesing user", ()=>{
     test("adding a user", async () =>{
