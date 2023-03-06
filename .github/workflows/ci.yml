@@ -1,0 +1,41 @@
+name: CI
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.x]
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      TEST_DATABASE: ${{ secrets.DB_TEST_DATABASE }}
+      PORT: ${{ secrets.PORT }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Set up CodeClimate Test Reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+      - run: npm install
+      - run: npm test
+      - name: Upload coverage to CodeClimate
+        if: always()
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TEST_REPORTER_ID }}
+        run: |
+          ./cc-test-reporter format-coverage -t lcov coverage/lcov.info
+          ./cc-test-reporter upload-coverage
