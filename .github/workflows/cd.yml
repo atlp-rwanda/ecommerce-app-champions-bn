@@ -1,4 +1,4 @@
-name: CD
+name: Deploy to production
 
 on:
   push:
@@ -9,19 +9,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - run: npm install
-      - name: Build and deploy the app to production
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          ssh-keyscan render.com >> ~/.ssh/known_hosts
-          git clone git@render.com:ecommerce-app-champions-bn.git
-          cd ecommerce-app-champions-bn
-          git checkout develop
-          npm install
-          npm run build
-          scp -r build/ render@web.service.render.com:/mnt/data/web
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Node.js environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+    - name: Install dependencies
+      run: npm install
+    - name: Build and deploy the app to production
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        mkdir -p ~/.ssh/
+        touch ~/.ssh/known_hosts
+        ssh-keyscan render.com >> ~/.ssh/known_hosts
+        git clone git@render.com:ecommerce-app-champions-bn.git
+        cd ecommerce-app-champions-bn
+        git checkout develop
+        npm install
+        npm run build
+        scp -r build/ render@web.service.render.com:/mnt/data/web
