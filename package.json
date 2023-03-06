@@ -40,6 +40,9 @@
     "sequelize": "^6.29.0",
     "sequelize-cli": "^6.6.0",
     "supertest": "^6.3.3",
+    "i18next": "^22.4.10",
+    "i18next-fs-backend": "^2.1.1",
+    "i18next-http-middleware": "^3.2.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2"
   },
