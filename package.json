@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon --exec babel-node src/app.js",
     "start": "node dist/index.js",
     "build": "babel src -d dist",
     "lint": "esw src --color",
@@ -14,7 +14,8 @@
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "db:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
-    "db:seed:undo": "sequelize-cli db:seed:undo"
+    "db:seed:undo": "sequelize-cli db:seed:undo",
+    "test": "jest --detectOpenHandles --coverage"
   },
   "repository": {
     "type": "git",
@@ -33,10 +34,12 @@
     "dotenv": "^16.0.3",
     "eslint-watch": "^8.0.0",
     "express": "^4.18.2",
+    "jest": "^29.4.3",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.29.0",
     "sequelize-cli": "^6.6.0",
+    "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2"
   },
@@ -52,6 +55,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jest-coverage-badge": "^1.0.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.4"
   }
