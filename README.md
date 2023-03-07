@@ -11,3 +11,14 @@
 5. Create a PostgreSQL database and update the `config/config.js` file with your database credentials.
 6. Run the database migrations using Sequelize by running the following command: `npm run migrate:up`
 7. Start the application by running: `npm run dev`
+
+## Environment Variables
+
+Before running the application using docker , make sure to set the following environment variables:
+1. DB_HOST: Must be set to 'db'
+2. DB_USERNAME: The username for your PostgreSQL database
+3. DB_PASSWORD: The password for your PostgreSQL database
+4. DB_NAME: The name of your PostgreSQL database
+5. PORT: The port number that the application will run on
+
+Note: DB_USERNAME and DB_NAME must be the same.
