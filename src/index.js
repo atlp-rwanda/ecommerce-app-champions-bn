@@ -1,22 +1,13 @@
-import express from "express";
-import cors from "cors";
-import routes from "./routes/index";
+import dotenv from "dotenv";
+import app from "./app";
 
-import languages from './locales/languages';
-import swaggerDocs from './api-docs/swagger';
 import connectDb from "./database/connectDb";
 
-const app = express();
+dotenv.config();
 
-app.use(express.json());
-app.use(cors({ origin: "*" }));
+const port = process.env.PORT ? process.env.PORT : 3000;
 
-swaggerDocs(app);
-languages(app);
-
-app.get("/", (_, res) => {
-  res.status(200).json("Welcome to our Ecommerce App");
+app.listen(port, async () => {
+  await connectDb();
+  console.log(`Server is running on http://localhost:${port}`);
 });
-app.use("/", routes);
-
-export default app;
