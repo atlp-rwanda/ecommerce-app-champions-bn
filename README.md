@@ -1,8 +1,8 @@
-![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
 
 # ecommerce-app-champions-bn
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/fb91db00552528c57d12/maintainability)](https://codeclimate.com/github/atlp-rwanda/ecommerce-app-champions-bn/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/fb91db00552528c57d12/test_coverage)](https://codeclimate.com/github/atlp-rwanda/ecommerce-app-champions-bn/test_coverage) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+![example workflow](https://github.com/atlp-rwanda/ecommerce-app-champions-bn/actions/workflows/cd.yml/badge.svg)
 
 ## Installation & required steps
 
