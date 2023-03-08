@@ -3,7 +3,10 @@ name: Deploy to production
 on:
   push:
     branches:
-      - fix-build
+      - develop
+  pull_request:
+    branches:
+      - develop
 
 jobs:
   deploy:
