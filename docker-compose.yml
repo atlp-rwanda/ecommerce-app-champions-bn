@@ -17,6 +17,7 @@ services:
       - data:/var/lib/postgresql/data
   server:
     container_name: ecommerce-bn
+    image: ecommerce
     restart: unless-stopped
     build: .
     ports: 
@@ -25,6 +26,9 @@ services:
       - 'shared-network'
     depends_on:
       - db
+    volumes:
+      - .:/app
+      - /app/node_modules
 volumes:
   data:
 
