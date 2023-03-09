@@ -1,4 +1,4 @@
-import app from "../src/index";
+import app from "../src/app";
 import request from "supertest";
 
 //testing home page endpoint
