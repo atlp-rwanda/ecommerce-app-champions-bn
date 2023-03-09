@@ -4,7 +4,7 @@
   "env": {
     "es6": true,
     "node": true,
-    "mocha": true
+    "jest": true
   },
   "overrides": [],
   "plugins": ["prettier"],
@@ -17,11 +17,12 @@
     "no-param-reassign": "off",
     "comma-dangle": "off",
     "import/no-named-as-default": "off",
+    "import/no-extraneous-dependencies":"off",
     "no-console": "off",
-    "semi": "error",
-    "quotes": "off",
-    "import/no-dynamic-require": "off",
+    "semi":"error",
+    "quotes":"off",
     "import/no-unresolved": [2, { "commonjs": true }],
-    "arrow-body-style": "off"
+    "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+    "import/no-import-module-exports":"off"
   }
 }
