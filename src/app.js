@@ -1,15 +1,18 @@
 import express from "express";
 import cors from "cors";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import morgan from "morgan";
 import routes from "./routes/index";
+
 
 import languages from './locales/languages';
 import swaggerDocs from './api-docs/swagger';
-import connectDb from "./database/connectDb";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "*" }));
+app.use(morgan('dev'));
 
 swaggerDocs(app);
 languages(app);
