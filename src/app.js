@@ -13,6 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "*" }));
+app.use(morgan('dev'));
 
 swaggerDocs(app);
 languages(app);

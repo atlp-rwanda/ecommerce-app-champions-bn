@@ -1,0 +1,53 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import nodemailer from "nodemailer";
+import ejs from "ejs";
+import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const transporter = () => {
+  return nodemailer.createTransport({
+    service: "hotmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+};
+
+class SendEmail {
+  constructor(vendors, password) {
+    this.to = vendors.email;
+    this.firstname = vendors.firstname;
+    this.randomAuth = password;
+    this.from = `ATLP-Champions E-commerce <${process.env.EMAIL}>`;
+  }
+
+  // Send the  email using email
+  async send(template, subject) {
+    const html = await ejs.renderFile(
+      path.join(__dirname, `./../emailTemplates/${template}.ejs`),
+      {
+        firstname: this.firstname,
+        authNum: this.randomAuth
+      }
+    );
+
+    const options = {
+      from: this.from,
+      to: this.to,
+      subject,
+      html,
+      text: html
+    };
+
+    await transporter().sendMail(options);
+  }
+
+  async randomPassword() {
+    await this.send("randomPassword", "Random password");
+  }
+}
+
+export default SendEmail;
