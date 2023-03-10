@@ -8,10 +8,6 @@ const vendorSchema = Joi.object({
   firstname: Joi.string().min(2).trim().required(),
   lastname: Joi.string().min(2).trim().required(),
   email: Joi.string().email().trim().required(),
-  gender: Joi.string().min(2).trim().required(),
-  birthDate: Joi.date().required(),
-  preferredLanguage: Joi.string().min(3).trim().required(),
-  preferredCurrency: Joi.string().min(3).trim().required(),
 });
 
 const validatesignUp = validateForm(vendorSchema);

@@ -6,16 +6,7 @@ import { Users } from "../database/models";
 
 const vendorRegister = async (req, res) => {
   try {
-    const {
-      firstname,
-      lastname,
-      email,
-      gender,
-      birthDate,
-      preferredLanguage,
-      preferredCurrency,
-      profilePic
-    } = req.body;
+    const { firstname, lastname, email, profilePic } = req.body;
     const password = randomPassword();
     const hashedPassword = await bcrypt.hash(password, 10);
     const registerVendor = await Users.create({
@@ -23,11 +14,7 @@ const vendorRegister = async (req, res) => {
       lastname,
       email,
       password: hashedPassword,
-      gender,
-      birthDate,
       roleId: 2,
-      preferredLanguage,
-      preferredCurrency,
       profilePic
     });
     const vendors = await registerVendor.save();

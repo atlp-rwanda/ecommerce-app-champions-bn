@@ -16,14 +16,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      gender: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      birthDate: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       email: {
         type: Sequelize.STRING,
         allowNull: false
@@ -31,12 +23,6 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: true
-      },
-      preferredLanguage: {
-        type: Sequelize.STRING
-      },
-      preferredCurrency: {
-        type: Sequelize.STRING
       },
       googleId: {
         allowNull: true,
