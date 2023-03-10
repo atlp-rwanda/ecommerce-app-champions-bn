@@ -12,13 +12,9 @@ describe("testing all routes", () => {
 describe("vendor", ()=> {
   test("register vendor", async ()=> {
     const response = await request(app).post("/vendor").send({
-			firstname: "umurungi",
-			lastname: "helen",
+			firstname: "mudakikwa",
+			lastname: "aimable",
 			email: "mudakikwaaimable05@gmail.com",
-      gender : "male",
-      birthDate: "2/20/1995",
-      preferredLanguage: "English",
-      preferredCurrency: "USD",
 		});
         expect(response.statusCode).toBe(200);
   })

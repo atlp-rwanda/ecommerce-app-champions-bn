@@ -44,26 +44,6 @@ const options = {
               type: "string",
               required: true,
               description: "email@gmail.com"
-            },
-            gender: {
-              type: "string",
-              required: true,
-              description: "gender"
-            },
-            birthDate: {
-              type: "DATE",
-              required: true,
-              description: "birth date"
-            },
-            preferredLanguage: {
-              type: "string",
-              required: true,
-              description: "language"
-            },
-            preferredCurrency: {
-              type: "string",
-              required: true,
-              description: "currency"
             }
           }
         }
