@@ -1,8 +1,8 @@
-import { Users } from "../database/models";
+import { user } from "../database/models";
 
 const vendorVerify = async (req, res, next) => {
-  const exists = await Users.findOne({ where: { email: req.body.email } });
-  req.User = exists;
+  const exists = await user.findOne({ where: { email: req.body.email } });
+  req.user = exists;
   if (exists) {
     return res
       .status(409)

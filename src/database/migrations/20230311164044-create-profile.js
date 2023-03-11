@@ -9,23 +9,33 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        unique: true
+        type: Sequelize.INTEGER
       },
-      Country: {
-        type: Sequelize.STRING,
-        allowNull: false
+      country: {
+        type: Sequelize.STRING
       },
-      businesName: {
-        type: Sequelize.STRING,
-        allowNull: false
+      gender: {
+        type: Sequelize.STRING
       },
-      businesAddress: {
-        type: Sequelize.JSON,
-        allowNull: false
+      birthDate: {
+        type: Sequelize.STRING
       },
-      businessRegistrationNumber: {
+      businessName: {
+        type: Sequelize.STRING
+      },
+      location: {
+        type: Sequelize.STRING
+      },
+      state: {
+        type: Sequelize.STRING
+      },
+      city: {
+        type: Sequelize.STRING
+      },
+      businessAddress: {
+        type: Sequelize.STRING
+      },
+      businessNumber: {
         type: Sequelize.INTEGER
       },
       accountNumber: {

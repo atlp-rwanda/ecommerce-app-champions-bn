@@ -6,30 +6,28 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const transporter = () => {
-  return nodemailer.createTransport({
+const transporter = () => nodemailer.createTransport({
     service: "hotmail",
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD
     }
   });
-};
 
 class SendEmail {
   constructor(vendors, password) {
     this.to = vendors.email;
-    this.firstname = vendors.firstname;
+    this.firstName = vendors.firstName;
     this.randomAuth = password;
     this.from = `ATLP-Champions E-commerce <${process.env.EMAIL}>`;
   }
 
   // Send the  email using email
-  async send(template, subject) {
+  async send(template,subject) {
     const html = await ejs.renderFile(
       path.join(__dirname, `./../emailTemplates/${template}.ejs`),
       {
-        firstname: this.firstname,
+        firstName: this.firstName,
         authNum: this.randomAuth
       }
     );
