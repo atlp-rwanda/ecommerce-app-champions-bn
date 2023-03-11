@@ -1,8 +1,8 @@
 import express, { Router } from "express";
-import vendorRoute from "./api/vendor.route";
+import route from "./api/user.route";
 
 const routes = express.Router();
 
-routes.use("/", vendorRoute);
+routes.use("/", route);
 
 export default routes;

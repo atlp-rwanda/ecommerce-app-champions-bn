@@ -8,8 +8,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      profile.hasOne(models.Users, {
-        foreignKey: "id",
+      // define association here
+      profile.belongsTo(models.user, {
+        foreignKey: "userId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
@@ -17,27 +18,16 @@ module.exports = (sequelize, DataTypes) => {
   }
   profile.init(
     {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-      },
-      userId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        unique: true
-      },
-      Country: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      businesName: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      businesAddress: DataTypes.JSONB,
-      businessRegistrationNumber: DataTypes.INTEGER,
+      country: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
+      gender: DataTypes.STRING,
+      birthDate: DataTypes.DATE,
+      state: DataTypes.STRING,
+      city: DataTypes.STRING,
+      businessName: DataTypes.STRING,
+      location: DataTypes.STRING,
+      businessAddress: DataTypes.JSONB,
+      businessNumber: DataTypes.STRING,
       accountNumber: DataTypes.INTEGER,
       taxIdNumber: DataTypes.INTEGER,
       typeOfProducts: DataTypes.STRING
@@ -45,8 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "profile",
-      tableName: "profiles",
-      timestamps: true
+      tableName: "profiles"
     }
   );
   return profile;

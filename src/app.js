@@ -9,11 +9,12 @@ import swaggerDocs from "./api-docs/swagger";
 
 import Oauthroute from "./routes/Oauthroute";
 
+import connectDb from "./database/connectDb";
+
 const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "*" }));
-app.use(morgan('dev'));
 
 swaggerDocs(app);
 languages(app);
