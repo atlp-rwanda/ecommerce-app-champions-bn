@@ -30,12 +30,12 @@ const options = {
         vendor: {
           type: "object",
           properties: {
-            firstname: {
+            firstName: {
               type: "string",
               required: true,
               description: "first name"
             },
-            lastname: {
+            lastName: {
               type: "string",
               required: true,
               description: "last name"
@@ -50,7 +50,7 @@ const options = {
       }
     },
     paths: {
-      "/vendor": {
+      "/signup": {
         post: {
           tags: ["Vendor"],
           description: "Register Vendor",

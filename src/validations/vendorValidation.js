@@ -5,8 +5,8 @@ const validateForm = (schema) => (payload) =>
   schema.validate(payload, { abortEarly: false });
 
 const vendorSchema = Joi.object({
-  firstname: Joi.string().min(2).trim().required(),
-  lastname: Joi.string().min(2).trim().required(),
+  firstName: Joi.string().min(2).trim().required(),
+  lastName: Joi.string().min(2).trim().required(),
   email: Joi.string().email().trim().required(),
 });
 
