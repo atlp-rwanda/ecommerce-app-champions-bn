@@ -16,11 +16,22 @@ const Users = async (req, res) => {
       password: hashedPassword,
       roleId: 2
     });
+    const exists = await user.findOne({ where: { email: req.body.email } });
+    req.user = exists;
+    if (exists) {
+      return res
+        .status(409)
+        .json({ status: 409, message: "User Already Exists" });
+    }
     const vendors = await users.save();
     await new SendEmail(vendors, password).randomPassword();
     return res
       .status(200)
-      .json({ status: "success", message: "vendor created successfully", vendorinfo: {vendors} });
+      .json({
+        status: "success",
+        message: "vendor created successfully",
+        vendorinfo: { vendors }
+      });
   } catch (error) {
     return res.status(400).json({
       status: "error",
