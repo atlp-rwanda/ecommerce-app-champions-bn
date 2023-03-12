@@ -8,5 +8,6 @@ const userRoute = Router();
 
 userRoute.post("/signup", validate(vendorSignup), UserController.vendorSignup);
 userRoute.post("/login",validate(vendorLogin),UserController.signin);
+userRoute.get("/all",UserController.getAllUsers);
 
 export default userRoute;

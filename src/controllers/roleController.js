@@ -30,6 +30,20 @@ class RoleController{
             return res.status(500).json({status:"error",error:error.message});
         }
     }
+
+    static async addPermission(req,res){
+        try {
+            const role = await Role.findOne({where:{id:req.params.id}});
+            if(!role){
+                return res.status(404).json({status:"error",message:"Role not found"});
+            }
+            role.dataValues.permissions.push('update');
+            await role.save();
+            return res.status(200).json({status:"success",data:role});
+        } catch (error) {
+            return res.status(500).json({status:"error",error:error.message});
+        }
+    }
 }
 
 export default RoleController;

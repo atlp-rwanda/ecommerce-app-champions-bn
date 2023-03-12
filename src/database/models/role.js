@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Role.hasMany(models.user,{
         foreignKey:'roleId',
+        as:'role',
         onDelete:'CASCADE',
         onUpdate:'CASCADE'
       });
@@ -12,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Role.init(
     {
+      id:{
+        type:DataTypes.INTEGER,
+        primaryKey:true,
+        allowNull:false
+      },
       roleName: DataTypes.STRING,
       description: DataTypes.STRING,
       permissions:{

@@ -4,7 +4,7 @@ import SendEmail from "../utils/emails";
 
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
-const { user } = require("../database/models");
+const { user,Role } = require("../database/models");
 
 
 class UserController{
@@ -60,6 +60,15 @@ class UserController{
       return res.status(200).json({status:"success",data:others,token});
     } catch (error) {
       return res.status(400).json({status:"error",error:error.message});
+    }
+  }
+
+  static async getAllUsers(req,res){
+    try {
+      const users = await user.findAll({include:'role'});
+      return res.status(200).json({status:"success",data:users});
+    } catch (error) {
+      return res.status(500).json({status:"error",error:error.message});
     }
   }
 }

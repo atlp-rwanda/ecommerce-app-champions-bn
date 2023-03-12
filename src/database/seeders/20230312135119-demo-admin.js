@@ -10,7 +10,8 @@ module.exports = {
        lastName: "mr",
        email:"admin@gmail.com",
        password:adminPassword,
-       roleId:3,
+       roleId:1,
+       profilepic:"https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png",
        isVerified:true,
        createdAt: new Date(),
        updatedAt: new Date()
