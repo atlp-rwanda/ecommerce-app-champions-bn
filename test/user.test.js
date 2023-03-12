@@ -8,18 +8,3 @@ describe("testing all routes", () => {
     expect(response.statusCode).toBe(200);
   });
 });
-<<<<<<< HEAD
-
-=======
-// testing adding a user endpoint
-describe("testing user", () => {
-  test("adding a user", async () => {
-    const response = await request(app).post("/signup").send({
-      firstName: "umurungi",
-      lastName: "helen",
-      email: "shumba2500@gmail.com"
-    });
-    expect(response.statusCode).toBe(200);
-  });
-});
->>>>>>> d36b6d3 (ft-register-vendor:)

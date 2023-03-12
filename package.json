@@ -53,6 +53,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-mock": "^0.0.3",
     "joi": "^17.8.3",
+    "jsonwebtoken": "^9.0.0",
     "nodemailer": "^6.9.1",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
