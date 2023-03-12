@@ -10,7 +10,11 @@
   "plugins": ["prettier"],
   "rules": {
     "one-var": "off",
+<<<<<<< HEAD
     "no-unused-vars": "off",
+=======
+    "no-unused-vars":"off",
+>>>>>>> e3341bd (fix(appsetup): eslint fix)
     "one-var-declaration-per-line": "off",
     "new-cap": "off",
     "consistent-return": "off",

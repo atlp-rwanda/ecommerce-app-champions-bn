@@ -11,11 +11,23 @@ const options = {
     },
     servers: [
       {
+<<<<<<< HEAD
         url: "http://localhost:5050",
         description: "Development server"
       }
     ],
     tags: [],
+=======
+        url: "http://localhost:5000",
+        description: "Development server"
+      }
+    ],
+    tags: [
+      { name: "User", description: "User Routes" },
+      { name: "Product", description: "Product Routes" },
+      { name: "Vendor", description: "Vendor Routes" }
+    ],
+>>>>>>> e3341bd (fix(appsetup): eslint fix)
     components: {
       securitySchemes: {
         token: {
@@ -25,6 +37,7 @@ const options = {
           name: "token",
           in: "header"
         }
+<<<<<<< HEAD
       },
       schemas: {
         vendor: {
@@ -81,6 +94,11 @@ const options = {
         }
       }
     }
+=======
+      }
+    },
+    paths: {}
+>>>>>>> e3341bd (fix(appsetup): eslint fix)
   },
   apis: ["../routes/**/*.js"]
 };
