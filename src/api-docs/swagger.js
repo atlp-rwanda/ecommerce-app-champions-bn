@@ -53,6 +53,7 @@ const options = {
       }
     },
     paths: { ...Googleaouth }
+
   },
   apis: ["../routes/**/*.js"]
 };

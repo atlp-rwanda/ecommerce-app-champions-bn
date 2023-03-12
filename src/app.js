@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
@@ -25,6 +26,11 @@ import cookieParser from "cookie-parser";
 import envConfig from "./config";
 
 const { JWT_SECRET } = envConfig[process.env.NODE_ENV];
+
+import passport from "passport";
+
+import Oauthroute from "./routes/Oauthroute";
+
 
 const app = express();
 
