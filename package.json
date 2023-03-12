@@ -13,16 +13,18 @@
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
     "lint:watch": "npm run lint -- --watch",
-    "migrate:up": "sequelize-cli db:migrate",
-    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:create":"npx sequelize db:create",
+    "db:drop":"npx sequelize db:drop",
+    "migrate:up": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate:undo:all":"npx sequelize db:migrate:undo:all",
     "db:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
     "db:seed:undo": "sequelize-cli db:seed:undo",
     "test": "jest --detectOpenHandles --coverage --testTimeout 100000 --forceExit",
     "docker:compose:build": "docker-compose --build",
     "docker:compose:up": "docker-compose up -d",
-    "docker:compose:down": "docker-compose down --volumes --rmi all --remove-orphans",
-    "db:create": "npx sequelize db:create"
+    "docker:compose:down": "docker-compose down --volumes --rmi all --remove-orphans"
   },
   "repository": {
     "type": "git",

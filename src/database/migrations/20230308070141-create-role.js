@@ -1,7 +1,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('roles', {
+    await queryInterface.createTable("roles", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,8 +11,8 @@ module.exports = {
       roleName: {
         type: Sequelize.STRING
       },
-      description:{
-        type:Sequelize.STRING
+      description: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -24,30 +24,13 @@ module.exports = {
       }
     });
     await queryInterface.bulkInsert('roles',[
-      {
-      id:1,
-      roleName:'admin',
-      description:'ecormmerce administator',
-      createdAt:new Date(),
-      updatedAt:new Date()
-      },
-      {
-        id:2,
-        roleName:'vendor',
-        description:'shop creator',
-        createdAt:new Date(),
-        updatedAt:new Date()
-        },
-        {
-          id:3,
-          roleName:'admin',
-          description:'buyer on the shop',
-          createdAt:new Date(),
-          updatedAt:new Date()
-          }
+      {roleName:'admin',description:'admin of the system',createdAt:new Date(),updatedAt:new Date},
+      {roleName:'vendor',description:'vendor/supplier within the shop',createdAt:new Date(),updatedAt:new Date},
+      {roleName:'buyer',description:'buyer of the product',createdAt:new Date(),updatedAt:new Date},
+      {roleName:'superadmin',description:'controller of the whole app',createdAt:new Date(),updatedAt:new Date},
     ]);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('roles');
+    await queryInterface.dropTable("roles");
   }
 };
