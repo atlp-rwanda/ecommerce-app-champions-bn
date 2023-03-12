@@ -2,6 +2,7 @@
 import Joi from "joi";
 
 const validateForm = (schema) => (payload) =>
+
   schema.validate(payload, { abortEarly: false });
 
 const vendorSchema = Joi.object({
