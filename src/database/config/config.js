@@ -1,25 +1,27 @@
-require("dotenv").config();
+import envConfig from "../../config";
+
+const { DB_USERNAME,DB_PASSWORD,DEV_DATABASE,DB_HOST,TEST_DATABASE,PRODUCTION_DATABASE } = envConfig[process.env.NODE_ENV];
 
 module.exports = {
   development: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DEV_DATABASE,
-    host: process.env.DB_HOST,
+    username:DB_USERNAME,
+    password: DB_PASSWORD,
+    database:DEV_DATABASE,
+    host:DB_HOST,
     dialect: "postgres"
   },
   test: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.TEST_DATABASE,
-    host: process.env.DB_HOST,
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: TEST_DATABASE,
+    host: DB_HOST,
     dialect: "postgres"
   },
   production: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.PRODUCTION_DATABASE,
-    host: process.env.DB_HOST,
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: PRODUCTION_DATABASE,
+    host: DB_HOST,
     dialect: "postgres"
   }
 };

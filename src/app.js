@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import routes from "./routes/index";
+import indexRouter from "./routes/index";
 
 import languages from './locales/languages';
 import swaggerDocs from './api-docs/swagger';
@@ -17,6 +17,6 @@ languages(app);
 app.get("/", (_, res) => {
   res.status(200).json("Welcome to our Ecommerce App");
 });
-app.use("/", routes);
+app.use(indexRouter);
 
 export default app;
