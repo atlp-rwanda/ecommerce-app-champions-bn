@@ -9,15 +9,18 @@ describe("testing all routes", () => {
   });
 });
 
-
-// testing adding a user endpoint
-describe("tesing user", ()=>{
-    test("adding a user", async () =>{
-        const response = await request(app).post("/signup").send({
-			firstName: "umurungi",
-			lastName: "helen",
-			email: "user@example.com",
+describe("vendor", ()=> {
+  test("register vendor", async ()=> {
+    const response = await request(app).post("/vendor").send({
+			firstname: "umurungi",
+			lastname: "helen",
+			email: "mudakikwaaimable05@gmail.com",
+      gender : "male",
+      birthDate: "2/20/1995",
+      preferredLanguage: "English",
+      preferredCurrency: "USD",
 		});
         expect(response.statusCode).toBe(200);
-    })
+  })
 })
+
