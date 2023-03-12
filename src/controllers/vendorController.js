@@ -30,6 +30,14 @@ class VendorController{
       res.status(500).json({ error: error.message });
     }
   }
+
+  // static async getAllUsers(req,res){
+  //   try {
+  //     const users = await user
+  //   } catch (error) {
+  //     return res.status(500).json({status:"error",error:error.message});
+  //   }
+  // }
 }
 
 export default VendorController;

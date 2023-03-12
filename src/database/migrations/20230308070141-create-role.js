@@ -14,6 +14,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      permissions:{
+        type:Sequelize.ARRAY(Sequelize.STRING)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -24,10 +27,27 @@ module.exports = {
       }
     });
     await queryInterface.bulkInsert('roles',[
-      {roleName:'admin',description:'admin of the system',createdAt:new Date(),updatedAt:new Date},
-      {roleName:'vendor',description:'vendor/supplier within the shop',createdAt:new Date(),updatedAt:new Date},
-      {roleName:'buyer',description:'buyer of the product',createdAt:new Date(),updatedAt:new Date},
-      {roleName:'superadmin',description:'controller of the whole app',createdAt:new Date(),updatedAt:new Date},
+      {
+        roleName:'admin',
+        description:'admin of the system',
+        permissions:['create','delete','update','read'],
+        createdAt:new Date(),
+        updatedAt:new Date()
+      },
+      {
+        roleName:'vendor',
+        description:'vendor/supplier within the shop',
+        permissions:['create','update','read'],
+        createdAt:new Date(),
+        updatedAt:new Date()
+      },
+      {
+        roleName:'buyer',
+        description:'buyer of the product',
+        permissions:['read'],
+        createdAt:new Date(),
+        updatedAt:new Date()
+      },
     ]);
   },
   async down(queryInterface, Sequelize) {
