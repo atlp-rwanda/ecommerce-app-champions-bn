@@ -1,7 +1,10 @@
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Op } from "sequelize";
+import SendEmail from "../utils/sendEmail";
 
+dotenv.config();
 
 const { user } = require("../database/models");
 
@@ -44,7 +47,11 @@ console.log(buyer);
     const token = jwt.sign({ id: buyer.id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
+   const url=process.env.URL;
 
+    const sendmail=new SendEmail(buyer,token,url);
+    sendmail.send('sendEmailToBuyer',"Welcome");
+    
     res.status(201).json({
       status: "success",
       message: "Buyer created successfully",
