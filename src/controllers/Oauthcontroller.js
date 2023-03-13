@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import passport from "passport";
 
 import dotenv from "dotenv";
@@ -11,13 +12,12 @@ passport.use(
     {
       callbackURL: `http://localhost:5000/auth/google/redirect`,
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-      clientID: process.env.client_id,
-      clientSecret: process.env.client_secret
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_SECRET
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
         const userEmail = profile.emails && profile.emails[0].value;
-
         const userInfo = {
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
