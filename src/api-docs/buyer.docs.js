@@ -25,7 +25,7 @@ const buyerSignup = {
                         password:{
                             type:"string",
                             description:"password of buyer",
-                            example:"1234567",
+                            example:"1234567@password",
                         },
                       
                     },
