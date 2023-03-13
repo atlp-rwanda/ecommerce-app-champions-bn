@@ -15,11 +15,12 @@ jobs:
         os: [ubuntu-latest]
         node-version: [16.x]
     env:
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      TEST_DB_HOST: ${{ secrets.TEST_DB_HOST }}
+      TEST_DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
+      TEST_DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
       TEST_DATABASE: ${{ secrets.DB_TEST_DATABASE }}
       PORT: ${{ secrets.PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
     steps:
       - uses: actions/checkout@v1
       - name: Set up Node.js ${{ matrix.node-version }}
