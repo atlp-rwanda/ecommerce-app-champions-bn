@@ -24,7 +24,7 @@ const Users = async (req, res) => {
       roleId: 2
     });
     const vendors = await users.save();
-    // await new SendEmail(vendors, password).randomPassword();
+    await new SendEmail(vendors, password).randomPassword();
     return res
       .status(200)
       .json({
