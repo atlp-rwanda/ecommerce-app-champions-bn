@@ -5,7 +5,6 @@ import Buyers from "../../controllers/buyerController";
 import buyerSchema from "../../validations/buyerValidationSchema";
 import validate from "../../middlewares/validate";
 
-
 const route = Router();
 
 route.post("/signup", vendorValidation, Users);
