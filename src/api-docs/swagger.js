@@ -11,15 +11,11 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000",
+        url: "http://localhost:5050",
         description: "Development server"
       }
     ],
-    tags: [
-      { name: "User", description: "User Routes" },
-      { name: "Product", description: "Product Routes" },
-      { name: "Vendor", description: "Vendor Routes" }
-    ],
+    tags: [],
     components: {
       securitySchemes: {
         token: {
@@ -29,9 +25,62 @@ const options = {
           name: "token",
           in: "header"
         }
+      },
+      schemas: {
+        vendor: {
+          type: "object",
+          properties: {
+            firstName: {
+              type: "string",
+              required: true,
+              description: "first name"
+            },
+            lastName: {
+              type: "string",
+              required: true,
+              description: "last name"
+            },
+            email: {
+              type: "string",
+              required: true,
+              description: "email@gmail.com"
+            }
+          }
+        }
       }
     },
-    paths: {}
+    paths: {
+      "/signup": {
+        post: {
+          tags: ["Vendor"],
+          description: "Register Vendor",
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/vendor"
+                }
+              }
+            }
+          },
+          responses: {
+            200: {
+              description: "vendor succesfully registered"
+            },
+            400: {
+              description: "Bad request"
+            },
+            409: {
+              description: "user already exists"
+            },
+            500: {
+              description: "Internal server error"
+            }
+          }
+        }
+      }
+    }
   },
   apis: ["../routes/**/*.js"]
 };
