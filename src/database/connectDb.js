@@ -1,10 +1,6 @@
-import dotenv from "dotenv";
 import db from "./models";
 
-dotenv.config();
-
 const connectDb = async () => {
-  console.log("checking database connection");
   try {
     await db.sequelize.authenticate();
     console.log("db connected successful");
