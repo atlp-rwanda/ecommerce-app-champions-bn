@@ -40,6 +40,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      
       profilepic: {
         type: Sequelize.STRING,
         allowNull: false
@@ -51,6 +52,14 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      resetToken:{
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      resetTokenExpiresAt: {
+        type: Sequelize.DATE,
+        allowNull: true
       }
     });
   },

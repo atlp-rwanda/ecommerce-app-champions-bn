@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import routes from "./routes/index";
 
+
 import languages from './locales/languages';
 import swaggerDocs from './api-docs/swagger';
 import connectDb from "./database/connectDb";

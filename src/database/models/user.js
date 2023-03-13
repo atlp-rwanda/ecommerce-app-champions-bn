@@ -22,11 +22,14 @@ module.exports = (sequelize, DataTypes) => {
       facebookId: DataTypes.INTEGER,
       isVerified: DataTypes.BOOLEAN,
       email_token: DataTypes.STRING,
+      resetToken: DataTypes.STRING,
+      resetTokenExpiresAt: DataTypes.DATE,
       profilepic: {
         type: DataTypes.STRING,
         defaultValue:
           "https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png"
       }
+      
     },
     {
       sequelize,
