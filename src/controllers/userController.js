@@ -1,18 +1,20 @@
 import bcrypt from "bcrypt";
 import randomPassword from "../utils/randomPassword";
 import SendEmail from "../utils/emails";
+import{ addProfile }from "../services/profile.service";
 
 const { user } = require("../database/models");
 
 const Users = async (req, res) => {
   try {
     const { firstName, lastName, email } = req.body;
-    const exists = await user.findOne({ where: { email: req.body.email } });
+    const exists = await user.findOne({ where: { email: req.body.email } }); 
     req.user = exists;
     if (exists) {
       return res
         .status(409)
         .json({ status: 409, message: "User Already Exists" });
+      
     }
     const password = randomPassword();
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,6 +26,10 @@ const Users = async (req, res) => {
       roleId: 2
     });
     const vendors = await users.save();
+    const profileData = {
+      userId: users.id,
+    } ;
+    await addProfile(profileData);
     await new SendEmail(vendors, password).randomPassword();
     return res
       .status(200)
@@ -32,6 +38,8 @@ const Users = async (req, res) => {
         message: "vendor created successfully",
         vendorinfo: { vendors }
       });
+
+  
   } catch (error) {
     return res.status(400).json({
       status: "error",
