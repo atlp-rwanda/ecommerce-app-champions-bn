@@ -1,5 +1,6 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import { userRouteDocs } from "./user.docs";
 
 const options = {
   definition: {
@@ -11,14 +12,15 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000",
+        url: `http://localhost:${process.env.PORT}`,
         description: "Development server"
       }
     ],
     tags: [
-      { name: "User", description: "User Routes" },
-      { name: "Product", description: "Product Routes" },
-      { name: "Vendor", description: "Vendor Routes" }
+      { name: 'User', description: 'User Routes' },
+      { name: 'Vendor', description: 'Vendor Routes' },
+      { name: 'Buyer', description: 'Buyer Routes' },
+      { name: 'Product', description: 'Product Routes' },
     ],
     components: {
       securitySchemes: {
@@ -29,9 +31,9 @@ const options = {
           name: "token",
           in: "header"
         }
-      }
+      },
     },
-    paths: {}
+    paths: {...userRouteDocs}
   },
   apis: ["../routes/**/*.js"]
 };
