@@ -7,6 +7,13 @@ const { user } = require("../database/models");
 const Users = async (req, res) => {
   try {
     const { firstName, lastName, email } = req.body;
+    const exists = await user.findOne({ where: { email: req.body.email } });
+    req.user = exists;
+    if (exists) {
+      return res
+        .status(409)
+        .json({ status: 409, message: "User Already Exists" });
+    }
     const password = randomPassword();
     const hashedPassword = await bcrypt.hash(password, 10);
     const users = await user.create({
@@ -16,15 +23,8 @@ const Users = async (req, res) => {
       password: hashedPassword,
       roleId: 2
     });
-    const exists = await user.findOne({ where: { email: req.body.email } });
-    req.user = exists;
-    if (exists) {
-      return res
-        .status(409)
-        .json({ status: 409, message: "User Already Exists" });
-    }
     const vendors = await users.save();
-    await new SendEmail(vendors, password).randomPassword();
+    // await new SendEmail(vendors, password).randomPassword();
     return res
       .status(200)
       .json({
