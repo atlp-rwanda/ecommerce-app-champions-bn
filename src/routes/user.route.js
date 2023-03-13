@@ -2,6 +2,7 @@ import express from "express";
 
 import { validate } from "../middlewares/validate";
 import { vendorSchema } from "../validations/vendorValidation";
+
 import UserController from "../controllers/userController";
 
 const userRoute = express.Router();

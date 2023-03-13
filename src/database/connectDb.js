@@ -1,7 +1,6 @@
 import db from "./models";
 
 const connectDb = async () => {
-  console.log("checking database connection");
   try {
     await db.sequelize.authenticate();
     console.log("db connected successful");
