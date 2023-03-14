@@ -1,14 +1,14 @@
-import express, { Router } from "express";
-import route from "./api/user.route";
-import roleRoute from "./api/role.route";
-import permissionRoute from "./api/permission.route";
-import rolePermission from "./api/rolePermission.route";
+import express from "express";
+import route from "./user.route";
+import roleRoute from "./role.route";
+import permissionRoute from "./permission.route";
+import buyerRoute from "./buyer.route";
 
 const routes = express.Router();
 
-routes.use("/", route);
-routes.use("/" , roleRoute)
-routes.use("/" , permissionRoute)
-routes.use("/" , rolePermission)
+routes.use("/api/vendor", route);
+routes.use("/api/role" , roleRoute);
+routes.use("/api/permission" , permissionRoute);
+route.use("/api/buyer",buyerRoute);
 
 export default routes;

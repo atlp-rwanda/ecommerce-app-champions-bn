@@ -1,35 +1,71 @@
-const { Model } = require("sequelize");
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class user extends Model {
     static associate(models) {
-      // define association here
+      user.belongsTo(models.Role,{ foreignKey:'roleId' });
     }
   }
-  User.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true
-      },
-
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
+  user.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true
     },
-    {
-      sequelize,
-      modelName: "User",
-      tableName: "users",
-      timestamps: true
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    roleId:{type:DataTypes.INTEGER},
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    facebookId: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    email: {
+      unique: true,
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    email_token: {
+      type: DataTypes.STRING,
+      defaultValue: false
+    },
+    profilepic: {
+              type: DataTypes.STRING,
+              defaultValue:
+                "https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png"
+            },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
     }
-  );
-  return User;
+  },
+  {
+    sequelize,
+    modelName: 'user',
+    tableName: 'users',
+    timestamps: true
+  });
+  return user;
 };

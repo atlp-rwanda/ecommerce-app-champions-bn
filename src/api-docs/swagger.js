@@ -1,5 +1,9 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import dotenv from "dotenv";
+import vendorRouteDoc from "./vendor.docs";
+
+dotenv.config();
 
 const options = {
   definition: {
@@ -13,6 +17,10 @@ const options = {
       {
         url: "http://localhost:5000",
         description: "Development server"
+      },
+      {
+        url: "https://ecommerce-app-champions-bn-production.up.railway.app/",
+        description: "development server"
       }
     ],
     tags: [
@@ -36,10 +44,11 @@ const options = {
   apis: ["../routes/**/*.js"]
 };
 
+
 const swaggerSpec = swaggerJSDoc(options);
 
-const swaggerDocs = (app) => {
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerDocs = (app) =>{
+    app.use("/docs",swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 };
 
 export default swaggerDocs;

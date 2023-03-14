@@ -1,5 +1,4 @@
 /** @type {import('sequelize-cli').Migration} */
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("permissions", {
@@ -12,10 +11,6 @@ module.exports = {
       permissionName: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
-      },
-    
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
