@@ -1,6 +1,9 @@
 import envConfig from "../../config";
 
-const { DB_USERNAME,DB_PASSWORD,DEV_DATABASE,DB_HOST,TEST_DATABASE,PRODUCTION_DATABASE } = envConfig[process.env.NODE_ENV];
+const { DB_USERNAME,DB_PASSWORD,DEV_DATABASE,DB_HOST,
+  TEST_DATABASE,PRODUCTION_DATABASE,TEST_DB_HOST,TEST_DB_PASSWORD,
+  TEST_DB_USERNAME
+ } = envConfig[process.env.NODE_ENV];
 
 module.exports = {
   development: {
