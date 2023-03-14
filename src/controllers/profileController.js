@@ -1,42 +1,32 @@
-/* eslint-disable consistent-return */
-import * as profileService from '../services/profile.service';
-import createProfile from '../validations/profileValidation';
+import { Router } from 'express';
+import * as profiles from '../services/profile.service';
+import profileValidation from '../validations/profileValidation';
 
+const profilerouter = Router();
 
-const updateProfile = async (userId, req, res, next) => {
+profilerouter.put('/profiles/:userId', profileValidation, async (req, res, next) => {
   try {
-    const validate = createProfile.validate(req.body);
-    if (!validate.error) {
-      const profile = await profileService.findUserProfile(userId);
-      if (profile) {
-        const updatedProfile = await profileService.updateProfile(
-          userId,
-          req.Body
-        );
-        if (updatedProfile) {
-          return res.status(200).json({
-            status: 200,
-            data: { Message: 'Profile updated successfully' }
-          });
-        }
-      } else {
-        return res.status(401).json({
-            status: 404,
-            data: { Message: 'Profile not found' }
-          });
-      }
-    } 
-  }
-  catch (error) {
+    const { userId } = req.params;
+    const requestBody = req.body;
+    const profile = await profiles.findUserProfile(userId);
+    if (profile) {
+      const updatedProfile = await profiles.updateProfile(userId, requestBody);
+      if (updatedProfile) {
+        return res.status(200).json({ status: 200, data: { Message: 'Profile updated successfully' } });
+      } 
+    } else {
+      return res.status(401).json({ status: 404, data: { Message: 'Profile not found' } });
+    }
+  } catch (error) {
     res.status(500).json({ error: error.message });
     next(error);
   }
- 
-};
+});
 
-const getProfile = async (userId, res, next) => {
+profilerouter.get('/profiles/:userId', async (req, res, next) => {
   try {
-    const profile = await profileService.findUserProfile(userId);
+    const { userId } = req.params;
+    const profile = await profiles.findUserProfile(userId);
     if (profile) {
       res.json({ message: 'Profile Found', data: profile });
     } else {
@@ -46,6 +36,6 @@ const getProfile = async (userId, res, next) => {
     res.status(500).json({ error: error.message });
     next(error);
   }
-};
+});
 
-export default { updateProfile, getProfile };
+export default profilerouter;
