@@ -1,5 +1,5 @@
 const express = require('express');
-import { requestReset } from '../../controllers/resetPasswordController';
+import { requestReset, processReset } from '../../controllers/resetPasswordController';
 
 const router = express.Router();
 
@@ -7,6 +7,6 @@ const router = express.Router();
 router.post('/requestReset', requestReset);
 
 // Handle password reset form submission
-// router.post('/reset-password/:token', processReset);
+router.post('/resetpassword/:token', processReset);
 
 module.exports = router;
