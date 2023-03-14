@@ -10,11 +10,24 @@ import swaggerDocs from "./api-docs/swagger";
 import Oauthroute from "./routes/Oauthroute";
 
 import connectDb from "./database/connectDb";
+import morgan from "morgan";
+
+import cookieParser from "cookie-parser";
+
+
+
+
+
+import envConfig from "./config";
+
+const { JWT_SECRET } = envConfig[process.env.NODE_ENV];
 
 const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "*" }));
+app.use(cookieParser(JWT_SECRET));
+app.use(morgan("dev"));
 
 swaggerDocs(app);
 languages(app);
@@ -27,7 +40,7 @@ app.use(passport.initialize());
 app.use("/", Oauthroute);
 
 app.get("/", (_, res) => {
-  res.status(200).json("Welcome to our Ecommerce App");
+    res.status(200).json("Welcome to our Ecommerce App");
 });
 
 export default app;

@@ -16,6 +16,10 @@ const options = {
       {
         url: "http://localhost:5000",
         description: "Development server"
+      },
+      {
+        url:'https://ecommerce-app-champions-bn-production.up.railway.app',
+        description:'Production server'
       }
     ],
     tags: [

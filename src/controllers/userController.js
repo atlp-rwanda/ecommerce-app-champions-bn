@@ -48,14 +48,16 @@ class UserController{
   static async signin (req,res){
     try {
       const {dataValues} = await user.findOne({where:{email:req.body.email}});
-      if(!dataValues){
-        return res.status(401).json({status:"fail",message:'user not exists'});
-      }
+      if(!dataValues) return res.status(401).json({status:"fail",message:'user not exists'});
+
       const match = await bcrypt.compare(req.body.password,dataValues.password);
-      if(!match){
-        return res.status(401).json({status:"fail",message:'invalid password'});
-      }
+      if(!match) return res.status(401).json({status:"fail",message:'invalid password'});
       const token = await generateAccessToken({id:dataValues.id,roleId:dataValues.roleId});
+      res.cookie("token",token,{
+        secure:false,
+        httpOnly:true,
+        sameSite:'lax' ,signed:true       
+      });
       const {password,...others} = dataValues;
       return res.status(200).json({status:"success",data:others,token});
     } catch (error) {

@@ -20,9 +20,9 @@ module.exports = {
     },
     test:{
         PORT:process.env.PORT,
-        DB_HOST:process.env.DB_HOST,
-        DB_USERNAME:process.env.DB_USERNAME,
-        DB_PASSWORD:process.env.DB_PASSWORD,
+        DB_HOST:process.env.TEST_DB_HOST,
+        DB_USERNAME:process.env.TEST_DB_USERNAME,
+        DB_PASSWORD:process.env.TEST_DB_PASSWORD,
         TEST_DATABASE:process.env.TEST_DATABASE,
         TEST_DATABASE_URL:process.env.TEST_DATABASE_URL,
         SERVICE:process.env.SERVICE,
