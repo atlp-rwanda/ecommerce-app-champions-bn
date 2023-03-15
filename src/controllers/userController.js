@@ -22,7 +22,11 @@ class UserController {
         sameSite:'lax' ,signed:true       
       });
       const {password,...others} = dataValues;
+<<<<<<< HEAD
       return res.status(200).json({status:"success",data:{others,roles},token});
+=======
+      return res.status(200).json({status:"success",data:others,token});
+>>>>>>> 3040e29 (ft(logout):Logout from the app)
     } catch (error) {
       return res.status(400).json({status:"error",error:error.message});
     }
@@ -45,6 +49,11 @@ class UserController {
       return res.status(500).json({status:"error",error:error.message});
     }
   }
+  
+  
+  
+
+  
 }
 
 export default UserController;
