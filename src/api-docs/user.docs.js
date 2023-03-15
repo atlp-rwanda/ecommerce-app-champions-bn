@@ -88,5 +88,23 @@ export const userRouteDocs = {
                 }
               }
         }
-    }
+    },
+
+    "/api/vendor/logout": {
+      "get": {
+        "tags": ["User"],
+        "description": "Logout a user",
+        "responses": {
+          "200": {
+            "description": "User logged out successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    } 
 }

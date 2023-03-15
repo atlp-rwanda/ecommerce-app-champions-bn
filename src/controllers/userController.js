@@ -4,8 +4,7 @@ import SendEmail from "../utils/emails";
 
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
-const { v4: uuidv4 } = require('uuid');
-const { user,LoggedInUser} = require("../database/models");
+const { user} = require("../database/models");
 
 
 class UserController{
@@ -60,42 +59,25 @@ class UserController{
         sameSite:'lax' ,signed:true       
       });
       const {password,...others} = dataValues;
-        
-    await LoggedInUser.create({
-      refreshToken: uuidv4(), 
-      user_id: dataValues.id   });
       return res.status(200).json({status:"success",data:others,token});
     } catch (error) {
       return res.status(400).json({status:"error",error:error.message});
     }
   }
-
-  // static async logout(req, res) {
-  //   const userId = req.user.id;
-  //   try {
-  //     await LoggedInUser.destroy({ where: { user_id: userId } }); // delete the current refresh token from db
-  //     return res.status(204).send();
-  //   } catch (error) {
-  //     return res.status(400).json({status: "error", error: error.message});
-  //   }
-    
-  //   // try {
-  //   //   const {userId} =req.user.id;
-  //   //   await LoggedInUser.destroy({where: {user_id: userId}});
-  //   //   return res.status(200).json({status: "success", message: "User logged out successfully"});
-  //   // } catch (error) {
-  //   //   return res.status(400).json({status: "error", error: error.message});
-  //   // }
-  // }
-
+  
   static async logout(req, res) {
-    const userId = req.user.id;
     try {
-      await LoggedInUser.destroy({ where: { user_id: userId } });
+      await res.clearCookie('token');
+      return res.status(200).json({status: "success", message: "User logged out successfully"});
     } catch (error) {
-      throw new Error('Failed to logout user');
+      return res.status(500).json({status: "error", error: error.message});
     }
   }
+  
+  
+  
+
+  
 }
 
 export default UserController;
