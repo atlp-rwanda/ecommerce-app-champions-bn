@@ -39,11 +39,17 @@ static async createBuyer (req, res) {
       password:hashedPassword
     });
 
-    buyer.save();
-
     const token = jwt.sign({ id: buyer.id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
+
+   
+   if(!token){
+    return;
+   }
+    buyer.save();
+
+   
    const url=process.env.URL;
 
     const sendmail=new SendEmail(buyer,token,url);
