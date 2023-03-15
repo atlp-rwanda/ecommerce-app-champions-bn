@@ -22,7 +22,7 @@ static async createBuyer (req, res) {
     });
 
     if (existingBuyer) {
-      return res.status(400).json({
+      return res.status(409).json({
         status: "error",
         message: "Email already exists",
       });
@@ -30,10 +30,7 @@ static async createBuyer (req, res) {
 
     const salt = await bcrypt.genSalt(10);
 
-    console.log("salt is here:",salt);
-
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log("this is hashed:",hashedPassword);
 
     const buyer = await new user({
       firstName,
@@ -41,7 +38,7 @@ static async createBuyer (req, res) {
       email,
       password:hashedPassword
     });
-console.log(buyer);
+
     buyer.save();
 
     const token = jwt.sign({ id: buyer.id }, process.env.JWT_SECRET, {
@@ -58,7 +55,7 @@ console.log(buyer);
       data:buyer,
     });
   } catch (error) {
-    console.log(error);
+   
     res.status(500).json({
       status: "error",
       message: error.message,

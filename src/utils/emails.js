@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import ejs from "ejs";
 import path from "path";
 import dotenv from "dotenv";
+import { timeStamp } from "console";
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const transporter = () => nodemailer.createTransport({
   });
 
 class SendEmail {
-  constructor(vendors, password) {
+  constructor(vendors, password,url) {
     this.to = vendors.email;
     this.firstName = vendors.firstName;
     this.randomAuth = password;
@@ -28,7 +29,8 @@ class SendEmail {
       path.join(__dirname, `./../emailTemplates/${template}.ejs`),
       {
         firstName: this.firstName,
-        authNum: this.randomAuth
+        authNum: this.randomAuth,
+       
       }
     );
 
@@ -40,11 +42,13 @@ class SendEmail {
       text: html
     };
 
+
     await transporter().sendMail(options);
   }
 
   async randomPassword() {
     await this.send("randomPassword", "Random password");
+    
   }
 }
 

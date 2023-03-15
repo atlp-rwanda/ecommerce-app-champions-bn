@@ -21,6 +21,9 @@ jobs:
       TEST_DATABASE: ${{ secrets.DB_TEST_DATABASE }}
       PORT: ${{ secrets.PORT }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      EMAIL: ${{ secrets.EMAIL}}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD}}
+
     steps:
       - uses: actions/checkout@v1
       - name: Set up Node.js ${{ matrix.node-version }}

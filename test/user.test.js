@@ -9,8 +9,6 @@ describe("testing all routes", () => {
   });
 });
 
-
-
 // testing buyer Signup
 
 describe("Testing Buyers", ()=>{
@@ -42,10 +40,8 @@ describe("Testing Buyers", ()=>{
     
     });
 
- console.log(response.body);
- console.log(process.env.NODE_ENV);
     expect(response.statusCode).toBe(201);
-    expect(response3.statusCode).toBe(400);
+    expect(response3.statusCode).toBe(409);
     expect(response2.statusCode).toBe(400);
     
   })
