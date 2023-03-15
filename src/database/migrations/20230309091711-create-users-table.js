@@ -25,11 +25,11 @@ module.exports = {
         },
         RoleId: { type: Sequelize.INTEGER },
         googleId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING,
           allowNull: true
         },
         facebookId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING,
           allowNull: true
         },
         isVerified: {
