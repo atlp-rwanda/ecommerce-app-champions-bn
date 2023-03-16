@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-// eslint-disable-next-line import/extensions
-
-
-const validate=(schema)=>(req, res, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.status(400).send({
-        status: 400,
-        data: { message: error.details[0].message.replace(/[/"]+/g, ''), error }
-      });
-    }
-    next();
-  };
-
-  export default validate;
-=======
 const validate = (schema) => (req, res, next) => {
   const { error } = schema.validate(req.body);
   if (error) {
@@ -27,4 +10,3 @@ const validate = (schema) => (req, res, next) => {
 };
 
 export default validate;
->>>>>>> aa00130 (ft-register-vendor:)
