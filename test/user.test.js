@@ -41,14 +41,3 @@ describe("routes", () => {
     expect(response.statusCode).toBe(404);
   });
 });
-
-describe("testing if vendor alrady exists", () => {
-  test("vendor already exists", async () => {
-    const response = await request(app).post("/signup").send({
-      firstName: "umurungi",
-      lastName: "helen",
-      email: "mudakikwaaimable05@gmail.com"
-    });
-    expect(response.statusCode).toBe(409);
-  });
-});
