@@ -8,43 +8,36 @@ describe("testing all routes", () => {
     expect(response.statusCode).toBe(200);
   });
 });
-
-// testing buyer Signup
-
-describe("Testing Buyers", ()=>{
-
-  test("creating a buyer",async ()=>{
-    const response=await request(app).post("/buyerSignup").send({
-      
-      firstName: "umuntu",
-      lastName: "Person",
-      email: "umuntu10@gmail.com",
-      password: "1234567@password"
-    
+// testing adding a user endpoint
+describe("testing user", () => {
+  test("adding a vendor", async () => {
+    const response = await request(app).post("/signup").send({
+      firstName: "umurungi",
+      lastName: "helen",
+      email: "mudakikwaaimable05@gmail.com"
     });
-    const response2=await request(app).post("/buyerSignup").send({
-      
-      firstName: "umuntu",
-      lastName: "Person",
-      email: "umuntu10gmail.com",
-      password: "1234567@password"
-    
-    });
+    expect(response.statusCode).toBe(200);
+  });
+});
 
-    const response3=await request(app).post("/buyerSignup").send({
-      
-      firstName: "umuntu",
-      lastName: "Person",
-      email: "umuntu10@gmail.com",
-      password: "1234567@password"
-    
+describe("validations", () => {
+  test("vendor validations", async () => {
+    const response = await request(app).post("/signup").send({
+      firstName: "u",
+      lastName: "helen",
+      email: "mudakikwaaimable05@gmail.com"
     });
+    expect(response.statusCode).toBe(400);
+  });
+});
 
-    expect(response.statusCode).toBe(201);
-    expect(response3.statusCode).toBe(409);
-    expect(response2.statusCode).toBe(400);
-    
-  })
-  
-  })
-  
+describe("routes", () => {
+  test("testing a wrong route", async () => {
+    const response = await request(app).post("/signu").send({
+      firstName: "umurungi",
+      lastName: "helen",
+      email: "mudakikwaaimable05@gmail.com"
+    });
+    expect(response.statusCode).toBe(404);
+  });
+});

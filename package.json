@@ -20,7 +20,7 @@
     "db:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
     "db:seed:undo": "sequelize-cli db:seed:undo",
-    "test":"cross-env NODE_ENV=test npx sequelize db:migrate:undo:all && cross-env NODE_ENV=test  npm run migrate:up -all && jest --detectOpenHandles --coverage --testTimeout 100000 --forceExit",
+    "test": "cross-env NODE_ENV=test  npx sequelize db:migrate && cross-env NODE_ENV=test jest --detectOpenHandles --coverage --testTimeout 100000 --forceExit",
     "docker:compose:build": "docker-compose --build",
     "docker:compose:up": "docker-compose up -d",
     "docker:compose:down": "docker-compose down --volumes --rmi all --remove-orphans",
