@@ -4,29 +4,6 @@ module.exports = {
     await queryInterface.createTable("buyers", {
       id: {
         type: Sequelize.UUID,
-<<<<<<< HEAD
-        defaultValue:Sequelize.UUIDV4,
-        allowNull: false,
-        primaryKey: true
-      },
-     userId:{
-        type:Sequelize.UUID,
-        references:{model:"users",key:"id"}
-     },
-     shipingAddress:{
-        type:Sequelize.JSONB,
-        allowNull:false
-     },
-     paymentMethod:{
-        type:Sequelize.STRING,
-        allowNull:false
-     },
-     preferredCurency:{
-    type:Sequelize.STRING,
-     allowNull:false
-    },
-     createdAt: {
-=======
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
@@ -48,7 +25,6 @@ module.exports = {
         allowNull: false
       },
       createdAt: {
->>>>>>> a1fc1ca (ft-register-vendor:)
         allowNull: false,
         type: Sequelize.DATE
       },
