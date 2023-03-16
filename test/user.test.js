@@ -8,14 +8,43 @@ describe("testing all routes", () => {
     expect(response.statusCode).toBe(200);
   });
 });
-// testing adding a user endpoint
-describe("tesing user", ()=>{
-    test("adding a user", async () =>{
-        const response = await request(app).post("/signup").send({
-			firstName: "umurungi",
-			lastName: "helen",
-			email: "user@example.com",
-		});
-        expect(response.statusCode).toBe(200);
-    })
-})
+
+// testing buyer Signup
+
+describe("Testing Buyers", ()=>{
+
+  test("creating a buyer",async ()=>{
+    const response=await request(app).post("/buyerSignup").send({
+      
+      firstName: "umuntu",
+      lastName: "Person",
+      email: "umuntu10@gmail.com",
+      password: "1234567@password"
+    
+    });
+    const response2=await request(app).post("/buyerSignup").send({
+      
+      firstName: "umuntu",
+      lastName: "Person",
+      email: "umuntu10gmail.com",
+      password: "1234567@password"
+    
+    });
+
+    const response3=await request(app).post("/buyerSignup").send({
+      
+      firstName: "umuntu",
+      lastName: "Person",
+      email: "umuntu10@gmail.com",
+      password: "1234567@password"
+    
+    });
+
+    expect(response.statusCode).toBe(201);
+    expect(response3.statusCode).toBe(409);
+    expect(response2.statusCode).toBe(400);
+    
+  })
+  
+  })
+  
