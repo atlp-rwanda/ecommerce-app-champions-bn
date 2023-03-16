@@ -166,23 +166,23 @@ const requestReset = {
           }
         }
       },
-      400: {
-        description: "Bad Request",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                message: {
-                  type: "string",
-                  description: "Error message",
-                  example: "Passwords do not match"
-                }
-              }
-            }
-          }
-        }
-      },
+    //   400: {
+    //     description: "Bad Request",
+    //     content: {
+    //       "application/json": {
+    //         schema: {
+    //           type: "object",
+    //           properties: {
+    //             message: {
+    //               type: "string",
+    //               description: "Error message",
+    //               example: "Passwords do not match"
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   },
       401: {
         description: "Unauthorized",
         content: {
