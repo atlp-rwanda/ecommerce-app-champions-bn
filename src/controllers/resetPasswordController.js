@@ -89,13 +89,13 @@ async function processReset(req, res) {
         error: 'User not found' });
     }
     if (foundUser.resetToken !== token || foundUser.resetTokenExpiresAt < new Date()) {
-        
+        console.log(foundUser.resetTokenExpiresAt)
       return res.status(400).json({ 
         status:"fail",
         error: 'Invalid token' });
     }
     await resetPassword(email, password);
-    return res.status.json({ 
+    return res.status(200).json({ 
         status:"success",
         message: 'Password reset successful' });
   } catch (err) {
