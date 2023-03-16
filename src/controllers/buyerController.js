@@ -1,3 +1,4 @@
+
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -11,6 +12,11 @@ const { user,Role,Permission,Buyer } = require("../database/models");
 
 class BuyerController {
 
+<<<<<<< HEAD
+=======
+class BuyerController {
+
+>>>>>>> 61506f1 (ft-register-vendor:)
 static async createBuyer (req, res) {
   try {
     const { firstName, lastName, email, password } = req.body;
