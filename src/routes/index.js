@@ -3,12 +3,13 @@ import route from "./user.route";
 import roleRoute from "./role.route";
 import permissionRoute from "./permission.route";
 import buyerRoute from "./buyer.route";
+import vendorRoute from "./vendor.route";
 
-const routes = express.Router();
+const indexRouter = express.Router();
 
 routes.use("/api/vendor", route);
 routes.use("/api/role" , roleRoute);
 routes.use("/api/permission" , permissionRoute);
 routes.use("/api/buyer",buyerRoute);
 
-export default routes;
+export default indexRouter;

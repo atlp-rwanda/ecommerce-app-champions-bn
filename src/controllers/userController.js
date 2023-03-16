@@ -64,4 +64,4 @@ class Vendors {
   }
 }
 
-export default Vendors;
+export default UserController;

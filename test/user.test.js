@@ -1,7 +1,6 @@
 import app from "../src/app";
 import request from "supertest";
 
-//testing home page endpoint
 describe("testing all routes", () => {
   test("testing the home page endpoint", async () => {
     const response = await request(app).get("/").send();
@@ -14,10 +13,21 @@ describe("testing user", () => {
     const response = await request(app).post("/api/vendor/signup").send({
       firstName: "umurungi",
       lastName: "helen",
-      email: "mudakikwaaimable05@gmail.com"
+      email: "shumba2500@gmail.com"
     });
     expect(response.statusCode).toBe(200);
   });
+})
+;describe("testing buyer signup",() =>{
+  test("buyer signup",async () =>{
+    const response=await request(app).post("/api/buyer/buyerSignup").send({
+      firstName: "sostene",
+      lastName: "Pengarukiyimanason",
+      email: "ngarukiyimanasostene@gmail.com",
+      password: "1234567@password"
+    });
+    expect(response.statusCode).toBe(201);
+  })
 });
 
 describe("testing vendor", () => {
@@ -49,13 +59,15 @@ describe("routes", () => {
   });
 });
 
-describe("testing if vendor alrady exists", () => {
-  test("vendor already exists", async () => {
-    const response = await request(app).post("/signup").send({
-      firstName: "umurungi",
-      lastName: "helen",
-      email: "mudakikwaaimable05@gmail.com"
+describe("tesing signin email and password",() =>{
+  test('user signin',async () =>{
+    const res = await request(app).post("/api/vendor/login").send({
+      email: "ngarukiyimanasostene@gmail.com",
+      password: "1234567@password"
     });
-    expect(response.statusCode).toBe(409);
-  });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('success');
+    expect(typeof res.body.data).toBe('object');
+})
 });
+

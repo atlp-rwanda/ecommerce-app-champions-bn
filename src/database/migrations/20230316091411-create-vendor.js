@@ -1,37 +1,9 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("buyers", {
+    await queryInterface.createTable("vendors", {
       id: {
-        type: Sequelize.INTEGER,
-        defaultValue:Sequelize.INTEGER,
         type: Sequelize.UUID,
-<<<<<<< HEAD
-<<<<<<< HEAD
-        defaultValue:Sequelize.UUIDV4,
-        allowNull: false,
-        primaryKey: true
-      },
-     userId:{
-        type:Sequelize.INTEGER,
-        references:{model:"users",key:"id"}
-     },
-     shipingAddress:{
-        type:Sequelize.JSONB,
-        allowNull:false
-     },
-     paymentMethod:{
-        type:Sequelize.STRING,
-        allowNull:false
-     },
-     preferredCurency:{
-    type:Sequelize.STRING,
-     allowNull:false
-    },
-     createdAt: {
-=======
-=======
->>>>>>> 95f73a4 (ft-register-vendor:)
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
@@ -40,16 +12,40 @@ module.exports = {
         type: Sequelize.UUID,
         references: { model: "users", key: "id" }
       },
-      shipingAddress: {
+      businessName: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      businessAddress: {
         type: Sequelize.JSONB,
         allowNull: false
       },
-      paymentMethod: {
+      accountNumber: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      taxIdNumber: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      typeOfProducts: {
         type: Sequelize.STRING,
         allowNull: false
       },
       preferredCurency: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+      state: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      city: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      postalCode: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       createdAt: {
@@ -63,6 +59,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("buyers");
+    await queryInterface.dropTable("Vendors");
   }
 };

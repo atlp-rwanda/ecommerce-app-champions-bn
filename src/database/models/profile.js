@@ -1,12 +1,8 @@
 const { Model } = require("sequelize");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = (sequelize, DataTypes) => {
   class profile extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
       profile.belongsTo(models.user, {
@@ -18,8 +14,17 @@ module.exports = (sequelize, DataTypes) => {
   }
   profile.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
+        allowNull: false,
+        primaryKey: true
+      },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false
+      },
       country: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
       gender: DataTypes.STRING,
       birthDate: DataTypes.DATE,
       state: DataTypes.STRING,
@@ -27,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       businessName: DataTypes.STRING,
       location: DataTypes.STRING,
       businessAddress: DataTypes.JSONB,
-      businessNumber: DataTypes.STRING,
+      businessNumber: DataTypes.INTEGER,
       accountNumber: DataTypes.INTEGER,
       taxIdNumber: DataTypes.INTEGER,
       typeOfProducts: DataTypes.STRING

@@ -14,12 +14,12 @@ const vendorSignup = {
             },
             lastName: {
               type: "string",
-              description: "Last name of a buyer",
+              description: "Last name of a vendor",
               example: "lastName"
             },
             email: {
               type: "email",
-              description: "email of buyer",
+              description: "email of vendor",
               example: "vendor@gmail.com"
             }
           }

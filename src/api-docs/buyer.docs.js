@@ -1,5 +1,5 @@
 const buyerSignup = {
-    tags:["Users"],
+    tags:["User"],
     description: "create a buyer",
     requestBody:{
         content:{
@@ -50,11 +50,11 @@ const buyerSignup = {
 
 
 
-  const userRouteDoc = {
+  const buyerRouteDoc = {
     "/api/buyer/signup": {
         post:buyerSignup
     }
    
 };
 
-export default userRouteDoc;
+export default buyerRouteDoc;

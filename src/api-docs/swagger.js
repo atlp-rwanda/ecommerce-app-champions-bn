@@ -5,6 +5,8 @@ import userRouteDoc from "./buyer.docs";
 import vendorRouteDoc from "./vendor.docs";
 import roleRouteDoc from "./role.docs";
 import permissionRouteDoc from "./permission.docs";
+import buyerRouteDoc from "./buyer.docs";
+import { userRouteDocs } from "./user.docs";
 
 dotenv.config();
 const options = {

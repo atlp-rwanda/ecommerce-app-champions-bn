@@ -1,3 +1,4 @@
+
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -7,7 +8,7 @@ import SendEmail from "../utils/sendEmail";
 dotenv.config();
 const { user,Role,Permission } = require("../database/models");
 
-class Buyers {
+class BuyerController {
 
 static async createBuyer (req, res) {
   try {
@@ -29,7 +30,7 @@ static async createBuyer (req, res) {
       email,
       password:hashedPassword
     });
-
+    buyer.save();
     const token = jwt.sign({ id: buyer.id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -44,7 +45,7 @@ static async createBuyer (req, res) {
    const url=process.env.URL;
     const sendmail=new SendEmail(buyer,token,url);
     sendmail.send('sendEmailToBuyer',"Welcome");
-    
+  
     res.status(201).json({
       status: "success",
       message: "Buyer created successfully",
@@ -60,4 +61,4 @@ static async createBuyer (req, res) {
 };
 
 
-export default Buyers;
+export default BuyerController;
