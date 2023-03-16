@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
       },
+      birthDate:{
+        type:DataTypes.JSONB,
+       },
+       gender:{
+        type:DataTypes.JSONB,
+     },
       businessName: {
         type: DataTypes.STRING,
       },

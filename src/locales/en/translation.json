@@ -7,6 +7,8 @@
     "existEmail":"Email already exist",
     "buyerSuccess":"Buyer created successfuly!",
     "message":"User logged out successfully",
-    "Error":"please log in"
-
+    "Error":"please log in",
+    "profileMessage":" profile updated successfully", 
+    "notFound":"profile not found",
+     "Found":"profile found"
 }

@@ -10,6 +10,12 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
       },
+      birthDate:{
+        type:Sequelize.JSONB,
+       },
+       gender:{
+        type:Sequelize.JSONB,
+     },
      shipingAddress:{
         type:Sequelize.JSONB,
      },
@@ -19,6 +25,18 @@ module.exports = {
      preferredCurency:{
     type:Sequelize.STRING,
     },
+    state: {
+      type: Sequelize.STRING,
+  
+    },
+    city: {
+      type: Sequelize.STRING,
+     
+    },
+    postalCode: {
+      type: Sequelize.INTEGER,
+     
+    }, 
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

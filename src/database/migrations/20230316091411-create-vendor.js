@@ -11,6 +11,12 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
       },
+      birthDate:{
+        type:Sequelize.JSONB,
+       },
+       gender:{
+        type:Sequelize.JSONB,
+     },
       businessName: {
         type: Sequelize.STRING,
       },

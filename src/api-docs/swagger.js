@@ -1,3 +1,4 @@
+
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
@@ -7,6 +8,7 @@ import permissionRouteDoc from "./permission.docs";
 import userRouteDoc from "./user.docs";
 import buyerRouteDoc from "./buyer.docs";
 import logoutRouteDoc from "./user.logout.docs";
+
 
 dotenv.config();
 const options = {
@@ -54,36 +56,8 @@ const options = {
             ...logoutRouteDoc
           }
     },
-    servers: [
-      {
-        url: `http://localhost:${process.env.PORT}`,
-        description: "Development server"
-      },
-      {
-        url: "https://ecommerce-app-champions-bn-production.up.railway.app/",
-        description: "development server"
-      }
-    ],
-    tags: [
-      { name: "Users", description: "User Routes" },
-      { name: "Product", description: "Product Routes" }
-    ],
-    components: {
-      securitySchemes: {
-        token: {
-          type: "apiKey",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-          name: "token",
-          in: "header"
-        }
-      }
-    },
-    paths: {
-      ...vendorRouteDoc
-    },
-    apis: ["../routes/**/*.js"]
-  };
+    apis: ['../routes/**/*.js'],
+};
 
 
 const swaggerSpec = swaggerJSDoc(options);

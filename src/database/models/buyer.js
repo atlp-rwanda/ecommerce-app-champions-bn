@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
       },
+      birthDate:{
+        type:DataTypes.JSONB,
+       },
+       gender:{
+        type:DataTypes.JSONB,
+     },
       shipingAddress: {
         type: DataTypes.JSONB,
       },
@@ -29,6 +35,18 @@ module.exports = (sequelize, DataTypes) => {
       preferredCurency: {
         type: DataTypes.STRING,
       },
+      state: {
+        type: DataTypes.STRING,
+    
+      },
+      city: {
+        type: DataTypes.STRING,
+       
+      },
+      postalCode: {
+        type: DataTypes.INTEGER,
+       
+      }, 
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE
