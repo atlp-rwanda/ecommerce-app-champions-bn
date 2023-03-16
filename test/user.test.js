@@ -14,7 +14,7 @@ describe("testing user", () => {
     const response = await request(app).post("/signup").send({
       firstName: "umurungi",
       lastName: "helen",
-      email: "mudakikwaaimable05@gmail.com"
+      email: "shumba2500@gmail.com"
     });
     expect(response.statusCode).toBe(200);
   });
