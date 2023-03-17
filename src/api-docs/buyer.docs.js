@@ -51,7 +51,7 @@ const buyerSignup = {
 
 
   const userRouteDoc = {
-    "/buyerSignup": {
+    "/api/buyer/signup": {
         post:buyerSignup
     }
    

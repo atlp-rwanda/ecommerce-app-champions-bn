@@ -9,6 +9,6 @@ const routes = express.Router();
 routes.use("/api/vendor", route);
 routes.use("/api/role" , roleRoute);
 routes.use("/api/permission" , permissionRoute);
-route.use("/api/buyer",buyerRoute);
+routes.use("/api/buyer",buyerRoute);
 
 export default routes;

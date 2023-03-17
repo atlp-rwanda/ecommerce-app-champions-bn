@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Joi from "joi";
 
-
 const buyerSchema = Joi.object({
   firstName: Joi.string().min(2).trim().required(),
   lastName: Joi.string().min(2).trim().required(),
