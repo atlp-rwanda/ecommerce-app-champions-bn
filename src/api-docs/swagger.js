@@ -1,8 +1,13 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import { userRouteDocs } from "./user.docs";
+import dotenv from "dotenv";
+import GoogleaouthDocs from "./Googleaouth.docs";
 
-import Googleaouth from "./Oauth";
+import passport from "../controllers/Oauthcontroller";
+
+
+dotenv.config();
+
 
 const options = {
   definition: {
@@ -46,13 +51,15 @@ const options = {
                 profile: "Grants profile access"
               },
               redirectUri: "http://localhost:5000/auth/google/redirect",
-              userProfileUrl: "https://www.googleapis.com/oauth2/v3/userinfo"
+              userProfileUrl: "https://www.googleapis.com/oauth2/v3/userinfo",
+              clientID: process.env.GOOGLE_CLIENT_ID,
+              clientSecret: process.env.GOOGLE_SECRET
             }
           }
         }
       }
     },
-    paths: { ...Googleaouth }
+    paths: { ...GoogleaouthDocs}
 
   },
   apis: ["../routes/**/*.js"]

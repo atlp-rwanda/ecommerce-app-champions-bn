@@ -14,14 +14,18 @@ try {
 
   Oauthroute.get(
     "/auth/google/redirect",
-    passport.authenticate("google", {
-      session: false,
-      failureRedirect: `https://localhost:5000/login`
-    }),
+    passport.authenticate("google", { session: false }),
     (req, res) => {
+      const {token} = req.user;
+      res.cookie("token", token, {
+        secure:false,
+        httpOnly:true,
+        sameSite:'lax' ,signed:true       
+      });
       res.redirect("http://localhost:5000/");
     }
   );
+  
 } catch (error) {
   console.error(`Error setting up Oauth routes: ${error}`);
 }

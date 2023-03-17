@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+
 import randomPassword from "../utils/randomPassword";
 import SendEmail from "../utils/emails";
 

@@ -17,13 +17,5 @@ describe("Oauthroute", () => {
         "accounts.google.com/o/oauth2/v2/auth"
       );
     });
-
-    it("should redirect to /login with a 302 status code on failure", async () => {
-      const response = await request(app).get(
-        "/auth/google/redirect?error=access_denied"
-      );
-      expect(response.statusCode).toBe(302);
-      expect(response.header.location).toBe("https://localhost:5000/login");
-    });
   });
 });

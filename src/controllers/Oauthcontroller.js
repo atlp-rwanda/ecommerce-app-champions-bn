@@ -1,9 +1,14 @@
-/* eslint-disable no-underscore-dangle */
-import passport from "passport";
 
-import dotenv from "dotenv";
+/* eslint-disable no-underscore-dangle */
+
+import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { User } from "../database/models";
+import dotenv from "dotenv";
+import connectDb from "../database/connectDb";
+import { user } from "../database/models";
+
+
+import { generateAccessToken } from "../utils/helpers/generateToken";
 
 dotenv.config();
 
@@ -17,23 +22,26 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
+    
+        await connectDb();
         const userEmail = profile.emails && profile.emails[0].value;
         const userInfo = {
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           email: userEmail,
-          isVerified: profile.emails[0].verified,
-          googleId: profile.id,
-          profilepic: profile.photos[0].value
+          isVerified:profile._json.email_verified,
+          googleId:profile.id,
+          profilepic:profile._json.picture
         };
 
-        const [Nuser, created] = await User.findOrCreate({
-          where: { email: userEmail },
+        const [User, created] = await user.findOrCreate({
+          where: { googleId: profile.id },
           defaults: userInfo
         });
-
-        if (created) return cb(null, Nuser);
-        return cb(null, Nuser);
+        const token = await generateAccessToken({id: User.id, roleId: User.roleId});
+        User.token = token;
+        if (created) return cb(null,User);
+        return cb(null,User);
       } catch (error) {
         cb(error);
       }
@@ -41,14 +49,16 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => done(null, user.id));
+passport.serializeUser((User, done) => done(null, User.id));
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findByPk(id);
-    done(null, user);
+    const User = await user.findByPk(id);
+    done(null, User);
   } catch (error) {
     done(error);
   }
 });
 
+
 export default passport;
+

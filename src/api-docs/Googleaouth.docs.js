@@ -24,7 +24,7 @@ export default {
           }
         }
       },
-      tags: ["Authentication"],
+      tags: ["User"],
       parameters: [],
       requestBody: {},
       middleware: [
@@ -38,4 +38,5 @@ export default {
       operationId: "googleOauth"
     }
   }
+  
 };
