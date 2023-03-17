@@ -54,9 +54,9 @@ class Vendors {
         ]
       });
       if(!existingUser){
-        return res.status(404).json({status:"error",message:'user not found'});
+        return res.status(404).json({status:"error",message:req.t('user not found')});
       }
-      return res.status(200).json({status:"success",data:existingUser});
+      return res.status(200).json({status:req.t("success"),data:existingUser});
 
     } catch (error) {
       return res.status(500).json({status:"error",error:error.message});

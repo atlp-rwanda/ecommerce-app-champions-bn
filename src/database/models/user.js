@@ -1,5 +1,8 @@
 const { Model } = require("sequelize");
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { v4: uuidv4 } = require("uuid");
+
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     static associate(models) {

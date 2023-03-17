@@ -1,3 +1,7 @@
 {
-    "welcome":" Murakaza neza kuri porogaramu yacu ya Ecommerce"
+    "welcome":" Murakaza neza kuri porogaramu yacu ya Ecommerce",
+    "roles":"uruhare rurahari",
+    "success":"byagenze neza",
+    "fail":"ntibibashije gukunda",
+    "user not found":"ukoresha ntabashije kuboneka"
 }

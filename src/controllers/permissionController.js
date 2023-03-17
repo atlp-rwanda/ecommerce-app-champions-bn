@@ -23,9 +23,7 @@ class PermissionController{
   static async deletePermission(req,res){
     try {
       const existingPermission = await Permission.findOne({where:{id:req.params.id}});
-      if(existingPermission){
-        return res.status(404).json({status:"fail",message:'permission not exists'});
-      }
+      if(!existingPermission) return res.status(404).json({status:"fail",message:'permission not exists'});
       await Permission.destroy({where:{id:req.params.id}});
       return res.status(200).json({status:"success",message:"deleted"});
     } catch (error) {

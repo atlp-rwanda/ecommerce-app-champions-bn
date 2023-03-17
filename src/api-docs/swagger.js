@@ -3,6 +3,8 @@ import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
 import userRouteDoc from "./buyer.docs";
 import vendorRouteDoc from "./vendor.docs";
+import roleRouteDoc from "./role.docs";
+import permissionRouteDoc from "./permission.docs";
 
 dotenv.config();
 const options = {
@@ -26,6 +28,8 @@ const options = {
         tags: [
             { name: 'Users', description: 'User Routes' },
             { name: 'Product', description: 'Product Routes' },
+            { name: 'Permission', description: 'Permission Routes' },
+            { name: 'Role', description: 'Role Routes' },
          
           ],
           components: {
@@ -41,7 +45,9 @@ const options = {
           },
           paths:{
             ...userRouteDoc,
-            ...vendorRouteDoc
+            ...vendorRouteDoc,
+            ...permissionRouteDoc,
+            ...roleRouteDoc
           }
     },
     apis: ['../routes/**/*.js'],
