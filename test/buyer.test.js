@@ -34,7 +34,6 @@ describe("testing buyer signup",() =>{
       expect(response.statusCode).toBe(201);
     })
   });
-
   describe("tesing signin email and password",() =>{
     test('user signin',async () =>{
       const res = await request(app).post("/api/user/login").send({

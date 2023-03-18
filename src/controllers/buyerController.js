@@ -1,4 +1,3 @@
-
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -8,6 +7,7 @@ import SendEmail from "../utils/sendEmail";
 const { user,Role,Permission,Buyer } = require("../database/models");
 
 dotenv.config();
+const { user,Role,Permission,Buyer } = require("../database/models");
 
 class BuyerController {
 
@@ -42,17 +42,10 @@ static async createBuyer (req, res) {
    if(!token){
     return;
    }
-
-
     const role = await Role.findOne({where:{roleName:"buyer"}});
-
-    console.log(role);
     const buyerpermissions = await Permission.findAll({where:{permissionName:{[Op.like]:'buyer%'}}});
     role.addPermissions(buyerpermissions);
     await buyer.setRole(role);
-
-
-
     const buyerProfile = await Buyer.create({});
     buyer.setBuyer(buyerProfile);
    const url=process.env.URL;
