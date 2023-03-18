@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       vendorId: { type: DataTypes.INTEGER },
+
       RoleId: { type: DataTypes.INTEGER },
       googleId: {
         type: DataTypes.STRING,
@@ -70,9 +71,11 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
+
       }
     },
     
+
   {
     sequelize,
     modelName: 'user',
