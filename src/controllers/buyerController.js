@@ -21,10 +21,13 @@ static async createBuyer (req, res) {
       where: { email: { [Op.eq]: email } },
     });
 
+
+
     if (existingBuyer) {
+
       return res.status(409).json({
         status: "error",
-        message: "Email already exists",
+        message: req.t("existEmail"),
       });
     }
 
@@ -57,7 +60,7 @@ static async createBuyer (req, res) {
     
     res.status(201).json({
       status: "success",
-      message: "Buyer created successfully",
+      message: req.t("buyerSuccess"),
       data:buyer,
     });
   } catch (error) {

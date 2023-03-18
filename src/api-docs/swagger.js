@@ -24,7 +24,7 @@ const options = {
               },
               {
                 url:'https://ecommerce-app-champions-bn-production.up.railway.app/',
-                description: 'development server'
+                description: 'Production server'
               }
         ],
         tags: [

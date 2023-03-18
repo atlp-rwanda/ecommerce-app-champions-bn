@@ -1,3 +1,5 @@
 {
-    "welcome":" Welcome to our Ecommerce App"
+    "welcome":" Welcome to our Ecommerce App",
+    "existEmail":"Email already exist",
+    "buyerSuccess":"Buyer created successfuly!"
 }

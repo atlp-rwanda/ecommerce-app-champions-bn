@@ -1,3 +1,5 @@
 {
-    "welcome":"Bienvenue sur notre application de commerce électronique"
+    "welcome":"Bienvenue sur notre application de commerce électronique",
+    "existEmail":"L'address email est deja enregistre",
+    "buyerSuccess":"L'acheteur est bien creee"
 }
