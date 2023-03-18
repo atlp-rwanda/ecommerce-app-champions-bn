@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt";
+import { Op } from "sequelize";
 import randomPassword from "../utils/randomPassword";
 import SendEmail from "../utils/emails";
 
-const { user } = require("../database/models");
+const { user, Role,Permission,Vendor} = require("../database/models");
+
 
 class VendorController{
     static async registerVendor(req, res) {
@@ -22,11 +24,16 @@ class VendorController{
             lastName,
             email,
             password: hashedPassword,
-            roleId: 2
           });
           const vendors = await users.save();
+          const Vendorpermissions = await Permission.findAll({where:{permissionName:{[Op.like]:'vendor%'}}});
+          const role = await Role.findOne({where:{roleName:'vendor'}});
+          role.addPermissions(Vendorpermissions);
+          await vendors.setRole(role);
           await new SendEmail(vendors, password).randomPassword();
-          return res.status(200).json({
+          const vendorProfile = await Vendor.create({});
+          vendors.setVendor(vendorProfile);
+          return res.status(201).json({
             status: "success",
             message: "vendor created successfully",
             vendorinfo: { vendors }

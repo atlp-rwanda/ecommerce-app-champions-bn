@@ -4,11 +4,11 @@ let id;
 describe("testing create permission",() =>{
     test('should create permission', async () => { 
         const res = await request(app).post("/api/permission/create").send({
-            permissionName:"buyer buys product"
+            permissionName:"admin create supplier"
         });
         expect(res.statusCode).toBe(201);
         expect(res.body.status).toBe('success');
-        expect(typeof res).toBe('object');
+        expect(typeof res.body).toBe('object');
         id = res.body.data.id;
      })
 });

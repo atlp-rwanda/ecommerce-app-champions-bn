@@ -3,12 +3,11 @@ import nodemailer from "nodemailer";
 import ejs from "ejs";
 import path from "path";
 import dotenv from "dotenv";
-import { timeStamp } from "console";
 
 dotenv.config();
 
 const transporter = () => nodemailer.createTransport({
-    service: "hotmail",
+    service: `${process.env.SERVICE}`,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD
@@ -23,7 +22,6 @@ class SendEmail {
     this.from = `ATLP-Champions E-commerce <${process.env.EMAIL}>`;
   }
 
-  // Send the  email using email
   async send(template,subject) {
     const html = await ejs.renderFile(
       path.join(__dirname, `./../emailTemplates/${template}.ejs`),

@@ -1,5 +1,4 @@
 const { Model } = require("sequelize");
-const user = require("./user");
 
 module.exports = (sequelize, DataTypes) => {
   class Buyer extends Model {
@@ -16,23 +15,20 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true
+        autoIncrement:true,
+        primaryKey: true,
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
       },
       shipingAddress: {
         type: DataTypes.JSONB,
-        allowNull: false
       },
       paymentMethod: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       preferredCurency: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       createdAt: {
         allowNull: false,

@@ -1,12 +1,11 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
-import userRouteDoc from "./buyer.docs";
 import vendorRouteDoc from "./vendor.docs";
 import roleRouteDoc from "./role.docs";
 import permissionRouteDoc from "./permission.docs";
+import userRouteDoc from "./user.docs";
 import buyerRouteDoc from "./buyer.docs";
-import { userRouteDocs } from "./user.docs";
 
 dotenv.config();
 const options = {
@@ -49,7 +48,8 @@ const options = {
             ...userRouteDoc,
             ...vendorRouteDoc,
             ...permissionRouteDoc,
-            ...roleRouteDoc
+            ...roleRouteDoc,
+            ...buyerRouteDoc
           }
     },
     apis: ['../routes/**/*.js'],

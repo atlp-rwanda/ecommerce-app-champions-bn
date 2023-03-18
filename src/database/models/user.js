@@ -1,22 +1,17 @@
 const { Model } = require("sequelize");
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { v4: uuidv4 } = require("uuid");
-
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     static associate(models) {
-      user.belongsTo(models.Role, { foreignKey: "roleId" });
-      // define association here
-
       user.hasOne(models.Buyer);
+      user.hasOne(models.Vendor);
+      user.belongsTo(models.Role, { foreignKey: "RoleId" });
     }
   }
   user.init(
     {
       id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
@@ -28,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      roleId: { type: DataTypes.INTEGER },
+      vendorId: { type: DataTypes.INTEGER },
+      RoleId: { type: DataTypes.INTEGER },
       googleId: {
         type: DataTypes.STRING,
         allowNull: true

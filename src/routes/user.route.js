@@ -1,12 +1,11 @@
-import { Router } from "express";
+import express from "express";
 
-import Vendors from "../controllers/userController";
 import { validate } from "../middlewares/validate";
 import { vendorSchema } from "../validations/vendorValidation";
+import UserController from "../controllers/userController";
 
-const route = Router();
+const userRoute = express.Router();
 
-route.post("/signup", validate(vendorSchema), Vendors.registerVendor);
-route.get("/:id",Vendors.getUser);
+userRoute.post("/login", UserController.signin);
 
-export default route;
+export default userRoute;

@@ -9,8 +9,8 @@ module.exports = {
         id: {
           allowNull: false,
           primaryKey: true,
-          type: Sequelize.UUID,
-          defaultValue: Sequelize.UUIDV4
+          autoIncrement:true,
+          type: Sequelize.INTEGER,
         },
         firstName: {
           type: Sequelize.STRING
@@ -24,9 +24,11 @@ module.exports = {
         password: {
           type: Sequelize.STRING
         },
-        roleId: {
+        vendorId: { 
           type: Sequelize.INTEGER,
-          allowNull: false
+         },
+         RoleId: {
+          type: Sequelize.INTEGER,
         },
         googleId: {
           type: Sequelize.INTEGER,
@@ -46,7 +48,6 @@ module.exports = {
         },
         profilepic: {
           type: Sequelize.STRING,
-          allowNull: false
         },
         createdAt: {
           allowNull: false,

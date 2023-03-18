@@ -1,5 +1,4 @@
 /* eslint-disable*/
-
 export const validate = (schema) => {
     return(req,res,next) =>{
         const {error} = schema.validate(req.body);
@@ -13,5 +12,3 @@ export const validate = (schema) => {
         next();
     }
 };
-
-export default validate;
