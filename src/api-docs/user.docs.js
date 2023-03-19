@@ -221,10 +221,10 @@ const requestReset = {
   };
   
   const userRouteDoc = {
-    "/requestReset": {
+    "/api/user/requestReset": {
       post: requestReset
     },
-    "/resetpassword/{token}": {
+    "/api/user/resetpassword/{token}": {
         post: passwordReset
       }
    

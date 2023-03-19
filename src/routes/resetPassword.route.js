@@ -1,5 +1,5 @@
 const express = require('express');
-import { requestReset, processReset } from '../../controllers/resetPasswordController';
+import { requestReset, processReset } from '../controllers/resetPasswordController';
 
 const router = express.Router();
 

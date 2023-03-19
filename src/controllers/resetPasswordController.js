@@ -86,7 +86,7 @@ async function processReset(req, res) {
     if (!foundUser) {
       return res.status(404).json({ 
         status:"fail",
-        error: 'User not found' });
+        error: req.t('error')});
     }
     if (foundUser.resetToken !== token || foundUser.resetTokenExpiresAt < new Date()) {
         console.log(foundUser.resetTokenExpiresAt)

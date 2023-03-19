@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      vendorId: { type: DataTypes.INTEGER },
       RoleId: { type: DataTypes.INTEGER },
       googleId: {
         type: DataTypes.STRING,
@@ -48,6 +49,14 @@ module.exports = (sequelize, DataTypes) => {
       email_token: {
         type: DataTypes.STRING,
         defaultValue: false
+      },
+      resetToken:{
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      resetTokenExpiresAt:{
+        type: DataTypes.DATE,
+        allowNull:true
       },
       profilepic: {
         type: DataTypes.STRING,

@@ -7,4 +7,4 @@ const vendorRoute = express.Router();
 
 vendorRoute.post("/signup", validate(vendorSchema), VendorController.registerVendor);
 
-export default vendorRoute;
+export default vendorRoute
