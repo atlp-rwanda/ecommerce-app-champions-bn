@@ -3,5 +3,7 @@
     "roles":"uruhare rurahari",
     "success":"byagenze neza",
     "fail":"ntibibashije gukunda",
-    "user not found":"ukoresha ntabashije kuboneka"
+    "user not found":"ukoresha ntabashije kuboneka",
+    "existEmail":"Iyi imeyili isanzwe irimo",
+    "buyerSuccess":"Kwiyandikisha nk'umuguzi byagenze neza!"
 }

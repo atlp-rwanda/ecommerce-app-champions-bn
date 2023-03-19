@@ -15,10 +15,14 @@ static async createBuyer (req, res) {
     const existingBuyer = await user.findOne({
       where: { email: { [Op.eq]: email } },
     });
+
+
+
     if (existingBuyer) {
+
       return res.status(409).json({
         status: "error",
-        message: "Email already exists",
+        message: req.t("existEmail"),
       });
     }
     const salt = await bcrypt.genSalt(10);
@@ -47,7 +51,7 @@ static async createBuyer (req, res) {
   
     res.status(201).json({
       status: "success",
-      message: "Buyer created successfully",
+      message: req.t("buyerSuccess"),
       data:buyer,
     });
   } catch (error) {
