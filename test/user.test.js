@@ -9,14 +9,14 @@ describe("testing all routes", () => {
   });
 });
 // testing adding a user endpoint
-describe("testing user", () => {
-  test("adding a vendor", async () => {
-    const response = await request(app).post("/signup").send({
+describe("adding a vendor", () => {
+  test("vendor signup", async () => {
+    const res = await request(app).post("/signup").send({
       firstName: "umurungi",
       lastName: "helen",
       email: "shumba2500@gmail.com"
     });
-    expect(response.statusCode).toBe(200);
+    expect(res.statusCode).toEqual(200);
   });
 });
 
