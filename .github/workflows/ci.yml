@@ -21,9 +21,12 @@ jobs:
       TEST_DATABASE: ${{ secrets.DB_TEST_DATABASE }}
       PORT: ${{ secrets.PORT }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+<<<<<<< HEAD
       EMAIL: ${{ secrets.EMAIL}}
       EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD}}
 
+=======
+>>>>>>> d16d692 (ft(roles-permission): roles and permissions)
     steps:
       - uses: actions/checkout@v1
       - name: Set up Node.js ${{ matrix.node-version }}
@@ -36,7 +39,11 @@ jobs:
           chmod +x ./cc-test-reporter
       - run: npm install
       - run: npm test
+<<<<<<< HEAD
       - run: npm run migrate:undo:test:all
+=======
+      - run: npm run migrate:test:undo:all
+>>>>>>> 0157203 (ft-roles-permissions)
       - name: Upload coverage to CodeClimate
         if: always()
         env:

@@ -42,7 +42,6 @@ class SendEmail {
       text: html
     };
 
-
     await transporter().sendMail(options);
   }
 

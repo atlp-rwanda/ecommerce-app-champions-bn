@@ -1,3 +1,7 @@
 {
-    "welcome":"Bienvenue sur notre application de commerce électronique"
+    "welcome":"Bienvenue sur notre application de commerce électronique",
+    "roles":"les rôles existent",
+    "success":"succès",
+    "fail":"échoué",
+    "user not found":"utilisateur non trouvé"
 }

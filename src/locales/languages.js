@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-
 import backend from "i18next-fs-backend";
 import middleware from "i18next-http-middleware";
 import i18next from 'i18next';

@@ -1,3 +1,7 @@
 {
-    "welcome":" Welcome to our Ecommerce App"
+    "welcome":" Welcome to our Ecommerce App",
+    "roles":"roles exists",
+    "success":"success",
+    "fail":"failed",
+    "user not found":"user not found"
 }
