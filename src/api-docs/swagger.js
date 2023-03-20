@@ -44,7 +44,7 @@ const options = {
             },
           },
           paths:{
-            ...userRouteDoc,
+            // ...userRouteDoc,
             ...vendorRouteDoc,
             ...permissionRouteDoc,
             ...roleRouteDoc
