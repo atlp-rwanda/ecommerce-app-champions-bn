@@ -1,11 +1,9 @@
-
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-
-    try{
+    try {
       await queryInterface.createTable("users", {
         id: {
           allowNull: false,
@@ -58,12 +56,9 @@ module.exports = {
           type: Sequelize.DATE
         }
       });
-
-    }catch(err){
-     console.log(err);
-      
-    };
-   
+    } catch (err) {
+      console.log(err);
+    }
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("users");

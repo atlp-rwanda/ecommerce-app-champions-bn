@@ -3,18 +3,17 @@ const { Model } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = (sequelize, DataTypes) => {
-  class Buyer extends Model {
+  class Vendor extends Model {
     static associate(models) {
       // define association here
-
-      Buyer.belongsTo(models.user, {
+      Vendor.belongsTo(models.user, {
         foreignKey: "userId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
     }
   }
-  Buyer.init(
+  Vendor.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -26,16 +25,40 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false
       },
-      shipingAddress: {
+      businessName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      businessAddress: {
         type: DataTypes.JSONB,
         allowNull: false
       },
-      paymentMethod: {
+      accountNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      taxIdNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      typeOfProducts: {
         type: DataTypes.STRING,
         allowNull: false
       },
       preferredCurency: {
         type: DataTypes.STRING,
+        allowNull: false
+      },
+      state: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      postalCode: {
+        type: DataTypes.INTEGER,
         allowNull: false
       },
       createdAt: {
@@ -49,10 +72,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Buyer",
-      tableName: "buyers",
+      modelName: "Vendor",
+      tableName: "vendors",
       timestamps: true
     }
   );
-  return Buyer;
+  return Vendor;
 };

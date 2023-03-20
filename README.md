@@ -22,6 +22,8 @@ Before running the application using docker , make sure to set the following env
 3. DB_PASSWORD: The password for your PostgreSQL database
 4. DB_NAME: The name of your PostgreSQL database
 5. PORT: The port number that the application will run on
+6. EMAIL: mudakikwaaimable05@outlook.com
+7. EMAIL_PASSWORD: Workhard
 
 Note: DB_USERNAME and DB_NAME must be the same.
 ## Running docker 

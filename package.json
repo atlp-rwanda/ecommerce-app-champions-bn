@@ -17,10 +17,11 @@
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "migrate:up:test":"cross-env NODE_ENV=test npm run migrate:up",
     "migrate:undo:test":"cross-env NODE_ENV=test npm run migrate:undo",
+    "migrate:undo:test:all":"cross-env NODE_ENV=test npm run migrate:undo",
     "db:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
     "db:seed:undo": "sequelize-cli db:seed:undo",
-    "test":"cross-env NODE_ENV=test npx sequelize db:migrate:undo:all && cross-env NODE_ENV=test  npm run migrate:up -all && jest --detectOpenHandles --coverage --testTimeout 100000 --forceExit",
+    "test": "cross-env NODE_ENV=test npm run migrate:up -all && jest --detectOpenHandles --coverage --testTimeout 100000 --forceExit",
     "docker:compose:build": "docker-compose --build",
     "docker:compose:up": "docker-compose up -d",
     "docker:compose:down": "docker-compose down --volumes --rmi all --remove-orphans",
@@ -59,7 +60,8 @@
     "sequelize-cli": "^6.6.0",
     "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.2"
+    "swagger-ui-express": "^4.6.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
