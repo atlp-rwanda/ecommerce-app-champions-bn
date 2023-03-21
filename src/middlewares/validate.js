@@ -1,11 +1,14 @@
-/*eslint-disable*/
-export const validate=(schema)=>(req, res, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return res.status(400).send({
-        status: 400,
-        data: { message: error.details[0].message.replace(/[/"]+/g, ''), error }
-      });
+/* eslint-disable*/
+export const validate = (schema) => {
+    return(req,res,next) =>{
+        const {error} = schema.validate(req.body);
+        if(error){
+            const errorMsg = error.details[0].message.replace(/[/"]+/g, '');
+            return res.status(401).json({
+                status:"error",
+                message:errorMsg
+            });
+        }
+        next();
     }
-    next();
-  };
+};

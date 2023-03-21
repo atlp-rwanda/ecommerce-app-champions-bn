@@ -1,7 +1,7 @@
-/* eslint-disable */
+/* eslint-disable*/
 import Joi from "joi";
 
-export const buyerSchema = Joi.object({
+export const buyerSchema = Joi.object().keys({
   firstName: Joi.string().min(2).trim().required(),
   lastName: Joi.string().min(2).trim().required(),
   email: Joi.string().email().trim().required(),
@@ -14,4 +14,3 @@ export const buyerSchema = Joi.object({
       "string.pattern.base": `Password should be six characters, at least one letter, one number and one special character`
     })
 });
-

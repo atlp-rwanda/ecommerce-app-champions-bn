@@ -1,49 +1,32 @@
+/* eslint-disable */
 import bcrypt from "bcrypt";
-import { Op } from "sequelize";
-import randomPassword from "../utils/randomPassword";
-import SendEmail from "../utils/emails";
+import jwt from "jsonwebtoken";
 
 const { user, Role,Permission} = require("../database/models");
 
-class Vendors {
-  static async registerVendor(req, res) {
+class UserController {
+  static async signin (req,res){
     try {
-      const { firstName, lastName, email } = req.body;
-      const exists = await user.findOne({ where: { email: req.body.email } });
-      req.user = exists;
-      if (exists) {
-        return res
-          .status(409)
-          .json({ status: 409, message: "User Already Exists" });
-      }
-      const password = randomPassword();
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const users = await user.create({
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
+      const {dataValues} = await user.findOne({where:{email:req.body.email}});
+      if(!dataValues) return res.status(401).json({status:"fail",message:'user not exists'});
+      const existingRole = await Role.findByPk(dataValues.RoleId,{include:{model:Permission}});
+      const roles = existingRole.toJSON();
+      console.log(roles)
+      const match = await bcrypt.compare(req.body.password,dataValues.password);
+      console.log(match)
+      if(!match) return res.status(401).json({status:"fail",message:'invalid password'});
+      const token = jwt.sign({id:dataValues.id,role:roles},process.env.JWT_SECRET);
+      res.cookie("token",token,{
+        secure:false,
+        httpOnly:true,
+        sameSite:'lax' ,signed:true       
       });
-      const vendors = await users.save();
-      const Vendorpermissions = await Permission.findAll({where:{permissionName:{[Op.like]:'vendor%'}}});
-      const role = await Role.findOne({where:{roleName:'vendor'}});
-      role.addPermissions(Vendorpermissions);
-      await vendors.setRole(role);
-      await new SendEmail(vendors, password).randomPassword();
-      return res.status(200).json({
-        status: "success",
-        message: "vendor created successfully",
-        vendorinfo: { vendors }
-      });
+      const {password,...others} = dataValues;
+      return res.status(200).json({status:"success",data:{others,roles},token});
     } catch (error) {
-      return res.status(400).json({
-        status: "error",
-        message: "failed to add a user information",
-        error: error.message
-      });
+      return res.status(400).json({status:"error",error:error.message});
     }
   }
-
   static async getUser(req,res){
     try {
       const existingUser = await user.findByPk(req.params.id,{
@@ -64,4 +47,4 @@ class Vendors {
   }
 }
 
-export default Vendors;
+export default UserController;

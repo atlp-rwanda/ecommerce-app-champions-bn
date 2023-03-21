@@ -1,13 +1,15 @@
+const { v4: uuidv4 } = require('uuid');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     try{
       await queryInterface.createTable("users", {
         id: {
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        autoIncrement:true
+          allowNull: false,
+          primaryKey: true,
+          autoIncrement:true,
+          type: Sequelize.INTEGER,
         },
         firstName: {
           type: Sequelize.STRING
@@ -21,9 +23,7 @@ module.exports = {
         password: {
           type: Sequelize.STRING
         },
-        roleId:{
-          type:Sequelize.INTEGER
-        },
+        RoleId: { type: Sequelize.INTEGER },
         googleId: {
           type: Sequelize.INTEGER,
           allowNull: true
@@ -42,7 +42,6 @@ module.exports = {
         },
         profilepic: {
           type: Sequelize.STRING,
-          allowNull: false
         },
         createdAt: {
           allowNull: false,

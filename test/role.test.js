@@ -4,11 +4,11 @@ let id;
 describe("testing create role",() =>{
     test('should create role', async () => { 
         const res = await request(app).post("/api/role/create").send({
-            roleName:"buyer"
+            roleName:"admin"
         });
         expect(res.statusCode).toBe(201);
         expect(res.body.status).toBe('success');
-        expect(typeof res).toBe('object');
+        expect(typeof res.body).toBe('object');
         id = res.body.data.id;
      })
 });

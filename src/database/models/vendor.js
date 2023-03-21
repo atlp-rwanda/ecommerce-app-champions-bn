@@ -1,7 +1,5 @@
 const { Model } = require("sequelize");
 
-const { v4: uuidv4 } = require("uuid");
-
 module.exports = (sequelize, DataTypes) => {
   class Vendor extends Model {
     static associate(models) {
@@ -16,50 +14,39 @@ module.exports = (sequelize, DataTypes) => {
   Vendor.init(
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: () => uuidv4(),
-        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement:true,
         primaryKey: true
       },
       userId: {
-        type: DataTypes.UUID,
-        allowNull: false
+        type: DataTypes.INTEGER,
       },
       businessName: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       businessAddress: {
         type: DataTypes.JSONB,
-        allowNull: false
       },
       accountNumber: {
         type: DataTypes.INTEGER,
-        allowNull: false
       },
       taxIdNumber: {
         type: DataTypes.INTEGER,
-        allowNull: false
       },
       typeOfProducts: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       preferredCurency: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       state: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       city: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       postalCode: {
         type: DataTypes.INTEGER,
-        allowNull: false
       },
       createdAt: {
         allowNull: false,

@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Role extends Model {
     static associate(models) {
-      Role.hasMany(models.user,{foreignKey:'roleId', onDelete:'SET NULL',onUpdate:'SET NULL'});
+      Role.hasMany(models.user,{onDelete:'SET NULL',onUpdate:'SET NULL'});
       Role.belongsToMany(models.Permission,{through:'RolePermission' });
     }
   }

@@ -3,50 +3,39 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("vendors", {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        allowNull: false,
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
         primaryKey: true
       },
       userId: {
-        type: Sequelize.UUID,
-        references: { model: "users", key: "id" }
+        type: Sequelize.INTEGER,
       },
       businessName: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       businessAddress: {
         type: Sequelize.JSONB,
-        allowNull: false
       },
       accountNumber: {
         type: Sequelize.INTEGER,
-        allowNull: false
       },
       taxIdNumber: {
         type: Sequelize.INTEGER,
-        allowNull: false
       },
       typeOfProducts: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       preferredCurency: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       state: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       city: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       postalCode: {
         type: Sequelize.INTEGER,
-        allowNull: false
       },
       createdAt: {
         allowNull: false,

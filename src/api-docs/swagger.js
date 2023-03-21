@@ -4,9 +4,10 @@ import dotenv from "dotenv";
 import vendorRouteDoc from "./vendor.docs";
 import roleRouteDoc from "./role.docs";
 import permissionRouteDoc from "./permission.docs";
+import userRouteDoc from "./user.docs";
+import buyerRouteDoc from "./buyer.docs";
 
 dotenv.config();
-
 const options = {
     definition:{
         openapi:"3.0.0",
@@ -44,10 +45,11 @@ const options = {
             },
           },
           paths:{
-            // ...userRouteDoc,
+            ...userRouteDoc,
             ...vendorRouteDoc,
             ...permissionRouteDoc,
-            ...roleRouteDoc
+            ...roleRouteDoc,
+            ...buyerRouteDoc
           }
     },
     servers: [

@@ -59,12 +59,8 @@ const deletePermission = {
 };
 
 const permissionRouteDoc = {
-  "/api/permission/create": {
-    post: createPermission
-  },
-  "/api/permission/delete/{id}": {
-    delete: deletePermission
-  }
+  "/api/permission/create": { post: createPermission },
+  "/api/permission/delete/{id}": { delete: deletePermission }
 };
 
 export default permissionRouteDoc;
