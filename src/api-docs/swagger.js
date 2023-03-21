@@ -6,6 +6,7 @@ import roleRouteDoc from "./role.docs";
 import permissionRouteDoc from "./permission.docs";
 import userRouteDoc from "./user.docs";
 import buyerRouteDoc from "./buyer.docs";
+import logoutRouteDoc from "./user.logout.docs";
 
 dotenv.config();
 const options = {
@@ -49,7 +50,8 @@ const options = {
             ...vendorRouteDoc,
             ...permissionRouteDoc,
             ...roleRouteDoc,
-            ...buyerRouteDoc
+            ...buyerRouteDoc,
+            ...logoutRouteDoc
           }
     },
     servers: [

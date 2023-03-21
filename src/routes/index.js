@@ -3,6 +3,7 @@ import roleRoute from "./role.route";
 import permissionRoute from "./permission.route";
 import buyerRoute from "./buyer.route";
 import vendorRoute from "./vendor.route";
+
 import userRoute from "./user.route";
 
 const indexRouter = express.Router();
