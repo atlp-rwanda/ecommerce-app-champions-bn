@@ -1,5 +1,10 @@
 const { Model } = require("sequelize");
 
+<<<<<<< HEAD
+=======
+const { v4: uuidv4 } = require("uuid");
+
+>>>>>>> develop
 module.exports = (sequelize, DataTypes) => {
   class Vendor extends Model {
     static associate(models) {
@@ -14,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   Vendor.init(
     {
       id: {
+<<<<<<< HEAD
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement:true,
@@ -21,6 +27,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.INTEGER,
+=======
+        type: DataTypes.UUID,
+        defaultValue: () => uuidv4(),
+        allowNull: false,
+        primaryKey: true
+      },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false
+>>>>>>> develop
       },
       businessName: {
         type: DataTypes.STRING,

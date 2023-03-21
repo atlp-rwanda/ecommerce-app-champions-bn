@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import { Op } from "sequelize";
 import SendEmail from "../utils/sendEmail";
 
+const { user,Role } = require("../database/models");
+
 dotenv.config();
 const { user,Role,Permission,Buyer } = require("../database/models");
 
@@ -16,7 +18,7 @@ static async createBuyer (req, res) {
       where: { email: { [Op.eq]: email } },
     });
     if (existingBuyer) {
-      return res.status(409).json({
+      return res.status(400).json({
         status: "error",
         message: "Email already exists",
       });
@@ -47,7 +49,6 @@ static async createBuyer (req, res) {
   
     res.status(201).json({
       status: "success",
-      message: "Buyer created successfully",
       data:buyer,
     });
   } catch (error) {
