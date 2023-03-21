@@ -3,5 +3,7 @@
     "roles":"roles exists",
     "success":"success",
     "fail":"failed",
-    "user not found":"user not found"
+    "user not found":"user not found",
+    "existEmail":"Email already exist",
+    "buyerSuccess":"Buyer created successfuly!"
 }

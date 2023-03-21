@@ -16,10 +16,14 @@ static async createBuyer (req, res) {
     const existingBuyer = await user.findOne({
       where: { email: { [Op.eq]: email } },
     });
+
+
+
     if (existingBuyer) {
-      return res.status(400).json({
+
+      return res.status(409).json({
         status: "error",
-        message: "Email already exists",
+        message: req.t("existEmail"),
       });
     }
     const salt = await bcrypt.genSalt(10);
@@ -33,13 +37,21 @@ static async createBuyer (req, res) {
     const token = jwt.sign({ id: buyer.id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
+
    if(!token){
     return;
    }
+
+
     const role = await Role.findOne({where:{roleName:"buyer"}});
+
+    console.log(role);
     const buyerpermissions = await Permission.findAll({where:{permissionName:{[Op.like]:'buyer%'}}});
     role.addPermissions(buyerpermissions);
     await buyer.setRole(role);
+
+
+
     const buyerProfile = await Buyer.create({});
     buyer.setBuyer(buyerProfile);
    const url=process.env.URL;
@@ -48,6 +60,7 @@ static async createBuyer (req, res) {
   
     res.status(201).json({
       status: "success",
+      message: req.t("buyerSuccess"),
       data:buyer,
     });
   } catch (error) {
@@ -57,6 +70,35 @@ static async createBuyer (req, res) {
     });
   }
 };
+
+
+
+static async verifyBuyer(req,res){
+
+
+  const userId=jwt.verify(req.query.token,process.env.JWT_SECRET);
+if(!userId){
+  return res.status(403).json({status:"error",
+message:"Invalid token"});
+}
+
+  const verifiedUser=await user.findOne({_id:userId});
+
+  if(!verifiedUser){
+    return res.status(404).json({status:"error",message:"user not found"});
+  }
+
+  verifiedUser.isVerified=true;
+
+  verifiedUser.save();
+
+  
+
+  return res.status(200).json({status:"success",message:"Token verified successfully"});
+}
+
+
+
 
 };
 
