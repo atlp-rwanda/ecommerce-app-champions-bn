@@ -45,7 +45,7 @@ passport.use(
         if (created) return cb(null,User);
         return cb(null,User);
       } catch (error) {
-        cb(error);
+        cb(error.message);
       }
     }
   )

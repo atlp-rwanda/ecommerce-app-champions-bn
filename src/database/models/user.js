@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       user.hasOne(models.Buyer);
       user.hasOne(models.Vendor);
-      user.belongsTo(models.Role, { foreignKey: "RoleId" });
+      user.belongsTo(models.Role, { foreignKey: "roleId" });
     }
   }
   user.init(
