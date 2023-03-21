@@ -42,12 +42,12 @@ static async createBuyer (req, res) {
    }
 
 
-    // const role = await Role.findOne({where:{roleName:"buyer"}});
+    const role = await Role.findOne({where:{roleName:"buyer"}});
 
-    // console.log(role);
-    // const buyerpermissions = await Permission.findAll({where:{permissionName:{[Op.like]:'buyer%'}}});
-    // role.addPermissions(buyerpermissions);
-    // await buyer.setRole(role);
+    console.log(role);
+    const buyerpermissions = await Permission.findAll({where:{permissionName:{[Op.like]:'buyer%'}}});
+    role.addPermissions(buyerpermissions);
+    await buyer.setRole(role);
 
 
 
