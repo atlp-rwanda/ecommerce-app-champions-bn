@@ -42,10 +42,40 @@ const vendorSignup = {
   }
 };
 
-const vendorRouteDoc = {
-  "/signup": {
-    post: vendorSignup
+const singleVAendor = {
+  tags: ["Users"],
+  description: "get a vendor by id",
+  parameters:[
+    {
+        name:"id",
+        in:"path",
+        description:"id of vendor",
+        type:"string",
+        example:"1"
+    }
+],
+  responses: {
+    201: {
+      description: "OK",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object"
+          }
+        }
+      }
+    }
   }
+};
+
+const vendorRouteDoc = {
+  "/api/vendor/signup": {
+    post: vendorSignup
+  },
+  "/api/vendor/{id}": {
+    get: singleVAendor
+  }
+
 };
 
 export default vendorRouteDoc;
