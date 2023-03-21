@@ -4,7 +4,6 @@ module.exports = {
     await queryInterface.createTable("vendors", {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement:true,
         primaryKey: true
       },
@@ -13,39 +12,30 @@ module.exports = {
       },
       businessName: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       businessAddress: {
         type: Sequelize.JSONB,
-        allowNull: false
       },
       accountNumber: {
         type: Sequelize.INTEGER,
-        allowNull: false
       },
       taxIdNumber: {
         type: Sequelize.INTEGER,
-        allowNull: false
       },
       typeOfProducts: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       preferredCurency: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       state: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       city: {
         type: Sequelize.STRING,
-        allowNull: false
       },
       postalCode: {
         type: Sequelize.INTEGER,
-        allowNull: false
       },
       createdAt: {
         allowNull: false,

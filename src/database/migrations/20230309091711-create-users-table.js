@@ -23,9 +23,7 @@ module.exports = {
         password: {
           type: Sequelize.STRING
         },
-        roleId:{
-          type:Sequelize.INTEGER
-        },
+        RoleId: { type: Sequelize.INTEGER },
         googleId: {
           type: Sequelize.INTEGER,
           allowNull: true

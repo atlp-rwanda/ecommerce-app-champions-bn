@@ -1,5 +1,7 @@
 import { Router } from "express";
+
 import BuyerController from "../controllers/buyerController";
+
 import { validate } from "../middlewares/validate";
 import { buyerSchema } from "../validations/buyerValidationSchema";
 
