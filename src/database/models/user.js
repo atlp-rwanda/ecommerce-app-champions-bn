@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      vendorId: { type: DataTypes.INTEGER },
       RoleId: { type: DataTypes.INTEGER },
       googleId: {
         type: DataTypes.STRING,

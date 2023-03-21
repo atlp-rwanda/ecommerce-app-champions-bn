@@ -23,27 +23,17 @@ describe("testing create permission",() =>{
      })
 });
 
-// describe("testing vendor", () => {
-//     test("adding a vendor", async () => {
-//       const response = await request(app).post("/api/vendor/signup").send({
-//         firstName: "ngarukiye",
-//         lastName: "sostene",
-//         email: "sostene@yopmail.com"
-//       });
-//       expect(response.statusCode).toBe(201);
-//     });
-//   })
-  
-//   describe("validations", () => {
-//     test("vendor validations", async () => {
-//       const response = await request(app).post("/signup").send({
-//         firstName: "u",
-//         lastName: "helen",
-//         email: "mudakikwaaimable05@gmail.com"
-//       });
-//       expect(response.statusCode).toBe(400);
-//     });
-//   });
+describe("testing vendor", () => {
+    test("adding a vendor", async () => {
+      const response = await request(app).post("/api/vendor/signup").send({
+        firstName: "ngarukiye",
+        lastName: "sostene",
+        email: "sostene@yopmail.com"
+      });
+      expect(response.statusCode).toBe(201);
+    });
+  })
+
   
   describe("routes", () => {
     test("testing a wrong route", async () => {

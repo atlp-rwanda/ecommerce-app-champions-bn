@@ -7,3 +7,14 @@ describe("testing all routes", () => {
     expect(response.statusCode).toBe(200);
   });
 });
+
+describe("routes", () => {
+  test("testing a wrong route", async () => {
+    const response = await request(app).post("/signu").send({
+      firstName: "umurungi",
+      lastName: "helen",
+      email: "mudakikwaaimable05@gmail.com"
+    });
+    expect(response.statusCode).toBe(404);
+  });
+});

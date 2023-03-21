@@ -4,8 +4,9 @@ import bcrypt from "bcrypt";
 import { Op } from "sequelize";
 import SendEmail from "../utils/sendEmail";
 
-dotenv.config();
 const { user,Role,Permission,Buyer } = require("../database/models");
+
+dotenv.config();
 
 class BuyerController {
 

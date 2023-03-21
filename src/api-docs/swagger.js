@@ -52,8 +52,36 @@ const options = {
             ...buyerRouteDoc
           }
     },
-    apis: ['../routes/**/*.js'],
-};
+    servers: [
+      {
+        url: `http://localhost:${process.env.PORT}`,
+        description: "Development server"
+      },
+      {
+        url: "https://ecommerce-app-champions-bn-production.up.railway.app/",
+        description: "development server"
+      }
+    ],
+    tags: [
+      { name: "Users", description: "User Routes" },
+      { name: "Product", description: "Product Routes" }
+    ],
+    components: {
+      securitySchemes: {
+        token: {
+          type: "apiKey",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          name: "token",
+          in: "header"
+        }
+      }
+    },
+    paths: {
+      ...vendorRouteDoc
+    },
+    apis: ["../routes/**/*.js"]
+  };
 
 
 const swaggerSpec = swaggerJSDoc(options);

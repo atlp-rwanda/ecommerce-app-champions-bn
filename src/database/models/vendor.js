@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         autoIncrement:true,
         primaryKey: true
       },
@@ -24,39 +23,30 @@ module.exports = (sequelize, DataTypes) => {
       },
       businessName: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       businessAddress: {
         type: DataTypes.JSONB,
-        allowNull: false
       },
       accountNumber: {
         type: DataTypes.INTEGER,
-        allowNull: false
       },
       taxIdNumber: {
         type: DataTypes.INTEGER,
-        allowNull: false
       },
       typeOfProducts: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       preferredCurency: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       state: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       city: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       postalCode: {
         type: DataTypes.INTEGER,
-        allowNull: false
       },
       createdAt: {
         allowNull: false,
