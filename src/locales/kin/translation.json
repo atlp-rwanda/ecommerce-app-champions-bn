@@ -5,5 +5,7 @@
     "fail":"ntibibashije gukunda",
     "user not found":"ukoresha ntabashije kuboneka",
     "existEmail":"Iyi imeyili isanzwe irimo",
-    "buyerSuccess":"Kwiyandikisha nk'umuguzi byagenze neza!"
+    "buyerSuccess":"Kwiyandikisha nk'umuguzi byagenze neza!",
+    "message":"Gusohoka byagenzeneza",
+    "Error":"Gerakeza kongera kwinjira kurubuga"
 }

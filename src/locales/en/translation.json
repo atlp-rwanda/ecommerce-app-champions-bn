@@ -5,5 +5,8 @@
     "fail":"failed",
     "user not found":"user not found",
     "existEmail":"Email already exist",
-    "buyerSuccess":"Buyer created successfuly!"
+    "buyerSuccess":"Buyer created successfuly!",
+    "message":"User logged out successfully",
+    "Error":"please log in"
+
 }
