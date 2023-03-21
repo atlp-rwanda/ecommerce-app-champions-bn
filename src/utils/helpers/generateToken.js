@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const generateAccessToken = async (paramsObject) => {
   const token = jwt.sign(paramsObject, process.env.JWT_SECRET, { expiresIn: '1h' });
   return token;
