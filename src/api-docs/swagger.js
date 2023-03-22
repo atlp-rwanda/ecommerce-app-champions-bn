@@ -67,6 +67,7 @@ const options = {
           paths:{
             // ...userRouteDoc,
             ...vendorRouteDoc,
+            ...userRouteDoc,
             ...GoogleaouthDocs,
             ...permissionRouteDoc,
             ...roleRouteDoc,
