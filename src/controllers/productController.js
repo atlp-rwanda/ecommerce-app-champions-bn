@@ -79,8 +79,9 @@ class productController {
         return res.status(200).json({status:"success",data:search});
     } catch (error) {
         return res.status(500).json({status:"error",error:error.message});
-    }
-}
+    };
+  }
+  
 
   static async availableProducts(req,res){
     try {
@@ -167,14 +168,6 @@ static async enableProduct(req, res) {
       return res.status(500).json({ status: "error", error: error.message });
   }
 }
-
-
-
-
-
-
-
-
 
 }
 

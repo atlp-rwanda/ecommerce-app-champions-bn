@@ -41,9 +41,10 @@ class SendEmail {
       html,
       text: html
     };
+
     await transporter().sendMail(options);
   }
-  
+
   async twoFactorAuth() {
     await this.send("2FA", "Two factor authentication code");
   }

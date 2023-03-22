@@ -12,7 +12,7 @@ const TwoFactorAuth = {
               type: "string",
               required: true,
               description: " unique code sent to the vendors email",
-              example: "100001"
+              example: "100001",
             }
           }
         }

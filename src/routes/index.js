@@ -18,14 +18,18 @@ indexRouter.use("/api/buyer",buyerRoute);
 indexRouter.use("/api/user",userRoute);
 indexRouter.use("/api/user",router);
 indexRouter.use("/",Oauthroute);
+indexRouter.use("/api/product",prodRoute);
+
+
+
+
+
+
+<<<<<<< HEAD
 indexRouter.use("/api/product",productRoute);
-
-
-
-
-
-
-indexRouter.use("/api/product",productRoute);
+=======
+indexRouter.use("/api/product",produRoute);
+>>>>>>> c496c56 (ft(list-items): products)
 indexRouter.use("/api/category",categoryRoute);
 
 export default indexRouter;

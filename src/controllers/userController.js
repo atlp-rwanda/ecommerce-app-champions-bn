@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import speakeasy from "speakeasy";
 import dotenv from "dotenv";
+import speakeasy from "speakeasy";
 import { handleCookies, getCookieInfo } from "../utils/handleCookies";
 import comparePassword from "../utils/verifyPassword";
 import SendEmail from "../utils/2faEmail";
