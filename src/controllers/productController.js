@@ -1,3 +1,11 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable prefer-const */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable semi */
+/* eslint-disable radix */
+/* eslint-disable object-shorthand */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable lines-between-class-members */
 import { Op } from "sequelize";
 
 import {

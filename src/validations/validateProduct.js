@@ -6,6 +6,8 @@ const productSchema = Joi.object({
   productPrice: Joi.number().required(),
   category: Joi.string().required(),
   quantity: Joi.number().min(0).required(),
+  CategoryId: Joi.number().positive().required(),
+  
   expiredDate: Joi.date().required(),
   bonus: Joi.number().required(),
   productDescription: Joi.string().required()
