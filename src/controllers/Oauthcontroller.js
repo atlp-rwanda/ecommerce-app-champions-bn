@@ -40,7 +40,7 @@ passport.use(
           where: { googleId: profile.id },
           defaults: userInfo
         });
-        const token = await generateAccessToken({id: User.id, roleId: User.roleId});
+        const token = await generateAccessToken({id: User.id, RoleId: User.RoleId});
         User.token = token;
         if (created) return cb(null,User);
         return cb(null,User);
