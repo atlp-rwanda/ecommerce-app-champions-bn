@@ -1,12 +1,16 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import speakeasy from "speakeasy";
-import SendEmail from "../utils/2faEmail";
 import { handleCookies, getCookieInfo } from "../utils/handleCookies";
 import comparePassword from "../utils/verifyPassword";
+import SendEmail from "../utils/2faEmail";
 import { generateAccessToken } from "../utils/helpers/generateToken";
 import { sign } from "../utils/jwt";
 
 const { user, Role, Permission,Vendor,ReportedActivity } = require("../database/models");
+
+dotenv.config();
 
 class UserController {
   static async signin(req, res) {
