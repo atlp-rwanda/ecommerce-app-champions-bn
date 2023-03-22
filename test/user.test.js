@@ -1,6 +1,7 @@
-import app from "../src/app";
 import request from "supertest";
+import app from "../src/app";
 
+// testing home page endpoint
 describe("testing all routes", () => {
   test("testing the home page endpoint", async () => {
     const response = await request(app).get("/").send();
@@ -18,19 +19,7 @@ describe("routes", () => {
     expect(response.statusCode).toBe(404);
   });
 });
-// logout user
 
-// describe("tesing signin email and password",() =>{
-//   test('user signin',async () =>{
-//     const res = await request(app).post("/api/vendor/login").send({
-//       email:"shumba2500@gmail.com",
-//       password:"test@1234"
-//     });
-//     expect(res.statusCode).toBe(200);
-//     expect(res.body.status).toBe('success');
-//     expect(typeof res.body.data).toBe('object');
-//   });
-// })
 
 // testing password reset request endpoint
 

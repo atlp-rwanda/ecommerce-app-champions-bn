@@ -8,6 +8,7 @@ import permissionRouteDoc from "./permission.docs";
 import userRouteDoc from "./user.docs";
 import buyerRouteDoc from "./buyer.docs";
 import logoutRouteDoc from "./user.logout.docs";
+import GoogleaouthDocs from "./Googleaouth.docs";
 
 
 dotenv.config();
@@ -45,11 +46,28 @@ const options = {
                 name:"token",
                 in:"header"
               },
+              googleAuth: {
+                type: "oauth2",
+                flows: {
+                  authorizationCode: {
+                    authorizationUrl: "https://accounts.google.com/o/oauth2/auth",
+                    tokenUrl: "https://oauth2.googleapis.com/token",
+                    scopes: {
+                      profile: "Grants profile access"
+                    },
+                    redirectUri: "http://localhost:5000/auth/google/redirect",
+                    userProfileUrl: "https://www.googleapis.com/oauth2/v3/userinfo",
+                    clientID: process.env.GOOGLE_CLIENT_ID,
+                    clientSecret: process.env.GOOGLE_SECRET
+                  }
+                }
+              }
             },
           },
           paths:{
             ...userRouteDoc,
             ...vendorRouteDoc,
+            ...GoogleaouthDocs,
             ...permissionRouteDoc,
             ...roleRouteDoc,
             ...buyerRouteDoc,
