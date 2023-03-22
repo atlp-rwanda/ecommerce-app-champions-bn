@@ -35,8 +35,7 @@ jobs:
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
       - run: npm install
-      - run: npm test
-      - run: npm run migrate:undo:test:all
+      - run: npm run test
       - run: npm run migrate:undo:test:all
       - name: Upload coverage to CodeClimate
         if: always()

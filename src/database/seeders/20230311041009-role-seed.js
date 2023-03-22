@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /** @type {import('sequelize-cli').Migration} */
 // module.exports = {
 //   up: (queryInterface, Sequelize) => {

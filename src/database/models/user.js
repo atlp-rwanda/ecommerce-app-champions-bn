@@ -1,4 +1,4 @@
-const { Model } = require("sequelize");
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       vendorId: { type: DataTypes.INTEGER },
+
       RoleId: { type: DataTypes.INTEGER },
       googleId: {
         type: DataTypes.STRING,
@@ -70,14 +71,16 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
+
       }
     },
-    {
-      sequelize,
-      modelName: "user",
-      tableName: "users",
-      timestamps: true
-    }
-  );
+    
+
+  {
+    sequelize,
+    modelName: 'user',
+    tableName: 'users',
+    timestamps: true
+  });
   return user;
 };

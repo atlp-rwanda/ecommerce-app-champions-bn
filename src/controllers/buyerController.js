@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Op } from "sequelize";
 import SendEmail from "../utils/sendEmail";
+import  * as profiles from "../services/profile.service";
+
 
 // const { user,Role,Permission,Buyer } = require("../database/models");
 
@@ -62,10 +64,10 @@ static async createBuyer (req, res) {
       status: "error",
       message: error.message,
     });
-  }
-};
+  };
 
 
+}
 
 static async verifyBuyer(req,res){
 
@@ -89,12 +91,48 @@ message:"Invalid token"});
   
 
   return res.status(200).json({status:"success",message:"Token verified successfully"});
-}
-
-
-
-
 };
 
+static async updateProfile (req, res, next) {
+  try {
+    const { userId } = req.params;
+    const requestBody = req.body;
+    const profile = await profiles.findUserProfile(userId);
+    if (profile) {
+      const updatedProfile = await profiles.updateProfile(userId, requestBody);
+      if (updatedProfile) {
+       const profileMessage = req.t('profileMessage');
+        return res.status(200).json({ status: 200, data: { Message: req.t(profileMessage) } });
+      } 
+    } else {
+     const message = req.t('notfound');
+      return res.status(401).json({ status: 404, data: { Message: req.t(message ) } });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    next(error);
+  }
+};
+
+  static async getProfile (req, res, next) {
+  try {
+    const { userId } = req.params;
+    const {dataValues} = await user.findOne({where:{id:userId}});
+    const profile = await profiles.findUserProfile(userId);
+    const {...others}= dataValues;
+    if (profile) {
+      res.json({ message: req.t('Found'), data: {others,profile} });
+    } else {
+
+      const Message = req.t('notfound');
+      res.json({ message: Message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    next(error);
+  }
+};
+
+};
 
 export default BuyerController;

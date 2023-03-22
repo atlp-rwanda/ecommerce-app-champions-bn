@@ -4,12 +4,19 @@ module.exports = {
     await queryInterface.createTable("vendors", {
       id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         autoIncrement:true,
         primaryKey: true
       },
       userId: {
         type: Sequelize.INTEGER,
       },
+      birthDate:{
+        type:Sequelize.JSONB,
+       },
+       gender:{
+        type:Sequelize.JSONB,
+     },
       businessName: {
         type: Sequelize.STRING,
       },

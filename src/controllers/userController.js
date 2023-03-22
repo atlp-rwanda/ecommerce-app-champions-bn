@@ -12,6 +12,7 @@ class UserController {
       const existingRole = await Role.findByPk(dataValues.RoleId,{include:{model:Permission}});
       const roles = existingRole.toJSON();
       console.log(roles)
+      
       const match = await bcrypt.compare(req.body.password,dataValues.password);
       console.log(match)
       if(!match) return res.status(401).json({status:"fail",message:'invalid password'});

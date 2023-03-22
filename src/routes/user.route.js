@@ -3,12 +3,10 @@ import express from "express";
 import { validate } from "../middlewares/validate";
 import { vendorSchema } from "../validations/vendorValidation";
 import UserController from "../controllers/userController";
+import isLoggedIn from "../middlewares/checklogin";
 
 const userRoute = express.Router();
 
-// import UserController from "../controllers/userController";
-
-import isLoggedIn from "../middlewares/checklogin";
 
 // const userRoute = express.Router();
 

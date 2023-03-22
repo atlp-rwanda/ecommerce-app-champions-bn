@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "../src/app";
 
+let userId;
 describe("testing create role",() =>{
   test('should create role', async () => { 
       const res = await request(app).post("/api/role/create").send({
@@ -31,10 +32,32 @@ describe("testing buyer signup",() =>{
         email: "ngarukiyimanasostene@gmail.com",
         password: "1234567@password"
       });
+       userId = response.body.data.id;
       expect(response.statusCode).toBe(201);
     })
   });
-  describe("tesing signin email and password",() =>{
+
+
+  describe("tesing update buyer profile update",() =>{
+    test('update profile',async () =>{
+      const res = await request(app).put(`/api/buyer/profile/${userId}`)
+      .send({
+        birthDate:"2000-9-8",
+        gender:"female",
+        shipingAddress: "nairobi",
+        paymentMethod: "credit-card",
+        preferredCurency:"rwf",
+        state:"Rwanda",
+        city:"kigali",
+        postalCode:"0000"
+
+      });
+    
+  }) 
+  });
+
+    
+    describe("tesing signin email and password",() =>{
     test('user signin',async () =>{
       const res = await request(app).post("/api/user/login").send({
         email: "ngarukiyimanasostene@gmail.com",
@@ -42,6 +65,19 @@ describe("testing buyer signup",() =>{
       });
       expect(res.statusCode).toBe(200);
       expect(res.body.status).toBe('success');
+
   })
+
+  test('returns 404 if the profile does not exist', async () => {
+    const response = await request(app)
+      .put('/999')
+      .send({ firstName: 'John', lastName: 'Doe' })
+      .expect(404);
+
+      expect(response.statusCode).toBe(404);
   });
+
+});
+
+
 

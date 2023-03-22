@@ -27,8 +27,7 @@ class SendEmail {
       path.join(__dirname, `./../emailTemplates/${template}.ejs`),
       {
         firstName: this.firstName,
-        authNum: this.randomAuth,
-       
+        authNum: this.randomAuth
       }
     );
 
