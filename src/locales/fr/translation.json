@@ -5,5 +5,9 @@
     "fail":"échoué",
     "user not found":"utilisateur non trouvé",
     "existEmail":"L'address email est deja enregistre",
-    "buyerSuccess":"L'acheteur est bien creee"
+    "buyerSuccess":"L'acheteur est bien creee",
+
+    "message":"L'utilisateur s'est déconnecté avec succès",
+
+    "Error":"veuillez vous connecter"
 }

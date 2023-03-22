@@ -1,10 +1,12 @@
 /* eslint-disable */
 import express from "express";
 import cors from "cors";
-import indexRouter from "./routes/index";
 
 import morgan from "morgan";
+
 import cookieParser from "cookie-parser";
+
+import indexRouter from "./routes/index";
 
 import languages from './locales/languages';
 import swaggerDocs from "./api-docs/swagger";
@@ -20,7 +22,7 @@ swaggerDocs(app);
 languages(app);
 
 app.get("/", (_, res) => {
-  res.status(200).json("Welcome to our Ecommerce App");
+    res.status(200).json("Welcome to our Ecommerce App");
 });
 app.use("/", indexRouter);
 

@@ -65,8 +65,7 @@
     "sequelize-cli": "^6.6.0",
     "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.2",
-    "uuid": "^9.0.0"
+    "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
