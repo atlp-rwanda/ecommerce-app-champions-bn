@@ -19,4 +19,10 @@ productController.deleteProduct);
 produRoute.get("/getOne/:id",isLoggedIn, productController.getProductById);
 
 
+
+
+produRoute.post("/create",isLoggedIn,
+uploadImages("images"),
+productController.createProduct);
+
 export default produRoute;
