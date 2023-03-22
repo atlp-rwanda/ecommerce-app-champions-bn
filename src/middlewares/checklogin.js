@@ -11,6 +11,7 @@ const isLoggedIn = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({status:req.t("failed"), Error:req.t("Error")});
     }
+    req.user=user;
    next();
   } catch(error) {
     return error;

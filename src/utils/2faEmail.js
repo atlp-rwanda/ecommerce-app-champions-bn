@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import nodemailer from "nodemailer";
 import ejs from "ejs";
 import path from "path";

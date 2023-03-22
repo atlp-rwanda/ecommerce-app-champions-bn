@@ -6,20 +6,16 @@ const {
 
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // Define association here
       Product.belongsTo(models.Vendor, {
         foreignKey: 'vendorId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       });
+      Product.belongsTo(models.Category,{foreignKey:"CategoryId"});
     }
   }
+
   Product.init({
     productId: {
       type: DataTypes.INTEGER,
@@ -35,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:false,
     },
-    categoryId: {
+    CategoryId: {
       type: DataTypes.INTEGER,
     },
     productImage:{
