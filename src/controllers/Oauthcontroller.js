@@ -2,6 +2,8 @@
 /* eslint-disable no-underscore-dangle */
 
 import passport from "passport";
+
+// eslint-disable-next-line import/no-unresolved
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import dotenv from "dotenv";
 import connectDb from "../database/connectDb";
