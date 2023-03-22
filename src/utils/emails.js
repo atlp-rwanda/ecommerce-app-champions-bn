@@ -15,7 +15,7 @@ const transporter = () => nodemailer.createTransport({
   });
 
 class SendEmail {
-  constructor(vendors, password,url) {
+  constructor(vendors, password) {
     this.to = vendors.email;
     this.firstName = vendors.firstName;
     this.randomAuth = password;

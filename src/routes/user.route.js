@@ -2,12 +2,15 @@ import express from "express";
 
 import { validate } from "../middlewares/validate";
 import { vendorSchema } from "../validations/vendorValidation";
-
 import UserController from "../controllers/userController";
+
+const userRoute = express.Router();
+
+// import UserController from "../controllers/userController";
 
 import isLoggedIn from "../middlewares/checklogin";
 
-const userRoute = express.Router();
+// const userRoute = express.Router();
 
 userRoute.post("/login", UserController.signin);
 userRoute.get("/logout",isLoggedIn,UserController.logout);

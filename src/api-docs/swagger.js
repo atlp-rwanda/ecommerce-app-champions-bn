@@ -93,3 +93,97 @@ const swaggerDocs = (app) =>{
 };
 
 export default swaggerDocs;
+
+
+
+
+
+
+
+// "/requestReset": {  // add new path for resetting password
+//   post: {
+//     tags: ["User"],
+//     description: "Reset Password",
+//     requestBody: {
+//       required: true,
+//       content: {
+//         "application/json": {
+//           schema: {
+//             type: "object",
+//             properties: {
+//               email: {
+//                 type: "string",
+//                 required: true,
+//                 description: "Email address of the user"
+//               }
+//             }
+//           }
+//         }
+//       }
+//     },
+//     responses: {
+//       200: {
+//         description: "Password reset email sent"
+//       },
+//       400: {
+//         description: "Bad request"
+//       },
+//       404: {
+//         description: "User not found"
+//       },
+//       500: {
+//         description: "Internal server error"
+//       }
+//     }
+//   }
+// },
+// "/resetpassword/{token}": {
+//   "post": {
+//     "tags": ["User"],
+//     "description": "Reset Password",
+//     "parameters": [
+//       {
+//         "name": "token",
+//         "in": "path",
+//         "required": true,
+//         "description": "Reset password token received via email",
+//         "schema": {
+//           "type": "string"
+//         }
+//       }
+//     ],
+//     "requestBody": {
+//       "required": true,
+//       "content": {
+//         "application/json": {
+//           "schema": {
+//             "type": "object",
+//             "properties": {
+//               "password": {
+//                 "type": "string",
+//                 "description": "New password for the user"
+//               }
+//             },
+//             "required": ["password"]
+//           }
+//         }
+//       }
+//     },
+//     "responses": {
+//       "200": {
+//         "description": "Password reset successfully"
+//       },
+//       "400": {
+//         "description": "Bad request"
+//       },
+//       "404": {
+//         "description": "User not found"
+//       },
+//       "500": {
+//         "description": "Internal server error"
+//       }
+//     }
+//   }
+// }
+// }
+// },
