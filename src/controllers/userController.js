@@ -2,10 +2,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const { user, Role,Permission} = require("../database/models");
+const { user, Role, Permission } = require("../database/models");
 
 class UserController {
-  static async signin (req,res){
+  static async signin(req, res) {
     try {
       const { dataValues } = await user.findOne({
         where: { email: req.body.email }
@@ -70,26 +70,33 @@ class UserController {
         sameSite: "lax",
         signed: true
       });
-      const {password,...others} = dataValues;
-      return res.status(200).json({status:"success",data:{others,roles},token});
+      const { password, ...others } = dataValues;
+      return res
+        .status(200)
+        .json({ status: "success", data: { others, roles }, token });
     } catch (error) {
-      return res.status(400).json({status:"error",error:error.message});
+      return res.status(400).json({ status: "error", error: error.message });
     }
   }
-  static async getUser(req,res){
+  static async getUser(req, res) {
     try {
-      const existingUser = await user.findByPk(req.params.id,{
-        include:[
-          {model:Role,
-            attributes: { exclude: ['createdAt','updatedAt'] },
-            include:[Permission]}
+      const existingUser = await user.findByPk(req.params.id, {
+        include: [
+          {
+            model: Role,
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+            include: [Permission]
+          }
         ]
       });
-      if(!existingUser){
-        return res.status(404).json({status:"error",message:req.t('user not found')});
+      if (!existingUser) {
+        return res
+          .status(404)
+          .json({ status: "error", message: req.t("user not found") });
       }
-      return res.status(200).json({status:req.t("success"),data:existingUser});
-
+      return res
+        .status(200)
+        .json({ status: req.t("success"), data: existingUser });
     } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
     }

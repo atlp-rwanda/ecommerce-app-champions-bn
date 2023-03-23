@@ -5,8 +5,6 @@ import { Op } from "sequelize";
 import SendEmail from "../utils/sendEmail";
 import * as profiles from "../services/profile.service";
 
-// const { user,Role,Permission,Buyer } = require("../database/models");
-
 dotenv.config();
 const { user, Role, Permission, Buyer } = require("../database/models");
 

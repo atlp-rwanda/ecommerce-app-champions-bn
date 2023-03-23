@@ -58,17 +58,7 @@ async function resetPassword(email, password) {
     resetTokenExpiresAt: null
   });
 }
-if (foundUser.resetTokenExpiresAt < new Date()) {
-  return res.status(400).json({
-    status: "fail",
-    error: "reset  token has expired"
-  });
-}
-await foundUser.update({
-  password: hashedPassword,
-  resetToken: null,
-  resetTokenExpiresAt: null
-});
+
 async function requestReset(req, res) {
   const { email } = req.body;
   const foundUser = await user.findOne({ where: { email } });
@@ -88,10 +78,10 @@ async function requestReset(req, res) {
   await sendResetEmail(foundUser);
   return res.status(200).json({ message: "Password reset email sent" });
 }
+
 async function processReset(req, res) {
   const { token } = req.params;
   const { password } = req.body;
-  // console.log("3434343000000000000", token);
   try {
     const email = await verifyResetToken(token);
     const foundUser = await user.findOne({ where: { email } });
@@ -124,4 +114,5 @@ async function processReset(req, res) {
     });
   }
 }
+
 module.exports = { requestReset, processReset };
