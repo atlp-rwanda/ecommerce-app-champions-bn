@@ -4,91 +4,92 @@ import randomPassword from "../utils/randomPassword";
 import SendEmail from "../utils/emails";
 import * as profiles from "../services/profile.service";
 
-const { user, Role,Permission,Vendor} = require("../database/models");
+const { user, Role, Permission, Vendor } = require("../database/models");
 
+class VendorController {
+  static async registerVendor(req, res) {
+    try {
+      const { firstName, lastName, email } = req.body;
+      const exists = await user.findOne({ where: { email: req.body.email } });
+      req.user = exists;
+      if (exists) {
+        return res
+          .status(409)
+          .json({ status: 409, message: "vendor Already Exists" });
+      }
+      const password = randomPassword();
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const users = await user.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword
+      });
+      const vendors = await users.save();
+      const Vendorpermissions = await Permission.findAll({
+        where: { permissionName: { [Op.like]: "vendor%" } }
+      });
+      const role = await Role.findOne({ where: { roleName: "vendor" } });
+      role.addPermissions(Vendorpermissions);
+      await vendors.setRole(role);
+      await new SendEmail(vendors, password).randomPassword();
+      const vendorProfile = await Vendor.create({});
+      vendors.setVendor(vendorProfile);
+      return res.status(201).json({
+        status: "success",
+        message: "vendor created successfully",
+        vendorinfo: { vendors }
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: "error",
+        message: "failed to add a user information",
+        error: error.message
+      });
+    }
+  }
 
-class VendorController{
-    static async registerVendor(req, res) {
-        try {
-          const { firstName, lastName, email } = req.body;
-          const exists = await user.findOne({ where: { email: req.body.email } });
-          req.user = exists;
-          if (exists) {
-            return res
-              .status(409)
-              .json({ status: 409, message: "User Already Exists" });
-          }
-          const password = randomPassword();
-          const hashedPassword = await bcrypt.hash(password, 10);
-          const users = await user.create({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-          });
-          const vendors = await users.save();
-          const Vendorpermissions = await Permission.findAll({where:{permissionName:{[Op.like]:'vendor%'}}});
-          const role = await Role.findOne({where:{roleName:'vendor'}});
-          role.addPermissions(Vendorpermissions);
-          await vendors.setRole(role);
-          await new SendEmail(vendors, password).randomPassword();
-          const vendorProfile = await Vendor.create({});
-          vendors.setVendor(vendorProfile);
-          return res.status(201).json({
-            status: "success",
-            message: "vendor created successfully",
-            vendorinfo: { vendors }
-          });
-        } catch (error) {
-          return res.status(400).json({
-            status: "error",
-            message: "failed to add a user information",
-            error: error.message
-          });
+  static async updateProfile(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const requestBody = req.body;
+      const profile = await Vendor.findOne({ where: { id: userId } });
+      if (profile) {
+        const updatedProfile = {
+          ...profile.toJSON(),
+          ...requestBody
+        };
+        const updateVendorProfile = await profile.update(updatedProfile);
+        if (updateVendorProfile) {
+          const profileMessage = req.t("profileMessage");
+          return res
+            .status(200)
+            .json({ status: 200, data: { Message: req.t(profileMessage) } });
         }
       }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+      next(error);
+    }
+  }
 
-      static async updateProfile (req, res, next) {
-        try {
-          const { userId } = req.params;
-          const requestBody = req.body;
-          const profile = await profiles.findUserProfile(userId);
-          if (profile) {
-            const updatedProfile = await profiles.updateProfile(userId, requestBody);
-            if (updatedProfile) {
-             const profileMessage = req.t('profileMessage');
-              return res.status(200).json({ status: 200, data: { Message: req.t(profileMessage) } });
-            } 
-          } else {
-           const message = req.t('notfound');
-            return res.status(401).json({ status: 404, data: { Message: req.t(message ) } });
-          }
-        } catch (error) {
-          res.status(500).json({ error: error.message });
-          next(error);
-        }
-      };
-      
-        static async getProfile (req, res, next) {
-        try {
-          const { userId } = req.params;
-          const {dataValues} = await user.findOne({where:{id:userId}});
-          const profile = await profiles.findUserProfile(userId);
-          const {...others}= dataValues;
-          if (profile) {
-          res.json({ message: req.t('Found'), data: {others,profile} });
-          } else {
-      
-            const Message = req.t('notfound');
-            res.json({ message: Message });
-          }
-        } catch (error) {
-          res.status(500).json({ error: error.message });
-          next(error);
-        }
-      };
-      
-};
-
+  static async getProfile(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const { dataValues } = await user.findOne({ where: { id: userId } });
+      const profile = await Vendor.findOne({ where: { id: userId } });
+      const { ...others } = dataValues;
+      if (profile) {
+        res.json({ message: req.t("Found"), data: { others, profile } });
+      } else {
+        const Message = req.t("notfound");
+        res.json({ message: Message });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+      next(error);
+    }
+  }
+}
 
 export default VendorController;

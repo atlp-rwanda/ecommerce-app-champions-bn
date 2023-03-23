@@ -41,32 +41,6 @@ const vendorSignup = {
     }
   }
 };
-
-const singleVAendor = {
-  tags: ["Users"],
-  description: "get a vendor by id",
-  parameters:[
-    {
-        name:"id",
-        in:"path",
-        description:"id of vendor",
-        type:"string",
-        example:"1"
-    }
-],
-  responses: {
-    201: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    }
-  }
-};
 // get single user by id swagger documentation
 const getOneProfile = {
   tags: ["Users"],
@@ -77,7 +51,7 @@ const getOneProfile = {
       name: "userId",
       in: "path",
       description: "id of the user",
-      type: "string",
+      type: "integer",
       example: "hfbjsd2345njndfjhcbe3",
     },
   ],
@@ -102,10 +76,10 @@ const updateProfile = {
   description: "update a vendor by id",
   parameters:[
     {
-        name:"id",
+        name:"userId",
         in:"path",
         description:"id of vendor",
-        type:"string",
+        type:"integer",
         example:"1"
     }
 ],
@@ -136,7 +110,7 @@ requestBody: {
             example: "ali shop"
           },
           businessAddress: {
-            type: "string",
+            type: "integer",
             description: "business address",
             example: "123"
           },
@@ -172,7 +146,7 @@ requestBody: {
             example: "city"
           },
           postalCode: {
-            type: "string",
+            type: "integer",
             description: "postal code of vendor",
             example: "postalCode"
           }
@@ -197,9 +171,6 @@ responses: {
 const vendorRouteDoc = {
   "/api/vendor/signup": {
     post: vendorSignup
-  },
-  "/api/vendor/{id}": {
-    get: singleVAendor
   },
   "/api/vendor/profile/{userId}":{
     put:updateProfile

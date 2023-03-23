@@ -56,7 +56,7 @@ const getOneProfile = {
       name: "userId",
       in: "path",
       description: "id of the user",
-      type: "string",
+      type: "integer",
       example: "hfbjsd2345njndfjhcbe3",
     },
   ],
@@ -81,10 +81,10 @@ const updateProfile = {
   description: "update a buyer by id",
   parameters:[
     {
-        name:"id",
+        name:"userId",
         in:"path",
         description:"id of vendor",
-        type:"string",
+        type:"integer",
         example:"1"
     }
 ],
@@ -135,7 +135,7 @@ requestBody: {
             example: "city"
           },
           postalCode: {
-            type: "string",
+            type: "integer",
             description: "postal code of vendor",
             example: "postalCode"
           }

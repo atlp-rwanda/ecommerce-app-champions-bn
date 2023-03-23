@@ -227,8 +227,10 @@ const requestReset = {
     "/api/user/resetpassword/{token}": {
         post: passwordReset
       }
-   
+   ,
+   "/api/user/login": { post: login }
   };
+ 
   
   export default userRouteDoc;
   

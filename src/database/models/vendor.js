@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         autoIncrement:true,
         primaryKey: true
       },
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       birthDate:{
-        type:DataTypes.JSONB,
+        type:DataTypes.DATE,
        },
        gender:{
         type:DataTypes.JSONB,
