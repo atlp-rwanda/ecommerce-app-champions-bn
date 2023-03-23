@@ -1,5 +1,6 @@
-const express = require('express');
 import { requestReset, processReset } from '../controllers/resetPasswordController';
+
+const express = require('express');
 
 const router = express.Router();
 

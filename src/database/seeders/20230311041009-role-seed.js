@@ -11,6 +11,7 @@
 // 'use strict';
 
 module.exports = {
+  // eslint-disable-next-line arrow-body-style
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('roles', [
       {
@@ -26,6 +27,7 @@ module.exports = {
     ]);
   },
 
+  // eslint-disable-next-line arrow-body-style
   down: async (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete('roles', null, {});
   }

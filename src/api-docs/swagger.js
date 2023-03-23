@@ -8,6 +8,7 @@ import permissionRouteDoc from "./permission.docs";
 import userRouteDoc from "./user.docs";
 import buyerRouteDoc from "./buyer.docs";
 import logoutRouteDoc from "./user.logout.docs";
+import GoogleaouthDocs from "./Googleaouth.docs";
 
 
 dotenv.config();
@@ -45,11 +46,29 @@ const options = {
                 name:"token",
                 in:"header"
               },
+              googleAuth: {
+                type: "oauth2",
+                flows: {
+                  authorizationCode: {
+                    authorizationUrl: "https://accounts.google.com/o/oauth2/auth",
+                    tokenUrl: "https://oauth2.googleapis.com/token",
+                    scopes: {
+                      profile: "Grants profile access"
+                    },
+                    redirectUri: "http://localhost:5000/auth/google/redirect",
+                    userProfileUrl: "https://www.googleapis.com/oauth2/v3/userinfo",
+                    clientID: process.env.GOOGLE_CLIENT_ID,
+                    clientSecret: process.env.GOOGLE_SECRET
+                  }
+                }
+              }
             },
           },
           paths:{
-            ...userRouteDoc,
+            // ...userRouteDoc,
             ...vendorRouteDoc,
+            ...userRouteDoc,
+            ...GoogleaouthDocs,
             ...permissionRouteDoc,
             ...roleRouteDoc,
             ...buyerRouteDoc,
@@ -71,93 +90,3 @@ export default swaggerDocs;
 
 
 
-
-
-
-// "/requestReset": {  // add new path for resetting password
-//   post: {
-//     tags: ["User"],
-//     description: "Reset Password",
-//     requestBody: {
-//       required: true,
-//       content: {
-//         "application/json": {
-//           schema: {
-//             type: "object",
-//             properties: {
-//               email: {
-//                 type: "string",
-//                 required: true,
-//                 description: "Email address of the user"
-//               }
-//             }
-//           }
-//         }
-//       }
-//     },
-//     responses: {
-//       200: {
-//         description: "Password reset email sent"
-//       },
-//       400: {
-//         description: "Bad request"
-//       },
-//       404: {
-//         description: "User not found"
-//       },
-//       500: {
-//         description: "Internal server error"
-//       }
-//     }
-//   }
-// },
-// "/resetpassword/{token}": {
-//   "post": {
-//     "tags": ["User"],
-//     "description": "Reset Password",
-//     "parameters": [
-//       {
-//         "name": "token",
-//         "in": "path",
-//         "required": true,
-//         "description": "Reset password token received via email",
-//         "schema": {
-//           "type": "string"
-//         }
-//       }
-//     ],
-//     "requestBody": {
-//       "required": true,
-//       "content": {
-//         "application/json": {
-//           "schema": {
-//             "type": "object",
-//             "properties": {
-//               "password": {
-//                 "type": "string",
-//                 "description": "New password for the user"
-//               }
-//             },
-//             "required": ["password"]
-//           }
-//         }
-//       }
-//     },
-//     "responses": {
-//       "200": {
-//         "description": "Password reset successfully"
-//       },
-//       "400": {
-//         "description": "Bad request"
-//       },
-//       "404": {
-//         "description": "User not found"
-//       },
-//       "500": {
-//         "description": "Internal server error"
-//       }
-//     }
-//   }
-// }
-// }
-// },

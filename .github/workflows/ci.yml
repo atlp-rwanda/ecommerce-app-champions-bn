@@ -23,6 +23,10 @@ jobs:
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       EMAIL: ${{ secrets.EMAIL}}
       EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD}}
+      SERVICE: ${{ secrets.SERVICE}}
+      REDIRECT_URI: ${{secrets.REDIRECT_URI}}
+      GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+      GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
 
     steps:
       - uses: actions/checkout@v1
