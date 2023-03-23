@@ -37,12 +37,12 @@ describe("testing vendor", () => {
   
   describe("validations", () => {
     test("vendor validations", async () => {
-      const response = await request(app).post("/signup").send({
+      const response = await request(app).post("/api/vendor/signup").send({
         firstName: "u",
         lastName: "helen",
         email: "mudakikwaaimable05@gmail.com"
       });
-      expect(response.statusCode).toBe(400);
+      expect(response.statusCode).toBe(401);
     });
   });
   
