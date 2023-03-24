@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import randomPassword from "../utils/randomPassword";
 import SendEmail from "../utils/emails";
+
 
 const { user, Role, Permission, Vendor,ReportedActivity } = require("../database/models");
 

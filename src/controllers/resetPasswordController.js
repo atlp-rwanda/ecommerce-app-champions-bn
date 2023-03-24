@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Send the password reset email
+
 async function sendResetEmail(user) {
   const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
     expiresIn: "1h"

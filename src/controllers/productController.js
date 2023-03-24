@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import { Product, sequelize,Category } from "../database/models";
+import { decodeAccessToken } from "../utils/helpers/generateToken";
 
 class ProductController{
     static async searchProduct(req,res){
@@ -23,6 +24,8 @@ class ProductController{
             return res.status(500).json({status:"error",error:error.message});
         }
     };
+
+
 
 
   static async createProduct(req, res) {
@@ -75,7 +78,43 @@ class ProductController{
     } catch (error) {
       return error.message;
     }
+  };
+
+
+
+  static async venderGetAllProducts(req, res) {
+    try{
+
+  const {token} = req.signedCookies; 
+  if (!token) {
+    return  res.status(401).json({  status:req.t("failed") , Error:req.t("Error")});
   }
+  try {
+    const user = await decodeAccessToken(token);
+    if (!user) {
+      return res.status(401).json({status:req.t("failed"), Error:req.t("Error")});
+    }
+   
+    console.log(user);
+
+  } catch(error) {
+    return res.status(500).json({status:"error",message:error.messagfe});
+  }
+
+
+//    const vendorEmail=req.body.email;
+//    const vendorPassword=req.body.password;
+
+//    const AllProducts=await Product.findAll({where:{email:vendorEmail,password:vendorPassword},include:{model:user,attributes:["firstName","lastName","email"]}});
+   
+//    return res.status(200).json({status:"success", message:AllProducts});
+
+    }catch(err){
+     return res.status(500).json({status:"error", message:err.message});
+    };
+
+
+   };
 }
 
 
