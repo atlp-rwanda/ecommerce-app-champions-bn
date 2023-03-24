@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull:false,
       },
-      categoryId: {
+      CategoryId: {
         type: Sequelize.INTEGER,
       },
       productImage:{
@@ -47,7 +47,7 @@ module.exports = {
       },
       expiredDate:{
         type: Sequelize.DATE,
-        allowNull:false
+        allowNull:true
       }
       ,
       expired:{

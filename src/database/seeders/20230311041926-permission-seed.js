@@ -1,14 +1,5 @@
 /* eslint-disable arrow-body-style */
 /** @type {import('sequelize-cli').Migration} */
-// module.exports = {
-//   up: (queryInterface, Sequelize) => {
-//   },
-//   down: (queryInterface, Sequelize) => queryInterface.bulkDelete("permissions", null, {})
-// };
-
-
-
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('permissions', [

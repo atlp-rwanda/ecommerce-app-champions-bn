@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       });
-      Product.belongsTo(models.Category,{foreignKey:"categoryId"});
+      Product.belongsTo(models.Category,{foreignKey:"CategoryId"});
     }
   }
 
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:false,
     },
-    categoryId: {
+    CategoryId: {
       type: DataTypes.INTEGER,
     },
     productImage:{
