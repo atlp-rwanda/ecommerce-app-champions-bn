@@ -12,12 +12,18 @@ import categoryRoute from "./category.route";
 const indexRouter = express.Router();
 
 indexRouter.use("/api/vendor", vendorRoute);
-indexRouter.use("/api/role", roleRoute);
-indexRouter.use("/api/permission", permissionRoute);
-indexRouter.use("/api/buyer", buyerRoute);
-indexRouter.use("/api/user", userRoute);
-indexRouter.use("/api/user", router);
-indexRouter.use("/", Oauthroute);
+indexRouter.use("/api/role" , roleRoute);
+indexRouter.use("/api/permission" , permissionRoute);
+indexRouter.use("/api/buyer",buyerRoute);
+indexRouter.use("/api/user",userRoute);
+indexRouter.use("/api/user",router);
+indexRouter.use("/",Oauthroute);
+indexRouter.use("/api/product",productRoute);
+
+
+
+
+
 
 indexRouter.use("/api/product",productRoute);
 indexRouter.use("/api/category",categoryRoute);

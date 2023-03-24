@@ -21,7 +21,7 @@ productRoute.post(
   productExistAlready,
   productController.createProduct
 );
-
+productRoute.get("/searcch",productController.searchProduct);
 productRoute.get("/getall",isLoggedIn,
 productController.availableProducts);
 
