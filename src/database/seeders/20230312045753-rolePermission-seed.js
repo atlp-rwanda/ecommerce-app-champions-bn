@@ -1,5 +1,9 @@
 /* eslint-disable arrow-body-style */
 /** @type {import('sequelize-cli').Migration} */
+<<<<<<< HEAD
+=======
+
+>>>>>>> reabasing to develop
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('RolePermissions', [

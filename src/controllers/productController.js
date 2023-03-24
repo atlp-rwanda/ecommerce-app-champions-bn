@@ -1,16 +1,21 @@
 import { Op } from "sequelize";
-import { Product } from "../database/models";
+import { Product, sequelize } from "../database/models";
 
 class ProductController{
     static async searchProduct(req,res){
         const { searchParam } = req.query;
         try {
-            const search = await Product.findAll({where:{
+            const search = await Product.findAll({ where:{
                 [Op.or]:[
-                    {productName:{[Op.iLike]:`%${searchParam}%`}},
-                    {productDescription:{[Op.iLike]:`%${searchParam}%`}},
-                    {productPrice:{[Op.iLike]:`%${searchParam}%`}},
-                    {productOwner:{[Op.iLike]:`%${searchParam}%`}},
+                    {productName:{
+                        [Op.like]:`%${searchParam}%`
+                    }},
+                    {productDescription:{
+                        [Op.like]:`%${searchParam}%`
+                    }},
+                    {productOwner:{
+                        [Op.like]:`%${searchParam}%`
+                    }},
                 ]
             }});
             return res.status(200).json({status:"success",data:search});
