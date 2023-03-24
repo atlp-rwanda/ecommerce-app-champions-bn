@@ -1,6 +1,10 @@
-/* eslint-disable */
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import speakeasy from "speakeasy";
+import SendEmail from "../utils/2faEmail";
+import { handleCookies, getCookieInfo } from "../utils/handleCookies";
+import comparePassword from "../utils/verifyPassword";
+import { generateAccessToken } from "../utils/helpers/generateToken";
 
 const { user, Role, Permission } = require("../database/models");
 
@@ -76,6 +80,7 @@ class UserController {
       return res.status(400).json({ status: "error", error: error.message });
     }
   }
+
   static async getUser(req, res) {
     try {
       const existingUser = await user.findByPk(req.params.id, {
@@ -99,6 +104,7 @@ class UserController {
       return res.status(500).json({ status: "error", error: error.message });
     }
   }
+
   static async Validate(req, res) {
     try {
       const { validToken } = req.body;
