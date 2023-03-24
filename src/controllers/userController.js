@@ -10,7 +10,6 @@ class UserController {
       const { dataValues } = await user.findOne({
         where: { email: req.body.email }
       });
-      console.log("datavalues", dataValues);
       if (!dataValues)
         return res
           .status(401)
@@ -19,7 +18,6 @@ class UserController {
         include: { model: Permission }
       });
       const roles = existingRole.toJSON();
-      console.log("roles", roles);
       const match = await bcrypt.compare(
         req.body.password,
         dataValues.password
