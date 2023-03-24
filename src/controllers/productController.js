@@ -1,6 +1,6 @@
-import { Op } from "sequelize";
-import { Product, sequelize,Category } from "../database/models";
-import { decodeAccessToken } from "../utils/helpers/generateToken";
+import { Op, where } from "sequelize";
+import { Product, sequelize,Category,user } from "../database/models";
+
 
 class ProductController{
     static async searchProduct(req,res){
@@ -19,6 +19,8 @@ class ProductController{
                     }},
                 ]
             }});
+           
+
             return res.status(200).json({status:"success",data:search});
         } catch (error) {
             return res.status(500).json({status:"error",error:error.message});
@@ -82,32 +84,16 @@ class ProductController{
 
 
 
-  static async venderGetAllProducts(req, res) {
+  static async getAllProducts(req, res) {
     try{
+     
+console.log(req.user);
 
-  const {token} = req.signedCookies; 
-  if (!token) {
-    return  res.status(401).json({  status:req.t("failed") , Error:req.t("Error")});
-  }
-  try {
-    const user = await decodeAccessToken(token);
-    if (!user) {
-      return res.status(401).json({status:req.t("failed"), Error:req.t("Error")});
-    }
-   
-    console.log(user);
+const product=await Product.findAll({where:{vendorId:req.user.id}});
+  // const product=await Product.findAll({where:{email:req.user.email},include:{model:user,attributes:["firstName","lastName","email"]}});
 
-  } catch(error) {
-    return res.status(500).json({status:"error",message:error.messagfe});
-  }
+    return res.status(200).json({status:"success",message:product});
 
-
-//    const vendorEmail=req.body.email;
-//    const vendorPassword=req.body.password;
-
-//    const AllProducts=await Product.findAll({where:{email:vendorEmail,password:vendorPassword},include:{model:user,attributes:["firstName","lastName","email"]}});
-   
-//    return res.status(200).json({status:"success", message:AllProducts});
 
     }catch(err){
      return res.status(500).json({status:"error", message:err.message});
@@ -115,6 +101,26 @@ class ProductController{
 
 
    };
+
+
+   static async getAvailableProduct(req,res){
+    try{
+    const product=await Product.findAll();
+    const {available} = product[0].dataValues.available;
+
+    if(available===false){
+    
+    return res.status(500).json({status:"error",message:[]});
+     
+    }
+    
+    return res.status(200).json({status:"success",message:product});
+    
+    
+    }catch(err){
+      return res.status(500).json({status:"error", message:err.message});
+    }
+   }
 }
 
 

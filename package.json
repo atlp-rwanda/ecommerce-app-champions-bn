@@ -28,7 +28,11 @@
     "docker:compose:down": "docker-compose down --volumes --rmi all --remove-orphans",
     "db:create": "npx sequelize db:create",
     "db:drop": "npx sequelize db:drop",
-    "product:seed":"npx sequelize db:seed --seed 20230314163928-product-seeder.js"
+    "product:seed":"npx sequelize db:seed --seed 20230314163928-product-seeder.js",
+    "kill":"sudo kill -9 $(sudo lsof -t -i :5000)"
+    
+    
+    
   },
   "repository": {
     "type": "git",

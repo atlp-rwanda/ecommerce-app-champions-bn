@@ -166,17 +166,72 @@ const product = {
     }
   };
 
+  const getAvailableProducts = {
+    tags: ["Product"],
+    summary: "Get available products",
+    description: "Retrieves a list of all products.",
+    responses: {
+      200: {
+        description: "OK",
+        content: {
+          "application/json": {
+            schema: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  productId: {
+                    type: "integer",
+                    description: "Unique identifier for the product.",
+                    example: 1
+                  },
+                  name: {
+                    type: "string",
+                    description: "Name of the product.",
+                    example: "Product 1"
+                  },
+                  description: {
+                    type: "string",
+                    description: "Description of the product.",
+                    example: "This is the first product."
+                  },
+                  price: {
+                    type: "number",
+                    description: "Price of the product.",
+                    example: 9.99
+                  },
+                  quantity: {
+                    type: "integer",
+                    description: "Quantity of the product available in stock.",
+                    example: 50
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      404: {
+        description: "No products found."
+      }
+    }
+  };
+
 
 
   const productRoutDoc = {
     "/api/product/create": {
       post: product
     },
-    "api/product/getAll":{
+    "/api/product/getAll":{
         get:getAllProducts
-    }, "/api/product/searcch": {
+    }, 
+    "/api/product/getAvailable":{
+      get: getAvailableProducts
+    },
+    "/api/product/searcch": {
         get: searchProduct
-      }
+      }   
   };
   export default productRoutDoc;
 
