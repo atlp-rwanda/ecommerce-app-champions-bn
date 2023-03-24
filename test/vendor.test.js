@@ -29,7 +29,7 @@ describe("testing vendor", () => {
       const response = await request(app).post("/api/vendor/signup").send({
         firstName: "ngarukiye",
         lastName: "sostene",
-        email: "sostene@yopmail.com"
+        email: "shumba2500@gmail.com"
       });
       expect(response.statusCode).toBe(201);
     });

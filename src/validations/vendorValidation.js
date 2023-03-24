@@ -15,6 +15,7 @@ export const vendorUpSchema = Joi.object().keys({
   accountNumber: Joi.string().min(3).trim().required().label('Enter your account number'),
   taxIdNumber: Joi.string().min(3).trim().required().label('Enter your tax number '),
   typeOfProducts: Joi.string().min(3).trim().required().label('Enter your products'),
+  preferredCurency: Joi.string().min(1).required().label('Enter your currency'),
   state: Joi.string().min(3).required().label('Enter your state'),
   city: Joi.string().min(3).required().label('Enter your city'),
   postalCode: Joi.string().min(3).trim().required().label('Enter your postal code')

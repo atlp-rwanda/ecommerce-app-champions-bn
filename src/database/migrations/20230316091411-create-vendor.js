@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       birthDate:{
-        type:Sequelize.JSONB,
+        type:Sequelize.DATE,
        },
        gender:{
         type:Sequelize.JSONB,

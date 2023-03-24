@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       birthDate:{
-        type:DataTypes.JSONB,
+        type:DataTypes.DATE,
        },
        gender:{
         type:DataTypes.JSONB,
