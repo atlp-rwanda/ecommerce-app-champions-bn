@@ -26,4 +26,7 @@ productRoute.post(
   productRoute.get("/enable",isLoggedIn,
   productController.enableProduct);
 
+  productRoute.delete("/delete/:id",isLoggedIn,
+productController.deleteProduct);
+
 export default productRoute;

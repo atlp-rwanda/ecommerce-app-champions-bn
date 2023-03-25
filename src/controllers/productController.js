@@ -3,33 +3,40 @@ import { Product, Category } from "../database/models";
 
 class productController {
   static async createProduct(req, res) {
-    if (req.user.roleName === "vendor") {
-      try {
-        const {
-          productName,
-          productPrice,
-          quantity,
-          productDescription,
-          productOwner,
-          CategoryId,
-          bonus,
-          expiredDate
-        } = req.body;
-        const productImage = req.files.map((img) => img.path);
-        const product = await Product.create({
-          vendorId: req.user.id,
-          productName,
-          productPrice,
-          quantity,
-          productDescription,
-          productOwner,
-          expiredDate,
-          CategoryId,
-          bonus,
-          productImage
-        });
-        await product.save();
-        return res.status(200).json({
+    try {
+
+      if (req.user.role.roleName !== "vendor") {
+        return res
+          .status(401)
+          .json({ status: "fail", message: req.t("Unauthorized") });
+      };
+
+     const {
+        productName,
+        productPrice,
+        quantity,
+        productDescription,
+        productOwner,
+        CategoryId,
+        expiredDate
+      } = req.body;
+      const productImage = req.files.map((img) => img.path);
+      const product = await Product.create({
+        vendorId: req.user.role.id,
+        productName,
+        productPrice,
+        quantity,
+        productDescription,
+        productOwner,
+        expiredDate,
+        CategoryId,
+        productImage
+      });
+
+      await product.save();
+      return res
+        .status(200)
+        .json({
           status: "success",
           message: "product created",
           product: { product }
@@ -37,12 +44,8 @@ class productController {
       } catch (error) {
         return res.json({ error: error.message });
       }
-    } else {
-      return res
-        .status(401)
-        .json({ status: "Oops!", message: "only suppliers allowed" });
-    }
-  }
+    } 
+  
   
 
   static async categoryController(req, res) {
@@ -59,42 +62,25 @@ class productController {
 
       await category.save();
 
-      return res.status(200).json({ message: "category created" });
+      return res.status(200).json({ message: "category created", category:name });
     } catch (error) {
       return error.message;
     }
   }
 
-  static async searchProduct(req,res){
-    const { searchParam } = req.query;
+  static async deleteProduct(req,res){
     try {
-        const search = await Product.findAll({where:{
-            [Op.or]:[
-                {productName:{[Op.iLike]:`%${searchParam}%`}},
-                {productDescription:{[Op.iLike]:`%${searchParam}%`}},
-                {productPrice:{[Op.iLike]:`%${searchParam}%`}},
-                {productOwner:{[Op.iLike]:`%${searchParam}%`}},
-            ]
-        }});
-        return res.status(200).json({status:"success",data:search});
-    } catch (error) {
-        return res.status(500).json({status:"error",error:error.message});
-    };
-  }
-  
-
-  static async availableProducts(req,res){
-    try {
-      if (req.user.roleName !== "vendor") {
+      if (req.user.role.roleNam !== "vendor") {
         return res.status(401).json({ status: "fail", message: req.t("Unauthorized") });
       }
-     
-      const product = await Product.findAll({ where: {vendorId: req.user.id } });
+      const product = await Product.findOne({ where: { productId: req.params.id, vendorId: req.user.role.id } });
      
       if (!product) {
         return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
       }
-      return res.status(200).json({ status: req.t("success"),products:{product} });
+      await product.destroy();
+  
+      return res.status(204).json({ status: req.t("success"), message: req.t("productdeleted") });
   
     } catch (error) {
       console.log(error.message);
@@ -103,7 +89,7 @@ class productController {
   
   };
 
-static async disableProduct(req, res) {
+  static async disableProduct(req, res) {
   const { searchParam } = req.query;
   try {
     if (req.user.roleName !== "vendor") {
@@ -133,9 +119,9 @@ static async disableProduct(req, res) {
   } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
   }
-}
+ };
 
-static async enableProduct(req, res) {
+ static async enableProduct(req, res) {
   const { searchParam } = req.query;
   try {
 

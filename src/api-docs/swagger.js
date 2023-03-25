@@ -12,6 +12,7 @@ import TwoFactorAuthRouteDoc from "./TwoFactorAuth.docs";
 import productRoutDoc from "./product.docs";
 import categoryRouteDoc from "./category.docs";
 
+
 dotenv.config();
 const options = {
     definition:{

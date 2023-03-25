@@ -11,5 +11,8 @@
     "profileMessage":" umwirondoro wavuguruwe neza", 
     "notFound":"umwirondoro ntiwabonetse",
     "Found":"umwirondoro wabonetse",
-    "productupdated":"byagenze neza"
+    "productupdated":"byagenze neza",
+    "productnotfound":"igicuruzwa nticyabonetse",
+     "productdeleted":"igicuruzwa cyahanaguwe ",
+     "Unauthorized":"Kwinjira utabifitiye uburenganzira"
 }
