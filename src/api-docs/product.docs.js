@@ -543,6 +543,32 @@ const deleteProduct = {
     }
   };
 
+    const deleteProduct = {
+    tags: ["Product"],
+    description: "delete product from seller collection",
+    parameters: [
+      {
+        name: "id",
+        in: "path",
+        description: "id of product",
+        type: "string",
+        example: "12"
+      }
+    ],
+    responses: {
+      204: {
+        description: "no Content",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object"
+            }
+          }
+        }
+      }
+    }
+  };
+
 
 
   const enableProduct = {
@@ -607,7 +633,9 @@ const deleteProduct = {
       },
       "/api/product/enable": {
         get: enableProduct
-      }
+      },
+     
+  "/api/product/delete/{id}":{delete: deleteProduct}
   };
   
   export default productRouteDoc;
