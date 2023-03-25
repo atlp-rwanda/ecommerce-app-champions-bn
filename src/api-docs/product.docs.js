@@ -64,12 +64,8 @@ const product = {
                 required: true,
                 description: "product description"
               }
-            }
-          }
-        }
-      }
-    },
-    responses: {
+            },
+             responses: {
       200: {
         description: "Success"
       },
@@ -83,7 +79,12 @@ const product = {
         description: "internal server error"
       }
     }
-  };
+  }
+          }
+        }
+      }
+    };
+   
 
 
   const listProduct = {
@@ -181,6 +182,7 @@ const product = {
       post: product
     },
     "/api/product/getall":{get: listProduct},
+ 
     "/api/product/disable": {
         get: disableProduct
       },
