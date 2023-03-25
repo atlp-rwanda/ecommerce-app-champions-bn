@@ -482,6 +482,7 @@ const deleteProduct = {
       }
     }
   };
+   
 
 
   const listProduct = {
@@ -600,6 +601,7 @@ const deleteProduct = {
             get: retrieveProductItems }
       
     "/api/product/getall":{get: listProduct},
+ 
     "/api/product/disable": {
         get: disableProduct
       },
