@@ -11,7 +11,7 @@ module.exports = {
        email:"admin@gmail.com",
        profilepic:"https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png",
        password:adminPassword,
-       roleId:3,
+       RoleId:1,
        isVerified:true,
        createdAt: new Date(),
        updatedAt: new Date()

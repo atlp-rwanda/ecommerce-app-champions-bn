@@ -1,12 +1,12 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import speakeasy from "speakeasy";
 import SendEmail from "../utils/2faEmail";
 import { handleCookies, getCookieInfo } from "../utils/handleCookies";
 import comparePassword from "../utils/verifyPassword";
 import { generateAccessToken } from "../utils/helpers/generateToken";
+import { sign } from "../utils/jwt";
 
-const { user, Role, Permission } = require("../database/models");
+const { user, Role, Permission,Vendor,ReportedActivity } = require("../database/models");
 
 class UserController {
   static async signin(req, res) {
@@ -22,10 +22,7 @@ class UserController {
         include: { model: Permission }
       });
       const roles = existingRole.toJSON();
-      const match = await bcrypt.compare(
-        req.body.password,
-        dataValues.password
-      );
+      const match = comparePassword(req.body.password,dataValues.password);
       if (!match)
         return res
           .status(401)
@@ -62,10 +59,7 @@ class UserController {
           .status(200)
           .json({ firstName: dataValues.firstName, hashedOTP });
       }
-      const token = jwt.sign(
-        { id: dataValues.id, role: roles },
-        process.env.JWT_SECRET
-      );
+      const token = sign({ id: dataValues.id, role: roles });
       res.cookie("token", token, {
         secure: false,
         httpOnly: true,

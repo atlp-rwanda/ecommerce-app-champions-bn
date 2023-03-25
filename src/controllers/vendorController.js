@@ -3,7 +3,7 @@ import { Op } from "sequelize";
 import randomPassword from "../utils/randomPassword";
 import SendEmail from "../utils/emails";
 
-const { user, Role, Permission, Vendor } = require("../database/models");
+const { user, Role, Permission, Vendor,ReportedActivity } = require("../database/models");
 
 class VendorController {
   static async registerVendor(req, res) {
@@ -87,6 +87,39 @@ class VendorController {
     } catch (error) {
       res.status(500).json({ error: error.message });
       next(error);
+    }
+  }
+
+  static async getAllVendors(req,res){
+    try {
+      const vendors = await Vendor.findAll({include:[
+        { model:ReportedActivity }
+      ]});
+      return res.status(200).json({status:"success",data:vendors});
+    } catch (error) {
+      return res.status(500).json({status:"success",error:error.message});
+    }
+  }
+
+  static async getSingleVendor(req,res){
+    try {
+      const vendor = await Vendor.findByPk(req.params.id,{include:[
+        { model:ReportedActivity }
+      ]});
+      return res.status(200).json({status:"success",data:vendor});
+    } catch (error) {
+      return res.status(500).json({status:"success",error:error.message});
+    }
+  }
+
+  static async disableVendorAccount(req,res){
+    try {
+      const existingVendor = await Vendor.findByPk(req.params.id);
+      const reportedactivities = await ReportedActivity.findAll({where:{VendorId:req.params.id}});
+        await user.update({active:false},{where:{id:existingVendor.dataValues.userId}});
+        return res.status(200).json({status:"success",message:'user desactivated'});
+    } catch (error) {
+      return res.status(500).json({ status: "error", error: error.message });
     }
   }
 }

@@ -9,6 +9,7 @@ import buyerRouteDoc from "./buyer.docs";
 import logoutRouteDoc from "./user.logout.docs";
 import GoogleaouthDocs from "./Googleaouth.docs";
 import TwoFactorAuthRouteDoc from "./TwoFactorAuth.docs";
+import reportRouteDoc from "./reportActivity.docs";
 
 dotenv.config();
 const options = {
@@ -33,7 +34,8 @@ const options = {
       { name: "Users", description: "User Routes" },
       { name: "Product", description: "Product Routes" },
       { name: "Permission", description: "Permission Routes" },
-      { name: "Role", description: "Role Routes" }
+      { name: "Role", description: "Role Routes" },
+      { name: "Report", description: "Report Routes" }
     ],
     components: {
       securitySchemes: {
@@ -70,7 +72,8 @@ const options = {
       ...roleRouteDoc,
       ...buyerRouteDoc,
       ...logoutRouteDoc,
-      ...TwoFactorAuthRouteDoc
+      ...TwoFactorAuthRouteDoc,
+      ...reportRouteDoc
     }
   },
   apis: ["../routes/**/*.js"]

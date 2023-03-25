@@ -22,9 +22,6 @@ module.exports = {
         password: {
           type: Sequelize.STRING
         },
-        vendorId: { 
-          type: Sequelize.INTEGER,
-         },
          RoleId: {
           type: Sequelize.INTEGER,
         },
@@ -35,6 +32,10 @@ module.exports = {
         facebookId: {
           type: Sequelize.STRING,
           allowNull: true
+        },
+        active:{
+          type:Sequelize.BOOLEAN,
+          defaultValue:true
         },
         isVerified: {
           type: Sequelize.BOOLEAN,
