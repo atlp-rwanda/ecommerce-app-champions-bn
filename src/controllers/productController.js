@@ -26,7 +26,14 @@ class productController{
 
   static async createProduct(req, res) {
     try {
-      const {
+
+      if (req.user.role.roleName !== "vendor") {
+        return res
+          .status(401)
+          .json({ status: "fail", message: req.t("Unauthorized") });
+      };
+
+     const {
         productName,
         productPrice,
         quantity,
@@ -64,17 +71,49 @@ class productController{
   static async categoryController(req, res) {
     const { name } = req.body;
     try {
+
+      if (req.user.role.roleName !== "vendor") {
+        return res
+          .status(401)
+          .json({ status: "fail", message: req.t("Unauthorized") });
+      }
+
+
       const category = await Category.create({
         name
       });
 
       await category.save();
 
-      return res.status(200).json({ message: "category created" });
+      return res.status(200).json({ message: "category created", category:name });
     } catch (error) {
       return error.message;
     }
   }
+
+  static async deleteProduct(req,res){
+    try {
+      if (req.user.role.roleNam !== "vendor") {
+        return res.status(401).json({ status: "fail", message: req.t("Unauthorized") });
+      }
+      const product = await Product.findOne({ where: { productId: req.params.id, vendorId: req.user.role.id } });
+     
+      if (!product) {
+        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+      }
+      await product.destroy();
+  
+      return res.status(204).json({ status: req.t("success"), message: req.t("productdeleted") });
+  
+    } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+  
+  };
+
+
+
 }
 
 export default productController;

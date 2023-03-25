@@ -25,6 +25,8 @@ class UserController {
         include: { model: Permission }
       });
       const roles = existingRole.toJSON();
+
+
       const match = await bcrypt.compare(
         req.body.password,
         dataValues.password
@@ -51,7 +53,7 @@ class UserController {
           OTP
         ).twoFactorAuth();
         const encodedOTP = Buffer.from(hashedOTP).toString("base64");
-        console.log("encodedotp", encodedOTP);
+       
 
         await handleCookies(
           5,
@@ -164,7 +166,7 @@ class UserController {
       await res.clearCookie("token");
       return res
         .status(200)
-        .json({ status: "success", message: "User logged out successfully" });
+        .json({ status: req.t("success"), message: req.t("message")});
     } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
     }

@@ -10,5 +10,8 @@
     "Error":"veuillez vous connecter",
     "profileMessage":" Mise à jour du profil réussie", 
     "notFound":"Profil non trouvé",
-     "Found":"profil trouvé"
+     "Found":"profil trouvé",
+     "productnotfound":"Produit introuvable dans votre collection",
+     "productdeleted":"Produit supprimé",
+     "Unauthorized":"Accès non autorisé"
 }
