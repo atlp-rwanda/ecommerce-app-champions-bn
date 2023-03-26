@@ -514,7 +514,41 @@ const deleteProduct = {
   };
   
 
-
+const getProductById = {
+  tags: ["Product"],
+  description: "get product from seller collection",
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      description: "id of product",
+      type: "string",
+      example: "1"
+    }
+  ],
+  responses: {
+    204: {
+      description: "no Content",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object"
+          }
+        }
+      }
+    },
+    404: {
+      description: "Not found",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object"
+          }
+        }
+      }
+    }
+  }
+};
 
 
   const disableProduct = {
@@ -627,7 +661,8 @@ const deleteProduct = {
             get: retrieveProductItems }
       
     "/api/product/getall":{get: listProduct},
- 
+    "/api/product/getOne/{id}":{
+      get:getProductById},
     "/api/product/disable": {
         get: disableProduct
       },
