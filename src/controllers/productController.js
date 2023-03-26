@@ -1,5 +1,5 @@
 import { Op, where } from "sequelize";
-import { Product, sequelize,Category,user } from "../database/models";
+import { Product, sequelize,Category,user,Vendor } from "../database/models";
 
 
 class ProductController{
@@ -87,45 +87,132 @@ class ProductController{
   static async getAllProducts(req, res) {
     try{
      
-console.log(req.user);
+   console.log(req.user);
+   if (req.user.roleName !== "vendor") {
+            return res.status(401).json({
+              status: "error",
+              error: "Unauthorized. You must be a seller to perform this action.",
+            });
+          }
 
-const product=await Product.findAll({where:{vendorId:req.user.id}});
-  // const product=await Product.findAll({where:{email:req.user.email},include:{model:user,attributes:["firstName","lastName","email"]}});
+   const sellerId = req.user.id;
+   const { page = 1, limit = 10 } = req.query;
 
-    return res.status(200).json({status:"success",message:product});
+  //  const product=await Product.findAll({include:{model:Vendor,where:{userId:req.user.id},include:{model:user}}});
+
+  //  if(req.user.role==="vendor" && product){
+  //   return res.status(200).json({status:"success",message:product});
+  //  }
+ 
+  
+  //   }catch(err){
+  //    return res.status(500).json({status:"error", message:err.message});
+  //   };
 
 
-    }catch(err){
-     return res.status(500).json({status:"error", message:err.message});
-    };
+
+        const items = await Product.findAndCountAll({
+        where: {
+          vendorId: sellerId,
+        },
+        include: [
+          {
+            model: Category,
+          },
+          {
+            model: Vendor,
+            include: [
+              {
+                model: user,
+                attributes: ["firstName", "lastName", "email"],
+              },
+            ],
+          },
+        ],
+        limit,
+        offset: (page - 1) * limit,
+      });
+
+      return res.status(200).json({
+        status: "success",
+        message: "Items retrieved successfully.",
+        items: items.rows,
+        totalPages: Math.ceil(items.count / limit),
+        currentPage: page,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "error",
+        error: error.message,
+      });
+    }
 
 
    };
 
 
-   static async getAvailableProduct(req,res){
-    try{
-    const product=await Product.findAll();
-    const {available} = product[0].dataValues.available;
+  //  static async getAvailableProduct(req,res){
+  //   try{
+  //   const product=await Product.findAll();
+  //   const {available} = product[0].dataValues.available;
 
-    if(available===false){
+  //   if(available===false){
     
-    return res.status(500).json({status:"error",message:[]});
+  //   return res.status(500).json({status:"error",message:[]});
      
+  //   }
+    
+  //   return res.status(200).json({status:"success",message:product});
+    
+    
+  //   }catch(err){
+  //     return res.status(500).json({status:"error", message:err.message});
+  //   }
+  //  }
+
+  static async getAvailableProduct(req, res) {
+    try {
+      const { page = 1, limit = 10 } = req.query;
+
+      const items = await Product.findAndCountAll({
+        where: {
+          available: true,
+        },
+        include: [
+          {
+            model: Category,
+          },
+          {
+            model: Vendor,
+            include: [
+              {
+                model: user,
+                attributes: ["firstName", "lastName", "email"],
+              },
+            ],
+          },
+        ],
+        limit,
+        offset: (page - 1) * limit,
+      });
+
+      return res.status(200).json({
+        status: "success",
+        message: "Items retrieved successfully.",
+        items: items.rows,
+        totalPages: Math.ceil(items.count / limit),
+        currentPage: page,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "error",
+        error: error.message,
+      });
     }
-    
-    return res.status(200).json({status:"success",message:product});
-    
-    
-    }catch(err){
-      return res.status(500).json({status:"error", message:err.message});
-    }
-   }
+  }
 }
 
 
 export default ProductController;
-
-
 
 

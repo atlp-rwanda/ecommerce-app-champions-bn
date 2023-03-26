@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "../src/app";
 
+
 describe("testing search the product",() =>{
     test('should search product', async () => { 
         const res = await request(app).get("/api/product/searcch?searchParam=kaleb");
@@ -9,3 +10,36 @@ describe("testing search the product",() =>{
         expect(typeof res.body).toBe('object');
      })
   });
+
+
+ 
+  describe("testing get available items",() =>{
+    test('get available items', async () => { 
+        const res = await request(app).get("/api/product/getAvailable");
+        expect(res.statusCode).toBe(401);
+       
+     })
+  });
+   
+  describe("testing wrong route for getting available items",() =>{
+   test('get available items', async () => { 
+       const res = await request(app).get("/api/product/getAvailabl");
+       expect(res.statusCode).toBe(404);
+      
+    })
+ });
+
+
+
+  describe("testing get all items",() =>{
+    test('get all items', async () => { 
+        const res = await request(app).get("/api/product/getAll");
+        expect(res.statusCode).toBe(401);
+       
+     })
+  });
+  
+  
+ 
+  
+
