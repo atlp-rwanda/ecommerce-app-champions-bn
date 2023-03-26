@@ -28,5 +28,7 @@ productRoute.post(
 
   productRoute.delete("/delete/:id",isLoggedIn,
 productController.deleteProduct);
+productRoute.get("/getOne/:id",isLoggedIn, productController.getProductById);
+
 
 export default productRoute;

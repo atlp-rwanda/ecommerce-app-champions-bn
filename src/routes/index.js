@@ -18,7 +18,7 @@ indexRouter.use("/api/buyer",buyerRoute);
 indexRouter.use("/api/user",userRoute);
 indexRouter.use("/api/user",router);
 indexRouter.use("/",Oauthroute);
-indexRouter.use("/api/product",prodRoute);
+indexRouter.use("/api/product",productRoute);
 
 
 

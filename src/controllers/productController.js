@@ -71,6 +71,7 @@ class productController {
   static async deleteProduct(req,res){
     try {
       if (req.user.role.roleNam !== "vendor") {
+        console.log(req.user.role.roleName);
         return res.status(401).json({ status: "fail", message: req.t("Unauthorized") });
       }
       const product = await Product.findOne({ where: { productId: req.params.id, vendorId: req.user.role.id } });
@@ -155,6 +156,51 @@ class productController {
   }
 }
 
+  static async getProductById(req, res) {
+    try {
+      const productId = req.params.id;
+      
+      if (Number.isNaN(productId)) {
+        return res.status(400).json({
+          status: 'fail',
+          message: `Invalid id (${req.params.id})`,
+        });
+      }
+  
+      const product = await Product.findByPk(productId);
+  
+      if (!product) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'Product not found.',
+        });
+      }
+  
+      if (!product.available) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'Product not available for sale.',
+        });
+      }
+  
+      if (req.user && req.user.role.roleName === 'vendor' && req.user.role.id !== product.vendorId) {
+        return res.status(403).json({
+          status: 'fail',
+          message: 'You are not allowed to perform this operation',
+        });
+      }
+      res.status(200).json({
+        status: 'success',
+        item: product,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: 'fail',
+        message: err.message,
+      });
+    }
+  }
+    
 }
 
 export default productController;
