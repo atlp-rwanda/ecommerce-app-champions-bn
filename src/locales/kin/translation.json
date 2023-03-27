@@ -10,5 +10,8 @@
     "Error":"Gerakeza kongera kwinjira kurubuga",
     "profileMessage":" umwirondoro wavuguruwe neza", 
     "notFound":"umwirondoro ntiwabonetse",
-    "Found":"umwirondoro wabonetse"
+    "Found":"umwirondoro wabonetse",
+    "productnotfound":"igicuruzwa nticyabonetse",
+     "productdeleted":"igicuruzwa cyahanaguwe ",
+     "Unauthorized":"Kwinjira utabifitiye uburenganzira"
 }

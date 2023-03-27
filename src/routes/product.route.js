@@ -1,30 +1,22 @@
 import express from "express";
-import ProductController from "../controllers/productController";
+
+import productController from "../controllers/productController";
 import isLoggedIn from "../middlewares/checklogin";
 import uploadImages from "../middlewares/uploadImage";
-import { verifyVendor } from "../middlewares/authenticate";
 
-const productRoute = express.Router();
 
-productRoute.get("/searcch",ProductController.searchProduct);
+const produRoute = express.Router();
 
-productRoute.post("/create",isLoggedIn,
+produRoute.post("/create",
 uploadImages("images"),
-ProductController.createProduct);
-productRoute.get("/getAll",isLoggedIn,ProductController.getAllProducts);
-productRoute.get("/getAvailable",isLoggedIn,ProductController.getAvailableProduct);
+isLoggedIn, productController.createProduct);
+produRoute.get("/searcch",productController.searchProduct);
+produRoute.get("/getAll",isLoggedIn,productController.getAllProducts);
+produRoute.get("/getAvailable",isLoggedIn,productController.getAvailableProduct);
 
-export default productRoute;
-
-
-
-
-
+produRoute.delete("/delete/:id",isLoggedIn,
+productController.deleteProduct);
+produRoute.get("/getOne/:id",isLoggedIn, productController.getProductById);
 
 
-
-
-
-
-
-
+export default produRoute;
