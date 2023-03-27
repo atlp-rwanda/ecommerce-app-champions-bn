@@ -13,5 +13,6 @@
      "Found":"profile found",
      "productnotfound":"Product not found in your collecton",
      "productdeleted":"Product delete",
-     "Unauthorized":"Unauthorized access"
+     "Unauthorized":"Unauthorized access",
+     "productupdated":"product updated "
 }

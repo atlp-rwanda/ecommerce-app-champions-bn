@@ -13,5 +13,6 @@
      "Found":"profil trouvé",
      "productnotfound":"Produit introuvable dans votre collection",
      "productdeleted":"Produit supprimé",
-     "Unauthorized":"Accès non autorisé"
+     "Unauthorized":"Accès non autorisé",
+     "productupdated":"produit mis à jour "
 }
