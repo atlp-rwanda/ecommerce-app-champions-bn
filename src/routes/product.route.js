@@ -1,8 +1,24 @@
+
+
 import express from "express";
-import ProductController from "../controllers/productController";
 
-const productRoute = express.Router();
 
-productRoute.get("/searcch",ProductController.searchProduct);
+import productController from "../controllers/productController";
+import isLoggedIn from "../middlewares/checklogin";
+import uploadImages from "../middlewares/uploadImage";
 
-export default productRoute;
+
+const produRoute = express.Router();
+
+produRoute.post("/create",
+uploadImages("images"),
+isLoggedIn, productController.createProduct);
+produRoute.get("/searcch",productController.searchProduct);
+
+
+produRoute.delete("/delete/:id",isLoggedIn,
+productController.deleteProduct);
+produRoute.get("/getOne/:id",isLoggedIn, productController.getProductById);
+
+
+export default produRoute;
