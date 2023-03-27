@@ -168,6 +168,41 @@ responses: {
   }
 }
 };
+
+const disableVendorAccount =  {
+  tags: ["Vendor"],
+  description: "disabling vendor account",
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      description: "vendor id",
+      type: "number",
+      example: "1",
+    },
+  ],
+  security: [
+    {
+      token: [],
+    },
+  ],
+  responses: {
+    200: {
+      description: "OK",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+          },
+        },
+      },
+    },
+    404: {
+      description: "profile not found",
+    },
+  },
+};
+
 const vendorRouteDoc = {
   "/api/vendor/signup": {
     post: vendorSignup
@@ -177,6 +212,9 @@ const vendorRouteDoc = {
   }, 
   "/api/vendor/oneProfile/{userId}":{
     get:getOneProfile
+  },
+  "/api/vendor/disable/{id}":{
+    post:disableVendorAccount
   }
 
 };

@@ -6,13 +6,13 @@ import SendEmail from "../utils/sendEmail";
 import * as profiles from "../services/profile.service";
 
 dotenv.config();
-const { user, Role, Permission, Buyer } = require("../database/models");
+const { User, Role, Permission, Buyer } = require("../database/models");
 
 class BuyerController {
   static async createBuyer(req, res) {
     try {
       const { firstName, lastName, email, password } = req.body;
-      const existingBuyer = await user.findOne({
+      const existingBuyer = await User.findOne({
         where: { email: { [Op.eq]: email } }
       });
 
@@ -24,7 +24,7 @@ class BuyerController {
       }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const buyer = await user.create({
+      const buyer = await User.create({
         firstName,
         lastName,
         email,
@@ -70,7 +70,7 @@ class BuyerController {
         .json({ status: "error", message: "Invalid token" });
     }
 
-    const verifiedUser = await user.findOne({ _id: userId });
+    const verifiedUser = await User.findOne({ _id: userId });
 
     if (!verifiedUser) {
       return res
@@ -118,7 +118,7 @@ class BuyerController {
   static async getProfile(req, res, next) {
     try {
       const { userId } = req.params;
-      const { dataValues } = await user.findOne({ where: { id: userId } });
+      const { dataValues } = await User.findOne({ where: { id: userId } });
       const profile = await profiles.findUserProfile(userId);
       const { ...others } = dataValues;
       if (profile) {

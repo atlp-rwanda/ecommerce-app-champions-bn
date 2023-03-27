@@ -1,27 +1,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ReportedActivities', {
+    await queryInterface.createTable('Permissions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      category: {
+      permissionName: {
         type: Sequelize.STRING
-      },
-      activity: {
-        type: Sequelize.STRING
-      },
-      VendorId: {
-        type: Sequelize.INTEGER
-      },
-      productId: {
-        type: Sequelize.INTEGER
-      },
-      buyerId: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +22,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ReportedActivities');
+    await queryInterface.dropTable('Permissions');
   }
 };

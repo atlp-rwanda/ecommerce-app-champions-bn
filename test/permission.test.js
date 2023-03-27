@@ -4,7 +4,7 @@ let id;
 describe("testing create permission",() =>{
     test('should create permission', async () => { 
         const res = await request(app).post("/api/permission/create").send({
-            permissionName:"admin create supplier"
+            permissionName:"guest can-visit-shop"
         });
         expect(res.statusCode).toBe(201);
         expect(res.body.status).toBe('success');
