@@ -22,5 +22,14 @@ productRoute.post(
   productController.createProduct
 );
 
+productRoute.get("/getall",isLoggedIn,
+productController.availableProducts);
+
+productRoute.get("/disable",isLoggedIn,
+productController.disableProduct);
+
+productRoute.get("/enable",isLoggedIn,
+productController.enableProduct);
+
 
 export default productRoute;
