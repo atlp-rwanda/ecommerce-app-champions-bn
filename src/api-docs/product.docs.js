@@ -129,13 +129,60 @@ const getAllProducts = {
             }
           }
         }
+    }}}};
+        const addToWishlist = {
+          tags: ["Product"],
+          description: "Add a product to a user's wishlist",
+          parameters: [
+            {
+              name: "productId",
+              in: "path",
+              description: "ID of the product to add",
+              required: true,
+              schema: {
+                type: "integer",
+                example: 1
+              }
+            }
+          ],
+          security: [
+              {
+                token: [],
+              },
+            ],
+          responses: {
+            200: {
+              description: "OK",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: {
+                        type: "string",
+                        description: "Message indicating that the product was added to the wishlist",
+                        example: "Product added to wishlist"
+                      },
+                      product: {
+                        type: "object",
+                        description: "The product that was added to the wishlist",
+                        properties: {
+                          
+                        }
+      
+                      }
+                    }
+                  }
+                }
+      
       }
     },
     404: {
       description: "No products found."
     }
   }
-};
+
+};         
 
 const getAvailableProducts = {
   tags: ["Product"],
@@ -272,16 +319,52 @@ const getProductById = {
           "application/json": {
             schema: {
               type: "object"
+          }}}}}};
+  
+  const retrieveProductItems = {
+    tags: ["Product"],
+    description: "Retrieve all products in a user's wishlist",
+    security: [
+      {
+        token: [],
+      },
+    ],
+    responses: {
+      200: {
+        description: "OK",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                wishlist: {
+                  type: "array",
+                  description: "The array of products in the wishlist",
+                  items: {
+                    type: "object",
+                    properties: {
+                      // Define the properties of the product object here
+                    }
+                  }
+                }
+              }
             }
           }
         }
       },
-      404: {
-        description: "Not found",
+      500: {
+        description: "Internal Server Error",
         content: {
           "application/json": {
             schema: {
-              type: "object"
+              type: "object",
+              properties: {
+                error: {
+                  type: "string",
+                  description: "The error message",
+                  example: "Internal Server Error"
+                }
+              }
             }
           }
         }
@@ -306,6 +389,10 @@ const getProductById = {
         get:getProductById},
       "/api/product/delete/{id}":{
         delete: deleteProduct},
+        "/api/product/addToWishlist/{productId}": { 
+          post: addToWishlist },
+          "/api/product/retrieveWishlistItems": { 
+            get: retrieveProductItems }
       
   };
   

@@ -1,6 +1,5 @@
 import { Op } from "sequelize";
-
-import { Product, sequelize, Category,Vendor,user } from "../database/models";
+import { Product, sequelize, Category,Vendor,user , Wishlist} from "../database/models";
 
 class productController{
     static async searchProduct(req,res){
@@ -24,16 +23,13 @@ class productController{
             return res.status(500).json({status:"error",error:error.message});
         }
     }
-
   static async createProduct(req, res) {
     try {
-
       if (req.user.role.roleName !== "vendor") {
         return res
           .status(401)
           .json({ status: "fail", message: req.t("Unauthorized") });
       };
-
      const {
         productName,
         productPrice,
@@ -55,7 +51,6 @@ class productController{
         CategoryId,
         productImage
       });
-
       await product.save();
       return res
         .status(200)
@@ -68,79 +63,60 @@ class productController{
       return res.json({ error: error.message });
     }
   }
-
   static async categoryController(req, res) {
     const { name } = req.body;
     try {
-
       if (req.user.role.roleName !== "vendor") {
         return res
           .status(401)
           .json({ status: "fail", message: req.t("Unauthorized") });
       }
-
-
       const category = await Category.create({
         name
       });
-
       await category.save();
-
       return res.status(200).json({ message: "category created", category:name });
     } catch (error) {
       return error.message;
     }
   }
-
   static async deleteProduct(req,res){
     try {
       if (req.user.role.roleNam !== "vendor") {
-        console.log(req.user.role.roleName);
         return res.status(401).json({ status: "fail", message: req.t("Unauthorized") });
       }
       const product = await Product.findOne({ where: { productId: req.params.id, vendorId: req.user.role.id } });
-     
       if (!product) {
         return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
       }
       await product.destroy();
-  
       return res.status(204).json({ status: req.t("success"), message: req.t("productdeleted") });
-  
     } catch (error) {
-      console.log(error.message);
       return res.status(500).json({ status: "error", message: "Internal server error" });
     }
-  
   };
-
   static async getProductById(req, res) {
     try {
       const productId = req.params.id;
-      
       if (Number.isNaN(productId)) {
         return res.status(400).json({
           status: 'fail',
           message: `Invalid id (${req.params.id})`,
         });
       }
-  
       const product = await Product.findByPk(productId);
-  
       if (!product) {
         return res.status(404).json({
           status: 'fail',
           message: 'Product not found.',
         });
       }
-  
       if (!product.available) {
         return res.status(404).json({
           status: 'fail',
           message: 'Product not available for sale.',
         });
       }
-  
       if (req.user && req.user.role.roleName === 'vendor' && req.user.role.id !== product.vendorId) {
         return res.status(403).json({
           status: 'fail',
@@ -158,13 +134,8 @@ class productController{
       });
     }
   }
-
-
-
   static async getAllProducts(req, res) {
     try{
-     
-   console.log(req.user);
    if (req.user.roleName !== "vendor") {
             return res.status(401).json({
               status: "error",
@@ -196,7 +167,6 @@ class productController{
         limit,
         offset: (page - 1) * limit,
       });
-
       return res.status(200).json({
         status: "success",
         message: "Items retrieved successfully.",
@@ -210,10 +180,7 @@ class productController{
         error: error.message,
       });
     }
-
-
    };
-
   static async getAvailableProduct(req, res) {
     try {
       const { page = 1, limit = 10 } = req.query;
@@ -239,7 +206,6 @@ class productController{
         limit,
         offset: (page - 1) * limit,
       });
-
       return res.status(200).json({
         status: "success",
         message: "Items retrieved successfully.",
@@ -253,8 +219,50 @@ class productController{
         error: error.message,
       });
     }
+  } 
+  static async addToWishlist(req, res) {
+    try { 
+      const buyerId = req.user.id; 
+      const productId = req.params.productId; 
+      const product = await Product.findOne({ where:{productId:productId} });
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      let wishlists = await Wishlist.findOne({ where:{userId: buyerId} });
+      if (!wishlists) {
+        // create a new wishlist if it doesn't exist
+        const newWishlist = await Wishlist.create({ userId: buyerId });
+        // await newWishlist.save();
+        wishlists = newWishlist;
+      }
+      if (wishlists.products.includes(parseInt(productId))) {
+        return res.status(400).json({  message: "Product already in wishlist" });
+      }
+
+  const newProductIds = [...wishlists.products, productId];
+  wishlists.products = newProductIds;
+      await wishlists.save();
+      return res.status(200).json({ message: "Product added to wishlist" , product });
+    } catch (error) {
+      return res.status(500).json({  error: error.message, message: error.name === 
+        'SequelizeValidationError' ? error.message : 'Internal server error' });
+    }
   }
-    
+static async retrieveProductItems (req,res) {
+  try{
+  const userId= req.user.id;
+const wishlistItems= await Wishlist.findOne({where:{userId:userId}});
+const products=[];
+for(let item of wishlistItems.products){
+  let product= await Product.findOne({where:{productId:item}})
+  if(product){
+    products.push(product)
+  }
 }
+res.status(200).json({wishlist:products})
+}catch (error) {
+  return res.status(500).json({  error: error.message, message: error.name === 
+    'SequelizeValidationError' ? error.message : 'Internal server error' });
+}}}
 
 export default productController;

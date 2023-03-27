@@ -35,7 +35,6 @@ export const verifyAdmin = (req, res, next) => {
 };
 
 export const verifyVendor = (req, res, next) => {
-
     verifyToken(req, res, () => {
       if (req.user.roleName === "vendor") {
         return next();
@@ -43,6 +42,19 @@ export const verifyVendor = (req, res, next) => {
         return res
           .status(401)
           .json({ status: "error", error: "you are not authorized" });
+      }
+    });
+  };
+
+  export const verifyBuyer = (req, res, next) => {
+    verifyToken(req, res, () => {
+      if (req.user.role.roleName === "buyer") {
+       
+        return next();
+      } else {
+        return res
+          .status(403)
+          .json({ status: "fail", error: "you are not authorized" });
       }
     });
   };

@@ -12,17 +12,9 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      productId: {
-        type: Sequelize.INTEGER
-      },
-      ProductName: {
-        type: Sequelize.STRING
-      },
-      ProductPrice: {
-        type: Sequelize.STRING
-      },
-      ProductImage: {
-        type: Sequelize.STRING
+      products: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        defaultValue: []
       },
       createdAt: {
         allowNull: false,

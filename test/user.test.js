@@ -18,26 +18,26 @@ describe("routes", () => {
     expect(response.statusCode).toBe(404);
   });
 });
-// testing password reset request endpoint
+//password reset
 
-describe("testing password reset", () => {
-  let resetToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5peW9tdXRvbmlsdWNpZUBnbWFpbC5jb20iLCJpYXQiOjE2NzkzOTUzMzQsImV4cCI6MTY3OTM5ODkzNH0.N2b04wMRsmWIo2_3-kMS9W4xK7Fdiok5CqZYS6i2BKY";
-
-  test("should request password reset email", async () => {
-    const res = await request(app).post("/api/user/requestReset").send({
-      email: "niyomutonilucie@gmail.com"
-    });
-  });
-
-  test("should reset password", async () => {
-    const res = await request(app)
-      .post(`/api/user/resetpassword/${resetToken}`)
-      .send({
-        password: "newpassword"
+describe('password reset', () => {
+    describe('POST /api/user/resetpassword/:token', () => {
+      let resetToken ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5peW9tdXRvbmlsdWNpZUBnbWFpbC5jb20iLCJpYXQiOjE2Nzk1NjU3MDQsImV4cCI6MTY3OTU2OTMwNH0.Y_gzRBILG5wpqGItTjcogAWHcP8hAnhr2aVkvGy8ZS4";
+      it('should return an error if invalid token', async () => {
+        const res = await request(app)
+          .post(`/api/user/resetpassword/invalidtoken`)
+          .send({ password: 'newpassword123' });
+        expect(res.status).toBe(400);
+        expect(res.body).toHaveProperty('error', 'Invalid token');
+      });
+      it('should return an error if token has expired', async () => {
+        const res = await request(app)
+          .post(`/api/user/resetpassword/${resetToken}`)
+          .send({ password: 'newpassword123' });
+        expect(res.status).toBe(400);
       });
   });
-});
+  });
 
 describe("two factor authentication for vendors and admins", () => {
   test("should test for invalid token", async () => {
