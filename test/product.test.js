@@ -11,26 +11,43 @@ describe("testing search the product",() =>{
      })
   });
 
+
+ 
   describe("testing get available items",() =>{
     test('get available items', async () => { 
         const res = await request(app).get("/api/product/getAvailable");
-        expect(res.statusCode).toBe(404);
-       
-     })
-  });
-
-  describe("testing get specific item",() =>{
-    test('get specific item', async () => { 
-        const res = await request(app).get(`/api/product/getOne/${id}`);
         expect(res.statusCode).toBe(401);
        
      })
   });
+   
+  describe("testing wrong route for getting available items",() =>{
+   test('get available items', async () => { 
+       const res = await request(app).get("/api/product/getAvailabl");
+       expect(res.statusCode).toBe(404);
+      
+    })
+ });
+
+ 
+
+ describe("testing get specific item",() =>{
+   test('get specific item', async () => { 
+       const res = await request(app).get(`/api/product/getOne/${id}`);
+       expect(res.statusCode).toBe(401);
+      
+    })
+ });
 
   describe("testing get all items",() =>{
     test('get all items', async () => { 
         const res = await request(app).get("/api/product/getAll");
-        expect(res.statusCode).toBe(404);
+        expect(res.statusCode).toBe(401);
        
      })
   });
+  
+  
+ 
+  
+

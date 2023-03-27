@@ -11,7 +11,12 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        roleName: 'user',
+        roleName: 'vendor',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        roleName: 'buyer',
         createdAt: new Date(),
         updatedAt: new Date()
       }

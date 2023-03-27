@@ -6,26 +6,23 @@ import router from "./resetPassword.route";
 import vendorRoute from "./vendor.route";
 import userRoute from "./user.route";
 import Oauthroute from "./Oauthroute";
-import produRoute from "./product.route";
+import reportedRoute from "./reportedActivity.route";
+import productRoute from "./product.route";
+
 import categoryRoute from "./categoriy.route";
 
 const indexRouter = express.Router();
 
 indexRouter.use("/api/vendor", vendorRoute);
-indexRouter.use("/api/role" , roleRoute);
-indexRouter.use("/api/permission" , permissionRoute);
-indexRouter.use("/api/buyer",buyerRoute);
-indexRouter.use("/api/user",userRoute);
-indexRouter.use("/api/user",router);
-indexRouter.use("/",Oauthroute);
-indexRouter.use("/api/product",produRoute);
-
-
-
-
-
-
-indexRouter.use("/api/product",produRoute);
+indexRouter.use("/api/role", roleRoute);
+indexRouter.use("/api/permission", permissionRoute);
+indexRouter.use("/api/buyer", buyerRoute);
+indexRouter.use("/api/user", userRoute);
+indexRouter.use("/api/user", router);
+indexRouter.use("/", Oauthroute);
+indexRouter.use("/api/report",reportedRoute);
+indexRouter.use("/api/product",productRoute);
+indexRouter.use("/api/product",productRoute);
 indexRouter.use("/api/category",categoryRoute);
 
 export default indexRouter;

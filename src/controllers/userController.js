@@ -1,3 +1,4 @@
+/* eslint-disable */
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -85,7 +86,6 @@ class UserController {
       return res.status(400).json({ status: "error", error: error.message });
     }
   }
-
   static async getUser(req, res) {
     try {
       const existingUser = await user.findByPk(req.params.id, {
@@ -109,7 +109,6 @@ class UserController {
       return res.status(500).json({ status: "error", error: error.message });
     }
   }
-
   static async Validate(req, res) {
     try {
       const { validToken } = req.body;
@@ -130,13 +129,22 @@ class UserController {
             vendor.isVerified = true;
             await vendor.save();
           }
+          const existingRole = await Role.findByPk(vendor.RoleId, {
+            include: { model: Permission }
+          });
+          const roles = existingRole.toJSON();
           // provide a new token
           const token = await generateAccessToken({
             id: vendor.id,
             firstName: vendor.firstName,
             email: vendor.email,
-            RoleId: vendor.RoleId
+            RoleId: vendor.RoleId,
+            roleName: roles.roleName
           });
+          // const token = jwt.sign(
+          //   { id: dataValues.id, role: roles },
+          //   process.env.JWT_SECRET
+          // );
           res.cookie("token", token, {
             secure: false,
             httpOnly: true,

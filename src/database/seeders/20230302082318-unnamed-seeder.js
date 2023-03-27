@@ -5,6 +5,7 @@ module.exports = {
         firstName: "John",
         lastName: "Doe",
         email: "niyomutonilucie@gmail.com",
+        RoleId:2,
         createdAt: new Date(),
         updatedAt: new Date()
       }

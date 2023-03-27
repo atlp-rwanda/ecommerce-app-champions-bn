@@ -4,22 +4,32 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('permissions', [
       {
-        permissionName: 'create',
+        permissionName: 'admin create-vendor',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        permissionName: 'read',
+        permissionName: 'admin disable-vendor-account',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        permissionName: 'update',
+        permissionName: 'vendor create-product',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        permissionName: 'delete',
+        permissionName: 'vendor delete-product',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        permissionName: 'buyer buyes-product',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        permissionName: 'buyer opens-acount',
         createdAt: new Date(),
         updatedAt: new Date()
       }

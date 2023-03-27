@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      vendorId: { type: DataTypes.INTEGER },
 
       RoleId: { type: DataTypes.INTEGER },
       googleId: {
@@ -42,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: true
+      },
+      active:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:true
       },
       isVerified: {
         type: DataTypes.BOOLEAN,

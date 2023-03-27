@@ -1,6 +1,6 @@
 const product = {
   tags: ["Product"],
-  description: "create a vendor",
+  description: "create a product",
   // security: [
   //   {
   //     token: []
@@ -79,6 +79,111 @@ const product = {
     },
     500: {
       description: "internal server error"
+    }
+  }
+};
+
+
+
+
+const getAllProducts = {
+  tags: ["Product"],
+  summary: "Get all products",
+  description: "Retrieves a list of all products.",
+  responses: {
+    200: {
+      description: "OK",
+      content: {
+        "application/json": {
+          schema: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                productId: {
+                  type: "integer",
+                  description: "Unique identifier for the product.",
+                  example: 1
+                },
+                name: {
+                  type: "string",
+                  description: "Name of the product.",
+                  example: "Product 1"
+                },
+                description: {
+                  type: "string",
+                  description: "Description of the product.",
+                  example: "This is the first product."
+                },
+                price: {
+                  type: "number",
+                  description: "Price of the product.",
+                  example: 9.99
+                },
+                quantity: {
+                  type: "integer",
+                  description: "Quantity of the product available in stock.",
+                  example: 50
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    404: {
+      description: "No products found."
+    }
+  }
+};
+
+const getAvailableProducts = {
+  tags: ["Product"],
+  summary: "Get available products",
+  description: "Retrieves a list of all products.",
+  responses: {
+    200: {
+      description: "OK",
+      content: {
+        "application/json": {
+          schema: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                productId: {
+                  type: "integer",
+                  description: "Unique identifier for the product.",
+                  example: 1
+                },
+                name: {
+                  type: "string",
+                  description: "Name of the product.",
+                  example: "Product 1"
+                },
+                description: {
+                  type: "string",
+                  description: "Description of the product.",
+                  example: "This is the first product."
+                },
+                price: {
+                  type: "number",
+                  description: "Price of the product.",
+                  example: 9.99
+                },
+                quantity: {
+                  type: "integer",
+                  description: "Quantity of the product available in stock.",
+                  example: 50
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    404: {
+      description: "No products found."
     }
   }
 };
@@ -191,11 +296,17 @@ const getProductById = {
       "/api/product/searcch": {
         get: searchProduct
       },
+      "/api/product/getAll":{
+        get:getAllProducts
+    }, 
+    "/api/product/getAvailable":{
+      get: getAvailableProducts
+    },
       "/api/product/getOne/{id}":{
         get:getProductById},
       "/api/product/delete/{id}":{
-        delete: deleteProduct}
+        delete: deleteProduct},
+      
   };
   
   export default productRouteDoc;
-  

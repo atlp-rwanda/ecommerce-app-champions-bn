@@ -1,4 +1,3 @@
-
 module.exports={
     "/api/user/logout": {
         "get": {

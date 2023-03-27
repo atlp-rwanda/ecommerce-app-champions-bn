@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
-import { Product, sequelize, Category } from "../database/models";
+
+import { Product, sequelize, Category,Vendor,user } from "../database/models";
 
 class productController{
     static async searchProduct(req,res){
@@ -154,6 +155,102 @@ class productController{
       res.status(400).json({
         status: 'fail',
         message: err.message,
+      });
+    }
+  }
+
+
+
+  static async getAllProducts(req, res) {
+    try{
+     
+   console.log(req.user);
+   if (req.user.roleName !== "vendor") {
+            return res.status(401).json({
+              status: "error",
+              error: "Unauthorized. You must be a seller to perform this action.",
+            });
+          }
+
+   const sellerId = req.user.id;
+   const { page = 1, limit = 10 } = req.query;
+
+        const items = await Product.findAndCountAll({
+        where: {
+          vendorId: sellerId,
+        },
+        include: [
+          {
+            model: Category,
+          },
+          {
+            model: Vendor,
+            include: [
+              {
+                model: user,
+                attributes: ["firstName", "lastName", "email"],
+              },
+            ],
+          },
+        ],
+        limit,
+        offset: (page - 1) * limit,
+      });
+
+      return res.status(200).json({
+        status: "success",
+        message: "Items retrieved successfully.",
+        items: items.rows,
+        totalPages: Math.ceil(items.count / limit),
+        currentPage: page,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "error",
+        error: error.message,
+      });
+    }
+
+
+   };
+
+  static async getAvailableProduct(req, res) {
+    try {
+      const { page = 1, limit = 10 } = req.query;
+
+      const items = await Product.findAndCountAll({
+        where: {
+          available: true,
+        },
+        include: [
+          {
+            model: Category,
+          },
+          {
+            model: Vendor,
+            include: [
+              {
+                model: user,
+                attributes: ["firstName", "lastName", "email"],
+              },
+            ],
+          },
+        ],
+        limit,
+        offset: (page - 1) * limit,
+      });
+
+      return res.status(200).json({
+        status: "success",
+        message: "Items retrieved successfully.",
+        items: items.rows,
+        totalPages: Math.ceil(items.count / limit),
+        currentPage: page,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "error",
+        error: error.message,
       });
     }
   }

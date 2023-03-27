@@ -9,8 +9,8 @@ import buyerRouteDoc from "./buyer.docs";
 import logoutRouteDoc from "./user.logout.docs";
 import GoogleaouthDocs from "./Googleaouth.docs";
 import TwoFactorAuthRouteDoc from "./TwoFactorAuth.docs";
+import reportRouteDoc from "./reportActivity.docs";
 import productRouteDoc from "./product.docs";
-
 
 dotenv.config();
 const options = {
@@ -65,18 +65,20 @@ const options = {
               }
             },
           },
-          paths:{
-            ...vendorRouteDoc,
-            ...userRouteDoc,
-            ...GoogleaouthDocs,
-            ...permissionRouteDoc,
-            ...roleRouteDoc,
-            ...buyerRouteDoc,
-            ...logoutRouteDoc,
-            ...TwoFactorAuthRouteDoc,
-            ...productRouteDoc
-          }
-    },
+      
+    paths: {
+      ...vendorRouteDoc,
+      ...userRouteDoc,
+      ...GoogleaouthDocs,
+      ...permissionRouteDoc,
+      ...roleRouteDoc,
+      ...buyerRouteDoc,
+      ...logoutRouteDoc,
+      ...TwoFactorAuthRouteDoc,
+      ...reportRouteDoc,
+      ...productRouteDoc
+    }
+  },
   apis: ["../routes/**/*.js"]
 };
 

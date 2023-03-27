@@ -1,6 +1,6 @@
 /* eslint-disable */
 const login = {
-  tags: ["User"],
+  tags: ["Users"],
   description: "User Login",
   requestBody: {
     content: {
