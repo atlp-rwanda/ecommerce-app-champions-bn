@@ -128,12 +128,18 @@ class UserController {
             vendor.isVerified = true;
             await vendor.save();
           }
+          const existingRole = await Role.findByPk(vendor.RoleId, {
+            include: { model: Permission }
+          });
+
+          const roles = existingRole.toJSON();
           // provide a new token
           const token = await generateAccessToken({
             id: vendor.id,
             firstName: vendor.firstName,
             email: vendor.email,
-            RoleId: vendor.RoleId
+            RoleId: vendor.RoleId,
+            roleName: roles.roleName
           });
           res.cookie("token", token, {
             secure: false,

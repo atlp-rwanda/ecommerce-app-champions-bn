@@ -9,6 +9,8 @@ import buyerRouteDoc from "./buyer.docs";
 import logoutRouteDoc from "./user.logout.docs";
 import GoogleaouthDocs from "./Googleaouth.docs";
 import TwoFactorAuthRouteDoc from "./TwoFactorAuth.docs";
+import productRoutDoc from "./product.docs";
+import categoryRouteDoc from "./category.docs";
 
 dotenv.config();
 const options = {
@@ -70,7 +72,9 @@ const options = {
       ...roleRouteDoc,
       ...buyerRouteDoc,
       ...logoutRouteDoc,
-      ...TwoFactorAuthRouteDoc
+      ...TwoFactorAuthRouteDoc,
+      ...productRoutDoc,
+      ...categoryRouteDoc
     }
   },
   apis: ["../routes/**/*.js"]
