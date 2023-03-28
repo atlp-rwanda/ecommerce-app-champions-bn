@@ -62,30 +62,33 @@ class BuyerController {
     }
   }
 
-  static async verifyBuyer(req, res) {
-    const userId = jwt.verify(req.query.token, process.env.JWT_SECRET);
-    if (!userId) {
-      return res
-        .status(403)
-        .json({ status: "error", message: "Invalid token" });
-    }
 
-    const verifiedUser = await User.findOne({ _id: userId });
+  static async verifyBuyer(req,res){
 
-    if (!verifiedUser) {
-      return res
-        .status(404)
-        .json({ status: "error", message: "user not found" });
-    }
 
-    verifiedUser.isVerified = true;
-
-    verifiedUser.save();
-
-    return res
-      .status(200)
-      .json({ status: "success", message: "Token verified successfully" });
+    const userId=jwt.verify(req.query.token,process.env.JWT_SECRET);
+  
+  
+  if(!userId){
+    return res.status(403).json({status:"error",
+  message:"Invalid token"});
   }
+  
+  const verifiedUser=await user.findOne({
+    where: {id:userId.id}});
+  
+  
+    if(!verifiedUser){
+      return res.status(404).json({status:"error",message:"user not found"});
+    }
+  
+    verifiedUser.isVerified=true;
+  
+    verifiedUser.save();
+  
+    return res.status(200).json({status:"success",message:"Token verified successfully"});
+  }
+  
 
   static async updateProfile(req, res, next) {
     try {

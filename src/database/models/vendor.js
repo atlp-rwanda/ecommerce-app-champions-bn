@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
+      Vendor.hasMany(models.ReportedActivity);
+      Vendor.hasMany(models.Product, {
+        foreignKey: 'VendorId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
   }
   Vendor.init({

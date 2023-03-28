@@ -27,7 +27,12 @@
     "docker:compose:up": "docker-compose up -d",
     "docker:compose:down": "docker-compose down --volumes --rmi all --remove-orphans",
     "db:create": "npx sequelize db:create",
-    "db:drop": "npx sequelize db:drop"
+    "db:drop": "npx sequelize db:drop",
+    "product:seed":"npx sequelize db:seed --seed 20230314163928-product-seeder.js",
+    "kill":"sudo kill -9 $(sudo lsof -t -i :5000)"
+    
+    
+    
   },
   "repository": {
     "type": "git",
@@ -43,6 +48,7 @@
   "dependencies": {
     "@babel/node": "^7.20.7",
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.35.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
@@ -58,6 +64,8 @@
     "joi": "^17.8.3",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.1",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",

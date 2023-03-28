@@ -1,5 +1,6 @@
 import { Router } from "express";
 import BuyerController from "../controllers/buyerController";
+
 import { validate } from "../middlewares/validate";
 import {
   buyerSchema,
@@ -18,5 +19,6 @@ buyerRoute.put(
   isLoggedIn,
   BuyerController.updateProfile
 );
+
 
 export default buyerRoute;

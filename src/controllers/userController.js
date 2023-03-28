@@ -1,10 +1,12 @@
+/* eslint-disable */
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import speakeasy from "speakeasy";
-import SendEmail from "../utils/2faEmail";
 import { handleCookies, getCookieInfo } from "../utils/handleCookies";
 import comparePassword from "../utils/verifyPassword";
+import SendEmail from "../utils/2faEmail";
 import { generateAccessToken } from "../utils/helpers/generateToken";
-import { sign } from "../utils/jwt";
 
 const { User, Role, Permission,Vendor,ReportedActivity } = require("../database/models");
 
@@ -22,7 +24,12 @@ class UserController {
         include: { model: Permission }
       });
       const roles = existingRole.toJSON();
-      const match = comparePassword(req.body.password,dataValues.password);
+
+
+      const match = await bcrypt.compare(
+        req.body.password,
+        dataValues.password
+      );
       if (!match)
         return res
           .status(401)
@@ -45,7 +52,7 @@ class UserController {
           OTP
         ).twoFactorAuth();
         const encodedOTP = Buffer.from(hashedOTP).toString("base64");
-        console.log("encodedotp", encodedOTP);
+       
 
         await handleCookies(
           5,
@@ -59,7 +66,10 @@ class UserController {
           .status(200)
           .json({ firstName: dataValues.firstName, hashedOTP });
       }
-      const token = sign({ id: dataValues.id, role: roles });
+      const token = jwt.sign(
+        { id: dataValues.id, role: roles },
+        process.env.JWT_SECRET
+      );
       res.cookie("token", token, {
         secure: false,
         httpOnly: true,
@@ -74,7 +84,6 @@ class UserController {
       return res.status(400).json({ status: "error", error: error.message });
     }
   }
-
   static async getUser(req, res) {
     try {
       const existingUser = await User.findByPk(req.params.id, {
@@ -98,7 +107,6 @@ class UserController {
       return res.status(500).json({ status: "error", error: error.message });
     }
   }
-
   static async Validate(req, res) {
     try {
       const { validToken } = req.body;
@@ -119,13 +127,22 @@ class UserController {
             vendor.isVerified = true;
             await vendor.save();
           }
+          const existingRole = await Role.findByPk(vendor.RoleId, {
+            include: { model: Permission }
+          });
+          const roles = existingRole.toJSON();
           // provide a new token
           const token = await generateAccessToken({
             id: vendor.id,
             firstName: vendor.firstName,
             email: vendor.email,
-            RoleId: vendor.RoleId
+            RoleId: vendor.RoleId,
+            roleName: roles.roleName
           });
+          // const token = jwt.sign(
+          //   { id: dataValues.id, role: roles },
+          //   process.env.JWT_SECRET
+          // );
           res.cookie("token", token, {
             secure: false,
             httpOnly: true,
@@ -155,7 +172,7 @@ class UserController {
       await res.clearCookie("token");
       return res
         .status(200)
-        .json({ status: "success", message: "User logged out successfully" });
+        .json({ status: req.t("success"), message: req.t("message")});
     } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
     }

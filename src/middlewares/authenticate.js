@@ -35,6 +35,7 @@ export const verifyAdmin = (req, res, next) => {
 };
 
 export const verifyVendor = (req, res, next) => {
+
     verifyToken(req, res, () => {
       if (req.user.roleName === "vendor") {
         return next();
