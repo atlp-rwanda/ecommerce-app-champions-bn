@@ -6,7 +6,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import dotenv from "dotenv";
 import connectDb from "../database/connectDb";
-import { user } from "../database/models";
+import { User as user } from "../database/models";
 
 import { generateAccessToken } from "../utils/helpers/generateToken";
 

@@ -22,7 +22,7 @@
     "db:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
     "db:seed:undo": "sequelize-cli db:seed:undo",
-    "test": "cross-env NODE_ENV=test  npm run migrate:up -all && cross-env NODE_ENV=test npm run product:seed && jest --detectOpenHandles --coverage --testTimeout 100000 --forceExit",
+    "test": "cross-env NODE_ENV=test  npm run migrate:up -all && cross-env NODE_ENV=test  npm run db:seeds && jest --detectOpenHandles --coverage --testTimeout 100000 --forceExit",
     "docker:compose:build": "docker-compose --build",
     "docker:compose:up": "docker-compose up -d",
     "docker:compose:down": "docker-compose down --volumes --rmi all --remove-orphans",
@@ -74,6 +74,7 @@
     "sequelize": "^6.29.0",
     "sequelize-cli": "^6.6.0",
     "speakeasy": "^2.0.0",
+    "superagent-defaults": "^0.1.14",
     "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2"

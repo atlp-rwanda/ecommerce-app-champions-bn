@@ -1,7 +1,6 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
-import vendorRouteDoc from "./vendor.docs";
 import roleRouteDoc from "./role.docs";
 import permissionRouteDoc from "./permission.docs";
 import userRouteDoc from "./user.docs";
@@ -10,6 +9,7 @@ import logoutRouteDoc from "./user.logout.docs";
 import GoogleaouthDocs from "./Googleaouth.docs";
 import TwoFactorAuthRouteDoc from "./TwoFactorAuth.docs";
 import reportRouteDoc from "./reportActivity.docs";
+import vendorRouteDoc from "./vendor.docs";
 import productRouteDoc from "./product.docs";
 
 dotenv.config();

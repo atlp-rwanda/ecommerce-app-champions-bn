@@ -3,15 +3,15 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
+      // define association here
       Product.belongsTo(models.Vendor, {
-        foreignKey: 'vendorId',
+        foreignKey: 'VendorId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       });
       Product.belongsTo(models.Category,{foreignKey:"CategoryId"});
     }
   }
-
   Product.init({
     productId: {
       type: DataTypes.INTEGER,
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false
       
     },
-    vendorId: {
+    VendorId: {
       type: DataTypes.INTEGER,
     },
     productName: {
@@ -72,12 +72,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DATE
     }
-  },
-  {
+  }, {
     sequelize,
-    modelName: "Product",
-    tableName: "products",
-    timestamps: true
+    modelName: 'Product',
   });
   return Product;
 };

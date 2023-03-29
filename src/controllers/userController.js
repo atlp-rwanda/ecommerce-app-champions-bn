@@ -8,14 +8,12 @@ import comparePassword from "../utils/verifyPassword";
 import SendEmail from "../utils/2faEmail";
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
-const { user, Role, Permission } = require("../database/models");
-
-dotenv.config();
+const { User, Role, Permission,Vendor,ReportedActivity } = require("../database/models");
 
 class UserController {
   static async signin(req, res) {
     try {
-      const { dataValues } = await user.findOne({
+      const { dataValues } = await User.findOne({
         where: { email: req.body.email }
       });
       if (!dataValues)
@@ -88,7 +86,7 @@ class UserController {
   }
   static async getUser(req, res) {
     try {
-      const existingUser = await user.findByPk(req.params.id, {
+      const existingUser = await User.findByPk(req.params.id, {
         include: [
           {
             model: Role,
@@ -122,7 +120,7 @@ class UserController {
         const providedOTP = validToken.trim();
         const isMatch = await comparePassword(providedOTP, decodedToken);
         if (isMatch) {
-          const vendor = await user.findOne({
+          const vendor = await User.findOne({
             where: { id: cookies.loginVendorid }
           });
           if (vendor) {

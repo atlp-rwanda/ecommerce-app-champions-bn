@@ -1,4 +1,4 @@
-const { ReportedActivity ,Vendor} = require("../database/models");
+const { ReportedActivity} = require("../database/models");
 
 class ReportedActivityController{
     static async reportIllegalActivity(req,res){

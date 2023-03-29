@@ -10,12 +10,12 @@ const createReport = {
               activity: {
                 type: "string",
                 description: "activity",
-                example: "nudity clothes"
+                example: "Illegal product"
               },
               category: {
                 type: "string",
                 description: "category",
-                example: "nudity"
+                example: "promoting rape"
               },
               productId: {
                 type: "number",

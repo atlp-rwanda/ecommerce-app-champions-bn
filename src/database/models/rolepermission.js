@@ -1,9 +1,9 @@
-const { Model } = require('sequelize');
+const { Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class RolePermission extends Model {
     static associate(models) {
-
+      // define association here
     }
   }
   RolePermission.init({

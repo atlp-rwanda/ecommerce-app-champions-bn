@@ -1,4 +1,3 @@
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,10 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       RoleId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:'Roles',
+          key:'id'
+        }
       },
       PermissionId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:'Permissions',
+          key:'id'
+        }
       },
       createdAt: {
         allowNull: false,

@@ -1,81 +1,76 @@
-const { Model } = require("sequelize");
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Vendor extends Model {
     static associate(models) {
       // define association here
-      Vendor.belongsTo(models.user, {
-        foreignKey: "userId",
+      Vendor.belongsTo(models.User, {
+        foreignKey: "UserId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
       Vendor.hasMany(models.ReportedActivity);
       Vendor.hasMany(models.Product, {
-        foreignKey: 'vendorId',
+        foreignKey: 'VendorId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       });
     }
   }
-  Vendor.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement:true,
-        primaryKey: true
-      },
-      userId: {
-        type: DataTypes.INTEGER,
-      },
-      birthDate:{
-        type:DataTypes.DATE,
-       },
-       gender:{
-        type:DataTypes.JSONB,
-     },
-      businessName: {
-        type: DataTypes.STRING,
-      },
-      businessAddress: {
-        type: DataTypes.JSONB,
-      },
-      accountNumber: {
-        type: DataTypes.INTEGER,
-      },
-      taxIdNumber: {
-        type: DataTypes.INTEGER,
-      },
-      typeOfProducts: {
-        type: DataTypes.STRING,
-      },
-      preferredCurency: {
-        type: DataTypes.STRING,
-      },
-      state: {
-        type: DataTypes.STRING,
-      },
-      city: {
-        type: DataTypes.STRING,
-      },
-      postalCode: {
-        type: DataTypes.INTEGER,
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: DataTypes.DATE
-      }
+  Vendor.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement:true,
+      primaryKey: true
     },
-    {
-      sequelize,
-      modelName: "Vendor",
-      tableName: "vendors",
-      timestamps: true
+    UserId: {
+      type: DataTypes.INTEGER,
+    },
+    birthDate:{
+      type:DataTypes.DATE,
+     },
+     gender:{
+      type:DataTypes.JSONB,
+   },
+    businessName: {
+      type: DataTypes.STRING,
+    },
+    businessAddress: {
+      type: DataTypes.JSONB,
+    },
+    accountNumber: {
+      type: DataTypes.INTEGER,
+    },
+    taxIdNumber: {
+      type: DataTypes.INTEGER,
+    },
+    typeOfProducts: {
+      type: DataTypes.STRING,
+    },
+    preferredCurency: {
+      type: DataTypes.STRING,
+    },
+    state: {
+      type: DataTypes.STRING,
+    },
+    city: {
+      type: DataTypes.STRING,
+    },
+    postalCode: {
+      type: DataTypes.INTEGER,
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
     }
-  );
+  }, {
+    sequelize,
+    modelName: 'Vendor',
+  });
   return Vendor;
 };
