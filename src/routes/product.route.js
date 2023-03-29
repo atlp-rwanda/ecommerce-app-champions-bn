@@ -15,6 +15,7 @@ productRoute.get("/getAvailable",isLoggedIn,ProductController.getAvailableProduc
 productRoute.get("/getOne/:id", isLoggedIn, ProductController.getProductById);
 productRoute.post("/addToWishlist/:productId",verifyBuyer,ProductController.addToWishlist);
 productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
+productRoute.get("/recommended", ProductController.getRecommendedProducts);
 productRoute.post("/create",verifyVendor,uploadImages("productImage"),validate(productSchema),productExistAlready,ProductController.createProduct);
 productRoute.patch("/update/:id",verifyVendor,uploadImages("productImage"),IsProductExist,validate(updateSchema),ProductController.updateProduct);
 productRoute.delete("/delete/:id",verifyVendor,ProductController.deleteProduct);

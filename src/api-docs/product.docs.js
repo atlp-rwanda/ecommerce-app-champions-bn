@@ -572,7 +572,32 @@ const deleteProduct = {
   
   
   
-  
+  const getRecommendedProducts = {
+    tags: ["Product"],
+    description: "get recommended product",
+    parameters: [
+      {
+        name: "searchParam",
+        in: "query",
+        description: "the text you want to search",
+        type: "string",
+        example: "mango"
+      }
+    ],
+
+    responses: {
+      200: {
+        description: "OK",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object"
+            }
+          }
+        }
+      }
+    }
+  }; 
   
   const productRouteDoc = {
     "/api/product/create": {
@@ -597,9 +622,9 @@ const deleteProduct = {
         "/api/product/addToWishlist/{productId}": { 
           post: addToWishlist },
           "/api/product/retrieveWishlistItems": { 
-            get: retrieveProductItems }
+            get: retrieveProductItems },
       
-    "/api/product/getall":{get: listProduct},
+         "/api/product/getall":{get: listProduct},
    
     "/api/product/disable": {
         get: disableProduct
@@ -607,7 +632,9 @@ const deleteProduct = {
       "/api/product/enable": {
         get: enableProduct
       },
-     
+     "/api/product/recommended":{
+      get:getRecommendedProducts
+     }
  
   };
   

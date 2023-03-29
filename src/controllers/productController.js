@@ -1,21 +1,10 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable prefer-const */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable semi */
-/* eslint-disable radix */
 /* eslint-disable object-shorthand */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable lines-between-class-members */
+/* eslint-disable radix */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { Op } from "sequelize";
 
-import {
-  Product,
-  sequelize,
-  Category,
-  Vendor,
-  User,
-  Wishlist
-} from "../database/models";
+import {Product,sequelize,Category,Vendor,User,Wishlist,Buyer} from "../database/models";
 
 class ProductController {
   static async searchProduct(req, res) {
@@ -142,35 +131,24 @@ class ProductController {
   static async getProductById(req, res) {
     try {
       const productId = req.params.id;
-
       if (Number.isNaN(productId)) {
         return res
           .status(400)
           .json({ status: "fail", message: `Invalid id (${req.params.id})` });
       }
-
       const product = await Product.findByPk(productId);
-
       if (!product) {
-        return res
-          .status(404)
-          .json({ status: "fail", message: "Product not found." });
+        return res.status(404).json({ status: "fail", message: "Product not found." });
       }
       if (!product.available) {
-        return res
-          .status(404)
-          .json({ status: "fail", message: "Product not available for sale." });
+        return res.status(404).json({ status: "fail", message: "Product not available for sale." });
       }
       if (
         req.user &&
         req.user.role.roleName === "vendor" &&
         req.user.role.id !== product.vendorId
       ) {
-        return res
-          .status(403)
-          .json({
-            status: "fail",
-            message: "You are not allowed to perform this operation"
+        return res.status(403).json({status: "fail",message: "You are not allowed to perform this operation"
           });
       }
       res.status(200).json({ status: "success", item: product });
@@ -221,10 +199,7 @@ class ProductController {
         currentPage: page
       });
     } catch (error) {
-      return res.status(500).json({
-        status: "error",
-        error: error.message
-      });
+      return res.status(500).json({status: "error",error: error.messag});
     }
   }
 
@@ -253,6 +228,7 @@ class ProductController {
         limit,
         offset: (page - 1) * limit
       });
+
       return res.status(200).json({
         status: "success",
         items: items.rows,
@@ -267,17 +243,56 @@ class ProductController {
     }
   }
 
-  static async addToWishlist(req, res) {
+  static async getRecommendedProducts(req, res) {
+    const { searchParam } = req.query; 
     try {
-      const buyerId = req.user.id;
-      const { productId } = req.params;
-      const product = await Product.findOne({
-        where: { productId: productId }
-      });
+        const search = await Product.findAll({
+          where: {
+            [Op.or]: [
+              {
+                productName: {
+                  [Op.like]: `%${searchParam}%`,
+                },
+              },
+              {
+                productDescription: {
+                  [Op.like]: `%${searchParam}%`,
+                },
+              },
+              {
+                productOwner: {
+                  [Op.like]: `%${searchParam}%`,
+                },
+              },
+            ],
+          },
+        });
+        const firstProduct = search[0];
+        const category = await Category.findOne({
+          where: { id: firstProduct.CategoryId },
+        });
+        const recommendedProducts = await Product.findAll({
+          where: {
+            [Op.and]: [{ CategoryId: category.id }],
+          },
+          limit: 20,
+        });
+        return res.status(200).json({status: "success",message: "products retrieved successfully",data: search, recommendedProducts,});
+      } 
+     catch (error) {
+      return res.status(500).json({ status: "error", error: error.message });
+    }
+  }
+  
+  
+       
+  static async addToWishlist(req, res) {
+    try { 
+      const buyerId = req.user.id; 
+      const {productId} = req.params; 
+      const product = await Product.findOne({ where:{productId} });
       if (!product) {
-        return res
-          .status(404)
-          .json({ status: "fail", message: "Product not found" });
+        return res.status(404).json({ status: "fail", message: "Product not found" });
       }
       let wishlists = await Wishlist.findOne({ where: { userId: buyerId } });
       if (!wishlists) {
@@ -287,21 +302,13 @@ class ProductController {
         wishlists = newWishlist;
       }
       if (wishlists.products.includes(parseInt(productId))) {
-        return res
-          .status(400)
-          .json({ status: "fail", message: "Product already in wishlist" });
+        return res.status(400).json({ status: "fail", message: "Product already in wishlist" });
       }
 
       const newProductIds = [...wishlists.products, productId];
       wishlists.products = newProductIds;
       await wishlists.save();
-      return res
-        .status(200)
-        .json({
-          status: "fail",
-          message: "Product added to wishlist",
-          product
-        });
+      return res.status(200).json({status: "fail",message: "Product added to wishlist",product});
     } catch (error) {
       return res.status(500).json({
         error: error.message,
@@ -320,8 +327,8 @@ class ProductController {
         where: { userId: userId }
       });
       const products = [];
-      for (let item of wishlistItems.products) {
-        let product = await Product.findOne({ where: { productId: item } });
+      for (const item of wishlistItems.products) {
+        const product = await Product.findOne({ where: { productId: item } });
         if (product) {
           products.push(product);
         }
