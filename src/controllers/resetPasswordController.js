@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const { user } = require("../database/models");
+const { User } = require("../database/models");
 
 // Define the nodemailer transporter object
 const transporter = nodemailer.createTransport({
@@ -40,7 +40,7 @@ function verifyResetToken(token) {
 }
 async function resetPassword(email, password) {
   const hashedPassword = await bcrypt.hash(password, 10);
-  const foundUser = await user.findOne({ where: { email } });
+  const foundUser = await User.findOne({ where: { email } });
   if (!foundUser) {
     return res.status(400).json({
       status: "fail",
@@ -62,7 +62,7 @@ async function resetPassword(email, password) {
 
 async function requestReset(req, res) {
   const { email } = req.body;
-  const foundUser = await user.findOne({ where: { email } });
+  const foundUser = await User.findOne({ where: { email } });
   if (!foundUser) {
     return res.status(404).json({
       status: "fail",
@@ -85,7 +85,7 @@ async function processReset(req, res) {
   const { password } = req.body;
   try {
     const email = await verifyResetToken(token);
-    const foundUser = await user.findOne({ where: { email } });
+    const foundUser = await User.findOne({ where: { email } });
     if (!foundUser) {
       return res.status(404).json({
         status: "fail",

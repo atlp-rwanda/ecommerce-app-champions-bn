@@ -5,7 +5,7 @@ export const validate = (schema) => {
         if(error){
             const errorMsg = error.details[0].message.replace(/[/"]+/g, '');
             return res.status(401).json({
-                status:"error",
+                status:"fail",
                 message:errorMsg
             });
         }

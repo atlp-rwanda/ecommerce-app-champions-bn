@@ -1,28 +1,27 @@
 import express from "express";
-
-import productController from "../controllers/productController";
+import ProductController from "../controllers/productController";
 import isLoggedIn from "../middlewares/checklogin";
 import uploadImages from "../middlewares/uploadImage";
-import { verifyBuyer } from "../middlewares/authenticate";
+import {productExistAlready,IsProductExist} from "../middlewares/productExists";
+import { verifyVendor, verifyBuyer } from "../middlewares/authenticate";
+import { productSchema } from "../validations/validateProduct";
+import { validate } from "../middlewares/validate";
+import checkOwner from "../middlewares/checkOwner";
+
+const productRoute = express.Router();
+
+productRoute.get("/searcch", ProductController.searchProduct);
+productRoute.get("/getAll", isLoggedIn, ProductController.getAllProducts);
+productRoute.get("/getAvailable",isLoggedIn,ProductController.getAvailableProduct);
+productRoute.get("/getOne/:id", isLoggedIn, ProductController.getProductById);
+productRoute.post("/addToWishlist/:productId",verifyBuyer,ProductController.addToWishlist);
+productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
+productRoute.post("/create",uploadImages("productImage"),verifyVendor,validate(productSchema),productExistAlready,ProductController.createProduct);
+productRoute.patch("/update/:id",uploadImages("productImage"),verifyVendor,IsProductExist,checkOwner,validate(productSchema),ProductController.updateProduct);
+
+export default productRoute;
 
 
-const produRoute = express.Router();
 
-produRoute.post("/create",
-uploadImages("images"),
-isLoggedIn, productController.createProduct);
-produRoute.get("/searcch",productController.searchProduct);
-produRoute.get("/getAll",isLoggedIn,productController.getAllProducts);
-produRoute.get("/getAvailable",isLoggedIn,productController.getAvailableProduct);
 
-produRoute.delete("/delete/:id",isLoggedIn,
-productController.deleteProduct);
-produRoute.get("/getOne/:id",isLoggedIn, productController.getProductById);
 
-produRoute.post("/create",isLoggedIn,
-uploadImages("images"),
-productController.createProduct);
-produRoute.post("/addToWishlist/:productId" ,verifyBuyer, productController.addToWishlist)
-produRoute.get("/retrieveWishlistItems" , verifyBuyer, productController.retrieveProductItems)
-
-export default produRoute;

@@ -1,7 +1,7 @@
-import app from "../src/app";
 import request from "supertest";
+import app from "../src/app";
 
-//testing home page endpoint
+// testing home page endpoint
 describe("testing all routes", () => {
   test("testing the home page endpoint", async () => {
     const response = await request(app).get("/").send();
@@ -9,7 +9,7 @@ describe("testing all routes", () => {
   });
 });
 
-//testitng two factor authentication for vendors and admins on the login
+ // testitng two factor authentication for vendors and admins on the login
 
 describe("two factor authentication for vendors and admins", () => {
   test("should test for invalid token", async () => {

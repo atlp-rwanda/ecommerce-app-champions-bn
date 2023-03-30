@@ -1,11 +1,11 @@
 const product = {
   tags: ["Product"],
   description: "create a product",
-  // security: [
-  //   {
-  //     token: []
-  //   }
-  // ],
+  security: [
+    {
+      token: []
+    }
+  ],
   requestBody: {
     content: {
       "multipart/form-data": {
@@ -27,8 +27,8 @@ const product = {
               required: true,
               description: "Price of the item"
             },
-            CategoryId: {
-              type: "integer",
+            category: {
+              type: "string",
               required: true,
               description: "Category of the item"
             },
@@ -299,8 +299,99 @@ const getProductById = {
     }
   }
 };
+const updateProduct = {
+  tags: ["Product"],
+  description: "update product",
+  parameters: [
+    {
+      in: "path",
+      name: "id",
+      description: "id of the product",
+      required: true,
+      schema: {
+        type: "number",
+        format: "number"
+      }
+    }
+  ],
+  requestBody: {
+    content: {
+      "multipart/form-data": {
+        schema: {
+          type: "object",
+          properties: {
+            productOwner: {
+              type: "string",
+              required: true,
+              description: "Item owner"
+            },
+            productName: {
+              type: "string",
+              required: true,
+              description: "Item name"
+            },
+            productPrice: {
+              type: "number",
+              required: true,
+              description: "Price of the item"
+            },
+            CategoryId: {
+              type: "integer",
+              required: true,
+              description: "Category of the item"
+            },
+            quantity: {
+              type: "integer",
+              required: true,
+              description: "Number of the items"
+            },
+            expiredDate: {
+              type: "date",
+              required: true,
+              description: "Expiry Date of the item",
+              example: "2023-02-30"
+            },
+            bonus: {
+              type: "number",
+              required: true,
+              description: "Bonus section"
+            },
+            productImage: {
+              type: "array",
+              items: {
+                type: "string",
+                format: "binary",
+                required: true,
+                minItems: 2
+              }
+            },
+            productDescription: {
+              type: "string",
+              required: true,
+              description: "product description"
+            }
+          }
+        }
+      }
+    }
+  },
+  responses: {
+    200: {
+      description: "Success"
+    },
+    400: {
+      description: "Bad request"
+    },
+    401: {
+      description: "Unauthorized"
+    },
+    500: {
+      description: "internal server error"
+    }
+  }
+};
 
-    const deleteProduct = {
+const deleteProduct = {
     tags: ["Product"],
     description: "delete product from seller collection",
     parameters: [
@@ -375,6 +466,9 @@ const getProductById = {
   const productRouteDoc = {
     "/api/product/create": {
       post: product
+    },
+    "/api/product/update/{id}": {
+      patch: updateProduct
     },
       "/api/product/searcch": {
         get: searchProduct
