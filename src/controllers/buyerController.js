@@ -74,7 +74,7 @@ class BuyerController {
   message:"Invalid token"});
   }
   
-  const verifiedUser=await user.findOne({
+  const verifiedUser=await User.findOne({
     where: {id:userId.id}});
   
   
