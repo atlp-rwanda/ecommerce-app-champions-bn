@@ -8,11 +8,20 @@ import comparePassword from "../utils/verifyPassword";
 import SendEmail from "../utils/2faEmail";
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
-const { User, Role, Permission,Vendor,ReportedActivity } = require("../database/models");
+const {
+  User,
+  Role,
+  Permission,
+  Vendor,
+  ReportedActivity
+} = require("../database/models");
+
+dotenv.config();
 
 class UserController {
   static async signin(req, res) {
     try {
+      const nodenv = process.env.NODE_ENV;
       const { dataValues } = await User.findOne({
         where: { email: req.body.email }
       });
@@ -25,7 +34,6 @@ class UserController {
       });
       const roles = existingRole.toJSON();
 
-
       const match = await bcrypt.compare(
         req.body.password,
         dataValues.password
@@ -34,38 +42,51 @@ class UserController {
         return res
           .status(401)
           .json({ status: "fail", message: "invalid password" });
-      if (roles.roleName === "vendor") {
-        const secret = await speakeasy.generateSecret({ length: 15 });
-        const OTP = await speakeasy.totp({
-          secret: secret.base32,
-          encoding: "base32",
-          time: Math.floor(Date.now() / 1000 / 90),
-          step: 90
-        });
-        const salt = await bcrypt.genSalt(10);
-        const hashedOTP = await bcrypt.hash(OTP, salt);
-        const { url } = process.env;
-        await new SendEmail(
-          url,
-          dataValues.firstName,
-          dataValues.email,
-          OTP
-        ).twoFactorAuth();
-        const encodedOTP = Buffer.from(hashedOTP).toString("base64");
-       
+      // if (roles.roleName === "vendor") {
+      //   const secret = await speakeasy.generateSecret({ length: 15 });
+      //   const OTP = await speakeasy.totp({
+      //     secret: secret.base32,
+      //     encoding: "base32",
+      //     time: Math.floor(Date.now() / 1000 / 90),
+      //     step: 90
+      //   });
+      //   const salt = await bcrypt.genSalt(10);
+      //   const hashedOTP = await bcrypt.hash(OTP, salt);
+      //   const { url } = process.env;
+      //   await new SendEmail(
+      //     url,
+      //     dataValues.firstName,
+      //     dataValues.email,
+      //     OTP
+      //   ).twoFactorAuth();
+      //   const encodedOTP = Buffer.from(hashedOTP).toString("base64");
 
-        await handleCookies(
-          5,
-          "loginOTP",
-          encodedOTP,
-          "loginVendorid",
-          dataValues.id,
-          res
-        );
-        return res
-          .status(200)
-          .json({ firstName: dataValues.firstName, hashedOTP });
-      }
+      //   await handleCookies(
+      //     5,
+      //     "loginOTP",
+      //     encodedOTP,
+      //     "loginVendorid",
+      //     dataValues.id,
+      //     res
+      //   );
+      //   if (nodenv === "test") {
+      //     const newToken = jwt.sign(
+      //       { id: dataValues.id, role: roles,  roleName: roles.roleName },
+      //       process.env.JWT_SECRET
+      //     );
+      //     console.log("00000", newToken);
+      //     res.status(200).json({
+      //       id: dataValues.id,
+      //       newToken,
+      //       role: roles,
+      //       roleName: roles.roleName
+      //     });
+      //   } else {
+      //     return res
+      //       .status(200)
+      //       .json({ firstName: dataValues.firstName, hashedOTP });
+      //   }
+      // }
       const token = jwt.sign(
         { id: dataValues.id, role: roles },
         process.env.JWT_SECRET
@@ -137,7 +158,7 @@ class UserController {
             firstName: vendor.firstName,
             email: vendor.email,
             RoleId: vendor.RoleId,
-            roleName: roles.roleName
+            role: roles
           });
           // const token = jwt.sign(
           //   { id: dataValues.id, role: roles },
@@ -172,7 +193,7 @@ class UserController {
       await res.clearCookie("token");
       return res
         .status(200)
-        .json({ status: req.t("success"), message: req.t("message")});
+        .json({ status: req.t("success"), message: req.t("message") });
     } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
     }

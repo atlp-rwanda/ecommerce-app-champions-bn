@@ -6,18 +6,18 @@ export const verifyToken = (req, res, next) => {
     if (!authHeader) {
       return res
         .status(401)
-        .json({ status: "error", error: "Token is required to continue" });
+        .json({ status: "fail", error: "Token is required to continue" });
     }
-      const token = authHeader.split(" ")[1];
-      if (!token)
-        return res
-          .status(401)
-          .json({ status: "error", error: "You are not authenticated" });
-      const verified = verify(token);
-      req.user = verified;
-      return next();
+    const token = authHeader.split(" ")[1];
+    if (!token)
+      return res
+        .status(401)
+        .json({ status: "fail", error: "You are not authenticated" });
+    const verified = verify(token);
+    req.user = verified;
+    return next();
   } catch (error) {
-    res.status(401).json({ status: "error", error: error.message });
+    res.status(401).json({ status: "fail", error: error.message });
   }
 };
 
@@ -29,20 +29,31 @@ export const verifyAdmin = (req, res, next) => {
     } else {
       return res
         .status(401)
-        .json({ status: "error", error: "you are not authorized" });
+        .json({ status: "fail", error: "you are not authorized" });
     }
   });
 };
 
 export const verifyVendor = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.role.roleName === "vendor") {
+      return next();
+    } else {
+      return res
+        .status(401)
+        .json({ status: "error", error: "you are not authorized" });
+    }
+  });
+};
 
-    verifyToken(req, res, () => {
-      if (req.user.roleName === "vendor") {
-        return next();
-      } else {
-        return res
-          .status(401)
-          .json({ status: "error", error: "you are not authorized" });
-      }
-    });
-  };
+export const verifyBuyer = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.role.roleName === "buyer") {
+      return next();
+    } else {
+      return res
+        .status(403)
+        .json({ status: "fail", error: "you are not authorized" });
+    }
+  });
+};

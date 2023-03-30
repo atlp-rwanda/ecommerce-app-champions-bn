@@ -9,7 +9,7 @@ const  uploadImages =(name)=>{
 
             upload.array(name)(req,res,(err)=>{
                 if (err){
-                    return res.status(400).json({status:"fail",mess:err.message});
+                    return res.status(400).json({status:"fail",error: err.message});
                 }
 
                 next();

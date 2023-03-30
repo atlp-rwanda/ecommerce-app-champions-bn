@@ -1,4 +1,5 @@
 
+
 import { decodeAccessToken } from '../utils/helpers/generateToken';
 
 const isLoggedIn = async (req, res, next) => {

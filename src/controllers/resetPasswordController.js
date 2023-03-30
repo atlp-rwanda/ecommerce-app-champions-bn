@@ -111,7 +111,7 @@ async function processReset(req, res) {
     console.log(err);
     return res.status(400).json({
       status: "fail",
-      error: "Invalid tokenfedgdsghd"
+      error: "Invalid token"
     });
   }
 }

@@ -13,4 +13,5 @@ vendorRoute.get("/all", VendorController.getAllVendors);
 vendorRoute.get("/:id", VendorController.getAllVendors);
 vendorRoute.get("/oneProfile/:userId", VendorController.getProfile);
 vendorRoute.post("/disable/:id",verifyAdmin, VendorController.disableVendorAccount);
+
 export default vendorRoute;
