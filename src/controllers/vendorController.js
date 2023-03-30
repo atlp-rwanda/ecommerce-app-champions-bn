@@ -19,7 +19,7 @@ class VendorController {
       if (exists) {
         return res
           .status(409)
-          .json({ status: 409, message: "vendor Already Exists" });
+          .json({ status: "fail", message: "vendor Already Exists" });
       }
       const password = randomPassword();
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,7 +45,7 @@ class VendorController {
       });
     } catch (error) {
       return res.status(400).json({
-        status: "error",
+        status: "fail",
         message: "failed to add a user information",
         error: error.message
       });

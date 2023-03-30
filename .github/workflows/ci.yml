@@ -27,6 +27,9 @@ jobs:
       REDIRECT_URI: ${{secrets.REDIRECT_URI}}
       GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
       GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
+      CLOUDINARY_CLOUD_NAME: ${{secrets.CLOUDINARY_CLOUD_NAME}}
+      CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
+      CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}
 
     steps:
       - uses: actions/checkout@v1

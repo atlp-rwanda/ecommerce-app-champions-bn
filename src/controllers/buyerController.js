@@ -18,7 +18,7 @@ class BuyerController {
 
       if (existingBuyer) {
         return res.status(409).json({
-          status: "error",
+          status: "fail",
           message: req.t("existEmail")
         });
       }
@@ -79,7 +79,7 @@ class BuyerController {
   
   
     if(!verifiedUser){
-      return res.status(404).json({status:"error",message:"user not found"});
+      return res.status(404).json({status:"fail",message:"user not found"});
     }
   
     verifiedUser.isVerified=true;

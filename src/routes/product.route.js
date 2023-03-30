@@ -2,11 +2,10 @@ import express from "express";
 import ProductController from "../controllers/productController";
 import isLoggedIn from "../middlewares/checklogin";
 import uploadImages from "../middlewares/uploadImage";
-import {productExistAlready,IsProductExist} from "../middlewares/productExists";
-import { verifyVendor, verifyBuyer } from "../middlewares/authenticate";
-import { productSchema } from "../validations/validateProduct";
+import { productExistAlready,IsProductExist } from "../middlewares/productExists";
+import { productSchema, updateSchema } from "../validations/validateProduct";
 import { validate } from "../middlewares/validate";
-import checkOwner from "../middlewares/checkOwner";
+import { verifyBuyer, verifyVendor } from "../middlewares/authenticate";
 
 const productRoute = express.Router();
 
@@ -16,12 +15,7 @@ productRoute.get("/getAvailable",isLoggedIn,ProductController.getAvailableProduc
 productRoute.get("/getOne/:id", isLoggedIn, ProductController.getProductById);
 productRoute.post("/addToWishlist/:productId",verifyBuyer,ProductController.addToWishlist);
 productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
-productRoute.post("/create",uploadImages("productImage"),verifyVendor,validate(productSchema),productExistAlready,ProductController.createProduct);
-productRoute.patch("/update/:id",uploadImages("productImage"),verifyVendor,IsProductExist,checkOwner,validate(productSchema),ProductController.updateProduct);
+productRoute.post("/create",verifyVendor,uploadImages("productImage"),validate(productSchema),productExistAlready,ProductController.createProduct);
+productRoute.patch("/update/:id",verifyVendor,uploadImages("productImage"),IsProductExist,validate(updateSchema),ProductController.updateProduct);
 
 export default productRoute;
-
-
-
-
-

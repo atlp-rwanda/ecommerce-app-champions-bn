@@ -7,7 +7,7 @@ import comparePassword from "../utils/verifyPassword";
 import SendEmail from "../utils/2faEmail";
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
-<<<<<<< HEAD
+
 const {
   User,
   Role,
@@ -15,40 +15,22 @@ const {
   Vendor,
   ReportedActivity
 } = require("../database/models");
-=======
-const { user, Role, Permission } = require("../database/models");
->>>>>>> 6340f0c (ft-update-product)
 
 dotenv.config();
 
 class UserController {
   static async signin(req, res) {
     try {
-<<<<<<< HEAD
-      const nodenv = process.env.NODE_ENV;
-      const { dataValues } = await User.findOne({
-=======
-      const { dataValues } = await user.findOne({
->>>>>>> 6340f0c (ft-update-product)
-        where: { email: req.body.email }
-      });
-      if (!dataValues)
-        return res
-          .status(401)
-          .json({ status: "fail", message: "user not exists" });
-      const existingRole = await Role.findByPk(dataValues.RoleId, {
-        include: { model: Permission }
-      });
-      const roles = existingRole.toJSON();
 
-      const match = await bcrypt.compare(
-        req.body.password,
-        dataValues.password
-      );
+      const nodenv = process.env.NODE_ENV;
+      const { dataValues } = await User.findOne({where: { email: req.body.email }});
+      if (!dataValues)
+        return res.status(401).json({ status: "fail", message: "user not exists" });
+      const existingRole = await Role.findByPk(dataValues.RoleId, {include: { model: Permission }});
+      const roles = existingRole.toJSON();
+      const match = await bcrypt.compare(req.body.password,dataValues.password);
       if (!match)
-        return res
-          .status(401)
-          .json({ status: "fail", message: "invalid password" });
+        return res.status(401).json({ status: "fail", message: "invalid password" });
       // if (roles.roleName === "vendor") {
       //   const secret = await speakeasy.generateSecret({ length: 15 });
       //   const OTP = await speakeasy.totp({
@@ -92,8 +74,6 @@ class UserController {
       //     return res
       //       .status(200)
       //       .json({ firstName: dataValues.firstName, hashedOTP });
-      //   }
-      // }
       const token = jwt.sign(
         { id: dataValues.id, role: roles },
         process.env.JWT_SECRET
@@ -109,13 +89,13 @@ class UserController {
         .status(200)
         .json({ status: "success", data: { others, roles }, token });
     } catch (error) {
-      return res.status(400).json({ status: "error", error: error.message });
+      return res.status(400).json({ status: "fail", error: error.message });
     }
   }
 
   static async getUser(req, res) {
     try {
-      const existingUser = await user.findByPk(req.params.id, {
+      const existingUser = await User.findByPk(req.params.id, {
         include: [
           {
             model: Role,
@@ -125,13 +105,8 @@ class UserController {
         ]
       });
       if (!existingUser) {
-        return res
-          .status(404)
-          .json({ status: "error", message: req.t("user not found") });
-      }
-      return res
-        .status(200)
-        .json({ status: req.t("success"), data: existingUser });
+        return res.status(404).json({ status: "fail", message: req.t("user not found") });}
+      return res.status(200).json({ status: req.t("success"), data: existingUser });
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }
@@ -150,7 +125,7 @@ class UserController {
         const providedOTP = validToken.trim();
         const isMatch = await comparePassword(providedOTP, decodedToken);
         if (isMatch) {
-          const vendor = await user.findOne({
+          const vendor = await User.findOne({
             where: { id: cookies.loginVendorid }
           });
           if (vendor) {

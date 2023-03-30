@@ -3,8 +3,8 @@ import { Product, Category } from "../database/models";
 
 export async function IsProductExist(req, res, next) {
   try {
-    const productId = req.params.id || req.body.product_id;
-    const product = await Product.findOne({ where: { id: productId } });
+    const Id = req.params.id || req.body.product_id;
+    const product = await Product.findOne({ where: { productId: Id } });
     if (!product || product == null) {
       return res
         .status(404)

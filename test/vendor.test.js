@@ -74,6 +74,23 @@ describe("should create a category", () => {
   });
 });
 
+describe("create a product", () => {
+  test("should add a product", async () => {
+    const res = await request
+      .post("/api/product/create")
+      .set("token", `Bearer ${vendorToken}`)
+      .field("productOwner", "shumba")
+      .field("productName", "car")
+      .field("productPrice", "2000")
+      .field("category", "food")
+      .field("quantity", "20")
+      .field("expiredDate", "2023-02-30")
+      .field("bonus", "21")
+      .field("productDescription", "toyota rava4")
+      .attach("productImage", `${__dirname}/test-image.png`);
+    expect(res.status).toBe(200);
+  });
+});
 describe("disable vendor", () => {
   test("it should disable vendor", async () => {
     const response = await request

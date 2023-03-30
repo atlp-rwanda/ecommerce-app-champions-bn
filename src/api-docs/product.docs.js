@@ -1,4 +1,4 @@
-const product = {
+const postProduct = {
   tags: ["Product"],
   description: "create a product",
   security: [
@@ -302,6 +302,11 @@ const getProductById = {
 const updateProduct = {
   tags: ["Product"],
   description: "update product",
+  security: [
+    {
+      token: []
+    }
+  ],
   parameters: [
     {
       in: "path",
@@ -309,7 +314,7 @@ const updateProduct = {
       description: "id of the product",
       required: true,
       schema: {
-        type: "number",
+        type: "integer",
         format: "number"
       }
     }
@@ -334,11 +339,6 @@ const updateProduct = {
               type: "number",
               required: true,
               description: "Price of the item"
-            },
-            CategoryId: {
-              type: "integer",
-              required: true,
-              description: "Category of the item"
             },
             quantity: {
               type: "integer",
@@ -465,7 +465,7 @@ const deleteProduct = {
   
   const productRouteDoc = {
     "/api/product/create": {
-      post: product
+      post: postProduct
     },
     "/api/product/update/{id}": {
       patch: updateProduct

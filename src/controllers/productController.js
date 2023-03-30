@@ -64,12 +64,8 @@ class ProductController {
         bonus,
         productImage
       });
-      const existCategory = await Category.findOne({
-        where: { name: req.body.category }
-      });
-      const existVendor = await Vendor.findOne({
-        where: { UserId: req.user.id }
-      });
+      const existCategory = await Category.findOne({where: { name: req.body.category }});
+      const existVendor = await Vendor.findOne({where: { UserId: req.user.id }});
       await postProduct.setVendor(existVendor);
       await postProduct.setCategory(existCategory);
       return res.status(200).json({ status: "success", postProduct });
@@ -78,17 +74,39 @@ class ProductController {
     }
   }
 
+  static async updateProduct(req, res) {
+    try {
+      const {
+        productName,
+        productPrice,
+        quantity,productDescription,productOwner,bonus,expiredDate } = req.body;
+      const productImage = req.files.map((img) => img.path);
+      const productUpdate = await Product.update(
+        {
+          productName,
+          productPrice,
+          quantity,
+          productDescription,
+          productOwner,
+          expiredDate,
+          bonus,
+          productImage
+        },
+        { where: { productId: req.params.id } }
+      );
+      return res.status(200).json({ status: "success", productUpdate });
+    } catch (error) {
+      return res.json({status: "failed to update a product",error: error.message});
+    }
+  }
+
   static async categoryController(req, res) {
     const { name } = req.body;
     try {
       const postCategory = await Category.create({ name });
-      return res
-        .status(201)
-        .json({ status: "category created", category: postCategory });
+      return res.status(201).json({ status: "category created", category: postCategory });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ status: "failed to add category", error: error.message });
+      return res.status(500).json({ status: "failed to add category", error: error.message });
     }
   }
 
