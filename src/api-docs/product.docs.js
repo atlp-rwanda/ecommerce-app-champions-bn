@@ -1,11 +1,11 @@
 const product = {
   tags: ["Product"],
   description: "create a product",
-  // security: [
-  //   {
-  //     token: []
-  //   }
-  // ],
+  security: [
+    {
+      token: []
+    }
+  ],
   requestBody: {
     content: {
       "multipart/form-data": {
@@ -27,8 +27,8 @@ const product = {
               required: true,
               description: "Price of the item"
             },
-            CategoryId: {
-              type: "integer",
+            category: {
+              type: "string",
               required: true,
               description: "Category of the item"
             },
