@@ -1,4 +1,3 @@
-/* eslint-disable */
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -7,6 +6,7 @@ import { handleCookies, getCookieInfo } from "../utils/handleCookies";
 import comparePassword from "../utils/verifyPassword";
 import SendEmail from "../utils/2faEmail";
 import { generateAccessToken } from "../utils/helpers/generateToken";
+
 
 const {
   User,
@@ -21,27 +21,16 @@ dotenv.config();
 class UserController {
   static async signin(req, res) {
     try {
-      const nodenv = process.env.NODE_ENV;
-      const { dataValues } = await User.findOne({
-        where: { email: req.body.email }
-      });
-      if (!dataValues)
-        return res
-          .status(401)
-          .json({ status: "fail", message: "user not exists" });
-      const existingRole = await Role.findByPk(dataValues.RoleId, {
-        include: { model: Permission }
-      });
-      const roles = existingRole.toJSON();
 
-      const match = await bcrypt.compare(
-        req.body.password,
-        dataValues.password
-      );
+      const nodenv = process.env.NODE_ENV;
+      const { dataValues } = await User.findOne({where: { email: req.body.email }});
+      if (!dataValues)
+        return res.status(401).json({ status: "fail", message: "user not exists" });
+      const existingRole = await Role.findByPk(dataValues.RoleId, {include: { model: Permission }});
+      const roles = existingRole.toJSON();
+      const match = await bcrypt.compare(req.body.password,dataValues.password);
       if (!match)
-        return res
-          .status(401)
-          .json({ status: "fail", message: "invalid password" });
+        return res.status(401).json({ status: "fail", message: "invalid password" });
       // if (roles.roleName === "vendor") {
       //   const secret = await speakeasy.generateSecret({ length: 15 });
       //   const OTP = await speakeasy.totp({
@@ -85,8 +74,6 @@ class UserController {
       //     return res
       //       .status(200)
       //       .json({ firstName: dataValues.firstName, hashedOTP });
-      //   }
-      // }
       const token = jwt.sign(
         { id: dataValues.id, role: roles },
         process.env.JWT_SECRET
@@ -102,9 +89,10 @@ class UserController {
         .status(200)
         .json({ status: "success", data: { others, roles }, token });
     } catch (error) {
-      return res.status(400).json({ status: "error", error: error.message });
+      return res.status(400).json({ status: "fail", error: error.message });
     }
   }
+
   static async getUser(req, res) {
     try {
       const existingUser = await User.findByPk(req.params.id, {
@@ -117,17 +105,13 @@ class UserController {
         ]
       });
       if (!existingUser) {
-        return res
-          .status(404)
-          .json({ status: "error", message: req.t("user not found") });
-      }
-      return res
-        .status(200)
-        .json({ status: req.t("success"), data: existingUser });
+        return res.status(404).json({ status: "fail", message: req.t("user not found") });}
+      return res.status(200).json({ status: req.t("success"), data: existingUser });
     } catch (error) {
-      return res.status(500).json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
+
   static async Validate(req, res) {
     try {
       const { validToken } = req.body;
@@ -160,10 +144,6 @@ class UserController {
             RoleId: vendor.RoleId,
             role: roles
           });
-          // const token = jwt.sign(
-          //   { id: dataValues.id, role: roles },
-          //   process.env.JWT_SECRET
-          // );
           res.cookie("token", token, {
             secure: false,
             httpOnly: true,
@@ -195,7 +175,7 @@ class UserController {
         .status(200)
         .json({ status: req.t("success"), message: req.t("message") });
     } catch (error) {
-      return res.status(500).json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
 }

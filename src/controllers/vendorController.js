@@ -2,8 +2,13 @@ import bcrypt from "bcrypt";
 import { Op, where } from "sequelize";
 import randomPassword from "../utils/randomPassword";
 import SendEmail from "../utils/emails";
-import { User, Role, Permission, Vendor,ReportedActivity } from "../database/models";
-
+import {
+  User,
+  Role,
+  Permission,
+  Vendor,
+  ReportedActivity
+} from "../database/models";
 
 class VendorController {
   static async registerVendor(req, res) {
@@ -14,7 +19,7 @@ class VendorController {
       if (exists) {
         return res
           .status(409)
-          .json({ status: 409, message: "vendor Already Exists" });
+          .json({ status: "fail", message: "vendor Already Exists" });
       }
       const password = randomPassword();
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -40,7 +45,7 @@ class VendorController {
       });
     } catch (error) {
       return res.status(400).json({
-        status: "error",
+        status: "fail",
         message: "failed to add a user information",
         error: error.message
       });
@@ -89,40 +94,51 @@ class VendorController {
     }
   }
 
-  static async getAllVendors(req,res){
+  static async getAllVendors(req, res) {
     try {
-      const vendors = await Vendor.findAll({include:[
-        { model:ReportedActivity }
-      ]});
-      return res.status(200).json({status:"success",data:vendors});
+      const vendors = await Vendor.findAll({
+        include: [{ model: ReportedActivity }]
+      });
+      return res.status(200).json({ status: "success", data: vendors });
     } catch (error) {
-      return res.status(500).json({status:"success",error:error.message});
+      return res.status(500).json({ status: "success", error: error.message });
     }
   }
 
-  static async getSingleVendor(req,res){
+  static async getSingleVendor(req, res) {
     try {
-      const vendor = await Vendor.findByPk(req.params.id,{include:[
-        { model:ReportedActivity }
-      ]});
-      return res.status(200).json({status:"success",data:vendor});
+      const vendor = await Vendor.findByPk(req.params.id, {
+        include: [{ model: ReportedActivity }]
+      });
+      return res.status(200).json({ status: "success", data: vendor });
     } catch (error) {
-      return res.status(500).json({status:"success",error:error.message});
+      return res.status(500).json({ status: "success", error: error.message });
     }
   }
 
-  static async disableVendorAccount(req,res){
+  static async disableVendorAccount(req, res) {
     try {
       const existingVendor = await Vendor.findByPk(req.params.id);
-      const reportedactivities = await ReportedActivity.findAll({where:{VendorId:req.params.id}});
-      const user = await User.findOne({where:{id:existingVendor.dataValues.UserId}});
+      const reportedactivities = await ReportedActivity.findAll({
+        where: { VendorId: req.params.id }
+      });
+      const user = await User.findOne({
+        where: { id: existingVendor.dataValues.UserId }
+      });
       const existingUser = user.toJSON();
       console.log(existingUser.active);
-      if(existingUser.active === false){
-         return res.status(403).json({status:"fail",message:"user is already suspended"});
-        }
-        await User.update({active:false},{where:{id:existingVendor.dataValues.UserId}});
-        return res.status(200).json({status:"success",message:'user desactivated'});
+      if (existingUser.active === false) {
+        return res
+          .status(403)
+          .json({ status: "fail", message: "user is already suspended" });
+      }
+      await User.update(
+        { active: false },
+        { where: { id: existingVendor.dataValues.UserId } }
+      );
+      return res
+        .status(200)
+        .json({ status: "success", message: "user desactivated" });
     } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
     }

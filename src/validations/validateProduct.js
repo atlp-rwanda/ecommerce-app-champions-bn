@@ -15,4 +15,14 @@ const categorySchema = Joi.object({
   name: Joi.string().required()
 });
 
-export { productSchema, categorySchema };
+const updateSchema = Joi.object({
+  productName: Joi.string().required(),
+  productOwner: Joi.string().required(),
+  productPrice: Joi.number().required(),
+  quantity: Joi.number().min(0).required(),
+  expiredDate: Joi.date().required(),
+  bonus: Joi.number().required(),
+  productDescription: Joi.string().required()
+});
+
+export { productSchema, categorySchema, updateSchema };

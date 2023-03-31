@@ -1,6 +1,13 @@
 import { Op } from "sequelize";
 
-import {Product,sequelize,Category,Vendor,User,Wishlist} from "../database/models";
+import {
+  Product,
+  sequelize,
+  Category,
+  Vendor,
+  User,
+  Wishlist
+} from "../database/models";
 
 class ProductController {
   static async searchProduct(req, res) {
@@ -35,12 +42,28 @@ class ProductController {
 
   static async createProduct(req, res) {
     try {
-      const {productName,productPrice,quantity,productDescription,productOwner,bonus,expiredDate,category} = req.body;
+      const {
+        productName,
+        productPrice,
+        quantity,
+        productDescription,
+        productOwner,
+        bonus,
+        expiredDate,
+        category
+      } = req.body;
       const productImage = req.files.map((img) => img.path);
       const postProduct = await Product.create({
         productName,
         productPrice,
-        quantity,category,productDescription,productOwner,expiredDate,bonus,productImage});
+        quantity,
+        category,
+        productDescription,
+        productOwner,
+        expiredDate,
+        bonus,
+        productImage
+      });
       const existCategory = await Category.findOne({where: { name: req.body.category }});
       const existVendor = await Vendor.findOne({where: { UserId: req.user.id }});
       await postProduct.setVendor(existVendor);
@@ -48,6 +71,32 @@ class ProductController {
       return res.status(200).json({ status: "success", postProduct });
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
+    }
+  }
+
+  static async updateProduct(req, res) {
+    try {
+      const {
+        productName,
+        productPrice,
+        quantity,productDescription,productOwner,bonus,expiredDate } = req.body;
+      const productImage = req.files.map((img) => img.path);
+      const productUpdate = await Product.update(
+        {
+          productName,
+          productPrice,
+          quantity,
+          productDescription,
+          productOwner,
+          expiredDate,
+          bonus,
+          productImage
+        },
+        { where: { productId: req.params.id } }
+      );
+      return res.status(200).json({ status: "success", productUpdate });
+    } catch (error) {
+      return res.json({status: "failed to update a product",error: error.message});
     }
   }
 
@@ -66,25 +115,38 @@ class ProductController {
       const productId = req.params.id;
 
       if (Number.isNaN(productId)) {
-        return res.status(400).json({status: "fail",message: `Invalid id (${req.params.id})`});
+        return res
+          .status(400)
+          .json({ status: "fail", message: `Invalid id (${req.params.id})` });
       }
 
       const product = await Product.findByPk(productId);
 
       if (!product) {
-        return res.status(404).json({status: "fail",message: "Product not found."});
+        return res
+          .status(404)
+          .json({ status: "fail", message: "Product not found." });
       }
-
       if (!product.available) {
-        return res.status(404).json({status: "fail",message: "Product not available for sale."});
+        return res
+          .status(404)
+          .json({ status: "fail", message: "Product not available for sale." });
       }
-
-      if ( req.user && req.user.role.roleName === "vendor" && req.user.role.id !== product.vendorId) {
-        return res.status(403).json({status: "fail",message: "You are not allowed to perform this operation"});
+      if (
+        req.user &&
+        req.user.role.roleName === "vendor" &&
+        req.user.role.id !== product.vendorId
+      ) {
+        return res
+          .status(403)
+          .json({
+            status: "fail",
+            message: "You are not allowed to perform this operation"
+          });
       }
-      res.status(200).json({status: "success",item: product});
+      res.status(200).json({ status: "success", item: product });
     } catch (err) {
-      res.status(400).json({status: "fail",message: err.message});
+      res.status(400).json({ status: "fail", message: err.message });
     }
   }
 
@@ -179,12 +241,14 @@ class ProductController {
   static async addToWishlist(req, res) {
     try {
       const buyerId = req.user.id;
-      const {productId} = req.params;
+      const { productId } = req.params;
       const product = await Product.findOne({
         where: { productId: productId }
       });
       if (!product) {
-        return res.status(404).json({ status: "fail", message: "Product not found" });
+        return res
+          .status(404)
+          .json({ status: "fail", message: "Product not found" });
       }
       let wishlists = await Wishlist.findOne({ where: { userId: buyerId } });
       if (!wishlists) {
@@ -194,7 +258,9 @@ class ProductController {
         wishlists = newWishlist;
       }
       if (wishlists.products.includes(parseInt(productId))) {
-        return res.status(400).json({ status: "fail", message: "Product already in wishlist" });
+        return res
+          .status(400)
+          .json({ status: "fail", message: "Product already in wishlist" });
       }
 
       const newProductIds = [...wishlists.products, productId];
@@ -202,7 +268,11 @@ class ProductController {
       await wishlists.save();
       return res
         .status(200)
-        .json({ status: "fail", message: "Product added to wishlist", product });
+        .json({
+          status: "fail",
+          message: "Product added to wishlist",
+          product
+        });
     } catch (error) {
       return res.status(500).json({
         error: error.message,

@@ -14,6 +14,7 @@ import productRouteDoc from "./product.docs";
 import categoryRouteDoc from "./category.docs";
 
 dotenv.config();
+
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -36,7 +37,8 @@ const options = {
       { name: "Users", description: "User Routes" },
       { name: "Product", description: "Product Routes" },
       { name: "Permission", description: "Permission Routes" },
-      { name: "Role", description: "Role Routes" }
+      { name: "Role", description: "Role Routes" },
+      { name: "Auth", description: "Authentication Routes" }
     ],
     components: {
       securitySchemes: {
@@ -65,7 +67,6 @@ const options = {
         }
       }
     },
-
     paths: {
       ...vendorRouteDoc,
       ...userRouteDoc,
