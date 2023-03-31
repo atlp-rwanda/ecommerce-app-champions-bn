@@ -1,6 +1,9 @@
+
+
 import supertest from "supertest";
 import defaults from "superagent-defaults";
 import app from "../src/app";
+import {Product} from "../src/database/models"
 
 let vendorToken;
 let adminToken;
@@ -91,6 +94,42 @@ describe("create a product", () => {
     expect(res.status).toBe(200);
   });
 });
+  
+describe("DELETE /api/product/delete/:id", () => {
+  it("should delete product in seller collection", async () => {
+    const response = await request.delete(`/api/product/delete/${1}`)
+    .set("token", `Bearer ${vendorToken}`)
+    expect(response.statusCode).toBe(204);
+    const deletedProduct = await Product.findByPk(1);
+    expect(deletedProduct).toBeNull();
+  });
+  
+  it("should return 404 if product not found", async () => {
+    const response = await request
+    .delete(`/api/product/delete/99999`)
+    .set("token", `Bearer ${vendorToken}`)
+    expect(response.statusCode).toBe(404);
+    expect(response.body.status).toBe("fail");
+    expect(response.body.message).toBe("Product not found in your collecton");
+    expect(typeof response.body).toBe('object');
+  });
+  
+  it("should return 401 if user is not a vendor", async () => {
+    const res = await request.post("/api/user/login").send({
+      "email": "buyer@yopmail.com",
+      "password": "buyer@1234"
+    });
+    const buyertoken = res.body.token;
+    const response = await request.delete(`/api/product/delete/${1}`)
+      .set("token", `${buyertoken}`);
+  
+    expect(response.statusCode).toBe(401);
+    expect(response.body.status).toBe("fail");
+    expect(typeof response.body).toBe('object');
+  });
+  
+});
+
 describe("disable vendor", () => {
   test("it should disable vendor", async () => {
     const response = await request
@@ -100,3 +139,6 @@ describe("disable vendor", () => {
     expect(response.body.status).toBe("success");
   });
 });
+
+
+
