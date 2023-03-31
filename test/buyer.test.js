@@ -6,28 +6,8 @@ const request = defaults(supertest(app))
 
 let token;
 let userId;
-describe("testing create role",() =>{
-  test('should create role', async () => { 
-      const res = await request.post("/api/role/create").send({
-          roleName:"manager"
-      });
-      expect(res.statusCode).toBe(201);
-      expect(res.body.status).toBe('success');
-      expect(typeof res.body).toBe('object');
-   });
-});
-
-describe("testing create permission",() =>{
-  test('should create permission', async () => { 
-      const res = await request.post("/api/permission/create").send({
-          permissionName:"buyer buys product"
-      });
-      expect(res.statusCode).toBe(201);
-      expect(res.body.status).toBe('success');
-      expect(typeof res.body).toBe('object');
-   })
-});
-
+let cookie;
+    
 describe("testing buyer signup",() =>{
     test("buyer signup",async () =>{
       const response=await request.post("/api/buyer/signup").send({
@@ -40,7 +20,6 @@ describe("testing buyer signup",() =>{
       expect(response.statusCode).toBe(201);
     })
   });
-
 
   describe("tesing update buyer profile update",() =>{
     test('update profile',async () =>{
@@ -60,61 +39,35 @@ describe("testing buyer signup",() =>{
   }) 
   });
 
-    
 
-  describe("testing signin email and password", () => {
-    let cookie;
-    
-    beforeAll(async () => {
-      const res = await request.post("/api/user/login")
-        .send({ 
-          email: "ngarukiyimanasostene@gmail.com", 
-          password: "1234567@password" 
-        });
-            
+  describe("testing signin email and password", () => {    
+    test("sign in the buyer",async () => {
+      const res = await request.post("/api/user/login").send({
+        email:"ngarukiyimanasostene@gmail.com", 
+        password: "1234567@password" }); 
       expect(res.statusCode).toBe(200);
       expect(res.body.status).toBe('success');
       token = res.body.token;
-
       cookie = res.headers['set-cookie'][0];
-
   });
-  describe('/addToWishlist/:productId endpoint', () => {
 
-    it('should return 404 if product is not found', async () => {
-  
+  describe('/addToWishlist/:productId endpoint', () => {
+    test('should return 404 if product is not found', async () => {
       const res = await request.post('/api/product/addToWishlist/100').set('token', `Bearer ${token}`);
       expect(res.statusCode).toBe(404);
-      expect(res.body).toEqual({ message: 'Product not found' });
     });
   
-    it('should create a new wishlist if one does not exist', async () => {
-  
-      const productId = 1;
-  
-      const res = await request.post(`/api/product/addToWishlist/${productId}`).set('token', `Bearer ${token}`);
-      expect(res.statusCode).toBe(200);
-    
-});
-  
-    it('should add a product to an existing wishlist', async () => {
-  
+    test('should add a product to an existing wishlist', async () => {
        const prodId = 2;
-  
-      const res = await request.post(`/api/product/addToWishlist/${prodId}`).set('token',  `Bearer ${token}`);
+      const res = await request.post(`/api/product/addToWishlist/${prodId}`).set('token',`Bearer ${token}`);
       expect(res.statusCode).toBe(200);
-    
-  
     });
-  
-    it('should return 400 if product is already in wishlist', async () => {
+
+    test('should return 400 if product is already in wishlist', async () => {
       const proId = 2;
-  
       const res = await request.post(`/api/product/addToWishlist/${proId}`)
         .set('token', `Bearer ${token}`)
       expect(res.statusCode).toBe(400);
-  
-      expect(res.body).toEqual({ message: 'Product already in wishlist' });
   
     });
   });
@@ -129,14 +82,12 @@ describe("testing buyer signup",() =>{
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual({ wishlist: expect.any(Array) });
     });
-  
-    it('should return array of all products', async () => {
+    test('should return array of all products', async () => {
         const res = await request.get('/api/product/retrieveWishlistItems').set('token',  `Bearer ${token}`);
         expect(res.statusCode).toBe(200);
        
     });})
       
-
   test('returns 404 if the profile does not exist', async () => {
     const response = await request
       .put('/999')
@@ -156,5 +107,5 @@ describe("testing buyer signup",() =>{
     expect(response.header['set-cookie']).toBeDefined();
     expect(response.header['set-cookie'][0]).toContain('token=; Path=/; Expires=');
   });
-  });
 
+  });

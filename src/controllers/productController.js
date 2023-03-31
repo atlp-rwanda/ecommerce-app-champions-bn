@@ -119,13 +119,11 @@ class ProductController {
       const existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
       const vendor = existingVendor.toJSON();
       const product = await Product.findOne({ where: { productId: req.params.id,VendorId:vendor.id } });
-     
       if (!product) {
         return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
       }
       await product.destroy();
-  
-      return res.status(204).json({ status: req.t("success"), message: req.t("productdeleted") });
+      return res.status(204).json({ status: req.t("success"),data:null, message: req.t("productdeleted") });
   
     } catch (error) {
       return res.status(500).json({ status: "error", message: "Internal server error" });
