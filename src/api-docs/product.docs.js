@@ -392,25 +392,45 @@ const updateProduct = {
 };
 
 const deleteProduct = {
-    tags: ["Product"],
-    description: "delete product from seller collection",
-    parameters: [
-      {
-        name: "id",
-        in: "path",
-        description: "id of product",
-        type: "string",
-        example: "12"
+  tags: ["Product"],
+  description: "delete product from seller collection",
+  security: [
+    {
+      token: []
+    }
+  ],
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      description: "id of product",
+      type: "string",
+      example: "12"
+    }
+  ],
+  responses: {
+    204: {
+      description: "no Content",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object"
+          }
+        }
       }
-    ],
-    responses: {
-      204: {
-        description: "no Content",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object"
-          }}}}}};
+    },
+    404: {
+      description: "Not found",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object"
+          }
+        }
+      }
+    }
+  }
+};
   
   const retrieveProductItems = {
     tags: ["Product"],

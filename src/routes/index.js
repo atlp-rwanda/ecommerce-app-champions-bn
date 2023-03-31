@@ -8,7 +8,7 @@ import userRoute from "./user.route";
 import Oauthroute from "./Oauthroute";
 import reportedRoute from "./reportedActivity.route";
 import productRoute from "./product.route";
-import categoryRoute from "./categoriy.route";
+import categoryRoute from "./category.route";
 
 const indexRouter = express.Router();
 

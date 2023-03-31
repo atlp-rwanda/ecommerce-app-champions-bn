@@ -17,5 +17,5 @@ productRoute.post("/addToWishlist/:productId",verifyBuyer,ProductController.addT
 productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
 productRoute.post("/create",verifyVendor,uploadImages("productImage"),validate(productSchema),productExistAlready,ProductController.createProduct);
 productRoute.patch("/update/:id",verifyVendor,uploadImages("productImage"),IsProductExist,validate(updateSchema),ProductController.updateProduct);
-
+productRoute.delete("/delete/:id",verifyVendor,ProductController.deleteProduct);
 export default productRoute;
