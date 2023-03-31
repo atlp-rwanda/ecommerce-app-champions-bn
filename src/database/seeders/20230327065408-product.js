@@ -42,6 +42,34 @@ module.exports = {
         createdAt: new Date(),
         updatedAt:new Date()
        },
+
+       {
+        VendorId: 1,
+        productName:"guava",
+        CategoryId:3,
+        productImage:['https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png'],
+        productPrice:4,
+        quantity:40,
+        available:true,
+        productDescription:"this is the best product ever",
+        productOwner:"sostene ng",
+        createdAt: new Date(),
+        updatedAt:new Date()
+       },
+
+       {
+        VendorId: 1,
+        productName:"orange",
+        CategoryId:3,
+        productImage:['https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png'],
+        productPrice:4,
+        quantity:40,
+        available:true,
+        productDescription:"this is the best product ever",
+        productOwner:"sostene ng",
+        createdAt: new Date(),
+        updatedAt:new Date()
+       },
   ], {});
   },
 

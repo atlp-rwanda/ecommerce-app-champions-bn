@@ -135,6 +135,7 @@ class UserController {
           const existingRole = await Role.findByPk(vendor.RoleId, {
             include: { model: Permission }
           });
+
           const roles = existingRole.toJSON();
           // provide a new token
           const token = await generateAccessToken({

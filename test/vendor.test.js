@@ -90,7 +90,7 @@ describe("create a product", () => {
       .field("expiredDate", "2023-02-30")
       .field("bonus", "21")
       .field("productDescription", "toyota rava4")
-      .attach("productImage", `${__dirname}/test-image.png`);
+      .attach("productImage",`${__dirname}/test-image.png`);
     expect(res.status).toBe(200);
   });
 });

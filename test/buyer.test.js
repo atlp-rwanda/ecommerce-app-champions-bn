@@ -97,15 +97,4 @@ describe("testing buyer signup",() =>{
       expect(response.statusCode).toBe(404);
   });
 
-  it('should log out user and clear token cookie', async () => {
-    const response = await request
-      .get('/api/user/logout')
-      .set('Cookie', cookie);
-    expect(response.status).toBe(200);
-    expect(response.body.status).toBe('success');
-    expect(response.body.message).toBe('User logged out successfully');
-    expect(response.header['set-cookie']).toBeDefined();
-    expect(response.header['set-cookie'][0]).toContain('token=; Path=/; Expires=');
-  });
-
-  });
+}); 

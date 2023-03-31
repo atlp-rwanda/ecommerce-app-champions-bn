@@ -482,6 +482,122 @@ const deleteProduct = {
       }
     }
   };
+   
+
+
+  const listProduct = {
+    tags: ["Product"],
+    description: "list all product from seller collection",
+    parameters: [],
+    responses: {
+      200: {
+        description: "ok",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object"
+            }
+          }
+        }
+      },
+      404: {
+        description: "Not found",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object"
+            }
+          }
+        }
+      }
+    }
+  };
+  
+
+
+
+  const disableProduct = {
+    tags: ["Product"],
+    description: "make product unavailable",
+    parameters: [
+      {
+        name: "searchParam",
+        in: "query",
+        description: "the text you want to search",
+        type: "string",
+        example: "1"
+      }
+    ],
+    responses: {
+      200: {
+        description: "OK",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object"
+            }
+          }
+        }
+      }
+    }
+  };
+
+
+
+  const enableProduct = {
+    tags: ["Product"],
+    description: "make product available",
+    parameters: [
+      {
+        name: "searchParam",
+        in: "query",
+        description: "the text you want to search",
+        type: "string",
+        example: "2"
+      }
+    ],
+    responses: {
+      200: {
+        description: "OK",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object"
+            }
+          }
+        }
+      }
+    }
+  };
+  
+  
+  
+  const getRecommendedProducts = {
+    tags: ["Product"],
+    description: "get recommended product",
+    parameters: [
+      {
+        name: "searchParam",
+        in: "query",
+        description: "the text you want to search",
+        type: "string",
+        example: "mango"
+      }
+    ],
+
+    responses: {
+      200: {
+        description: "OK",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object"
+            }
+          }
+        }
+      }
+    }
+  }; 
   
   const productRouteDoc = {
     "/api/product/create": {
@@ -506,8 +622,20 @@ const deleteProduct = {
         "/api/product/addToWishlist/{productId}": { 
           post: addToWishlist },
           "/api/product/retrieveWishlistItems": { 
-            get: retrieveProductItems }
+            get: retrieveProductItems },
       
+         "/api/product/getall":{get: listProduct},
+   
+    "/api/product/disable": {
+        get: disableProduct
+      },
+      "/api/product/enable": {
+        get: enableProduct
+      },
+     "/api/product/recommended":{
+      get:getRecommendedProducts
+     }
+ 
   };
   
   export default productRouteDoc;
