@@ -8,6 +8,29 @@ import { validate } from "../middlewares/validate";
 import { verifyBuyer, verifyVendor } from "../middlewares/authenticate";
 
 const productRoute = express.Router();
+import { checkPassword } from "../middlewares/checkPassword";
+import { is } from "@babel/types";
+
+
+
+const produRoute = express.Router();
+
+produRoute.post("/create",
+uploadImages("images"),
+isLoggedIn, ProductController.createProduct);
+produRoute.get("/searcch",ProductController.searchProduct);
+produRoute.get("/getAll",isLoggedIn,ProductController.getAllProducts);
+produRoute.get("/getAvailable",isLoggedIn,ProductController.getAvailableProduct);
+
+produRoute.delete("/delete/:id",isLoggedIn,
+ProductController.deleteProduct);
+produRoute.get("/getOne/:id",isLoggedIn, ProductController.getProductById);
+
+produRoute.post("/create",isLoggedIn,checkPassword,
+uploadImages("images"),
+ProductController.createProduct);
+produRoute.post("/addToWishlist/:productId" ,verifyBuyer,checkPassword, ProductController.addToWishlist)
+produRoute.get("/retrieveWishlistItems" , verifyBuyer, ProductController.retrieveProductItems)
 
 productRoute.get("/searcch", ProductController.searchProduct);
 productRoute.get("/getAll",verifyVendor, ProductController.getAllProducts);

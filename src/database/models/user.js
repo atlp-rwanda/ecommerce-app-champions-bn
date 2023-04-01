@@ -69,6 +69,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull:true
     },
+    lastPasswordUpdate: DataTypes.DATEONLY,
+    passwordStatus: DataTypes.BOOLEAN,
+
     profilepic: {
       type: DataTypes.STRING,
       defaultValue:

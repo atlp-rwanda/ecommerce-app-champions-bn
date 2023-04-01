@@ -17,7 +17,8 @@ module.exports = {
       RoleId:1,
       isVerified:true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+     
      },
      {
       firstName: 'vendor',
@@ -50,7 +51,9 @@ module.exports = {
       RoleId:3,
       isVerified:true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      lastPasswordUpdate: new Date(),
+      passwordStatus:true
      }
     ], {});
   },

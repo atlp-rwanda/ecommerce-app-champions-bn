@@ -8,6 +8,11 @@ const findUserProfile = async (userId) => {
   return Profile;
 };
 
+// const findOneUserService = async (id) => {
+//   const findOneUserRequest = await User.findOne({ where: { id } });
+//   return findOneUserRequest;
+// };
+
 const updateProfile = async (userId, data) => {
   const Profile = await  Buyer.findOne({ where: { userId: `${userId}` } });
   if (!Profile) {
