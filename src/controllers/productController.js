@@ -317,7 +317,7 @@ class ProductController {
       const newProductIds = [...wishlists.products, productId];
       wishlists.products = newProductIds;
       await wishlists.save();
-      return res.status(200).json({status: "fail",message: "Product added to wishlist",product});
+      return res.status(200).json({status: "success",message: "Product added to wishlist",product});
     } catch (error) {
       return res.status(500).json({
         error: error.message,

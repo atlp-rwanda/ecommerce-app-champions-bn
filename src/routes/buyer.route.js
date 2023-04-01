@@ -8,6 +8,7 @@ import {
 } from "../validations/buyerValidationSchema";
 import isLoggedIn from "../middlewares/checklogin";
 
+
 const buyerRoute = Router();
 
 buyerRoute.post("/signup", validate(buyerSchema), BuyerController.createBuyer);

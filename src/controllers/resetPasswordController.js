@@ -98,7 +98,7 @@ async function processReset(req, res) {
     ) {
       console.log(foundUser.resetTokenExpiresAt);
       return res.status(400).json({
-        status: "fail",
+        status:"fail",
         error: "Invalid token"
       });
     }

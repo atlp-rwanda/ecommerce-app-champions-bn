@@ -21,7 +21,9 @@ class VendorController {
         firstName,
         lastName,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        lastPasswordUpdate: new Date(),
+        passwordStatus:true
       });
       const Vendorpermissions = await Permission.findAll({
         where: { permissionName: { [Op.like]: "vendor%" } }

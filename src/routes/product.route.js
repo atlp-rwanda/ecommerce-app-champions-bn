@@ -8,12 +8,32 @@ import { validate } from "../middlewares/validate";
 import { verifyBuyer, verifyVendor } from "../middlewares/authenticate";
 
 const productRoute = express.Router();
+import { checkPassword } from "../middlewares/checkPassword";
+import { is } from "@babel/types";
 
+
+
+const produRoute = express.Router();
+
+produRoute.post("/create",
+uploadImages("images"),
+isLoggedIn, ProductController.createProduct);
+produRoute.get("/searcch",ProductController.searchProduct);
+produRoute.get("/getAll",isLoggedIn,ProductController.getAllProducts);
+produRoute.get("/getAvailable",isLoggedIn,ProductController.getAvailableProduct);
+
+produRoute.delete("/delete/:id",isLoggedIn,
+ProductController.deleteProduct);
+produRoute.get("/getOne/:id",isLoggedIn, ProductController.getProductById);
+
+produRoute.post("/create",isLoggedIn,checkPassword,
+uploadImages("images"),
+ProductController.createProduct);
 productRoute.get("/searcch", ProductController.searchProduct);
 productRoute.get("/getAll",verifyVendor, ProductController.getAllProducts);
 productRoute.get("/getAvailable",ProductController.getAvailableProduct);
 productRoute.get("/getOne/:id", isLoggedIn, ProductController.getProductById);
-productRoute.post("/addToWishlist/:productId",verifyBuyer,ProductController.addToWishlist);
+productRoute.post("/addToWishlist/:productId",verifyBuyer,checkPassword,ProductController.addToWishlist);
 productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
 productRoute.get("/recommended", ProductController.getRecommendedProducts);
 productRoute.get("/checkExpired", ProductController.checkExpiredProducts);

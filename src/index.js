@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import app from "./app";
+import { CroneJobs } from "./jobs/index";
 
 import connectDb from "./database/connectDb";
 
