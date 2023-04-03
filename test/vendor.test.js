@@ -7,6 +7,7 @@ import {Product} from "../src/database/models"
 
 let vendorToken;
 let adminToken;
+let buyertoken
 
 const request = defaults(supertest(app));
 
@@ -128,6 +129,31 @@ describe("DELETE /api/product/delete/:id", () => {
     expect(typeof response.body).toBe('object');
   });
   
+});
+
+describe("testing signin email and password", () => {    
+  test("sign in the buyer",async () => {
+    const res = await request.post("/api/user/login").send({
+      email:"buyer@yopmail.com", 
+      password: "buyer@1234" }); 
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('success');
+    buyertoken = res.body.token;
+});
+});
+
+describe("create report", () => {    
+  test("report the product",async () => {
+    const res = await request.post("/api/report/create").send({
+      activity:"nudity clothes", 
+      category: "nudity" ,
+      productId:1,
+      buyerId:1,
+      VendorId:1
+  }).set('token',`Bearer ${buyertoken}`); 
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('success');
+});
 });
 
 describe("disable vendor", () => {

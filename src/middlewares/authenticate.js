@@ -1,5 +1,7 @@
 /* eslint-disable */
 import { verify } from "../utils/jwt";
+import jwt from "jsonwebtoken";
+
 export const verifyToken = (req, res, next) => {
   try {
     const authHeader = req.headers.token;
@@ -57,3 +59,16 @@ export const verifyBuyer = (req, res, next) => {
     }
   });
 };
+
+
+export const  verifyResetToken = (token) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(decoded.email);
+      }
+    });
+  });
+}

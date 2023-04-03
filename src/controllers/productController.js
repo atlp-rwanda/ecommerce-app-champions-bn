@@ -1,10 +1,9 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable radix */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
+/* eslint-disable*/
 import { Op } from "sequelize";
 
-import {Product,sequelize,Category,Vendor,User,Wishlist,Buyer} from "../database/models";
+import models from "../database/models";
+import sendEmail from "../utils/sendEmail";
+const {Product,Category,Vendor,User,Wishlist,Buyer} = models;
 
 class ProductController {
   static async searchProduct(req, res) {
@@ -159,19 +158,18 @@ class ProductController {
 
   static async getAllProducts(req, res) {
     try {
-      if (req.user.roleName !== "vendor") {
+      if (req.user.role.roleName !== "vendor") {
         return res.status(401).json({
           status: "error",
           error: "Unauthorized. You must be a seller to perform this action."
         });
       }
-
-      const sellerId = req.user.id;
+      const vendor = await Vendor.findOne({where:{UserId:req.user.id}});
+      console.log("vendor",vendor);
       const { page = 1, limit = 10 } = req.query;
-
       const items = await Product.findAndCountAll({
         where: {
-          vendorId: sellerId
+          VendorId: vendor.dataValues.id
         },
         include: [
           {
@@ -199,6 +197,7 @@ class ProductController {
         currentPage: page
       });
     } catch (error) {
+      console.log(error)
       return res.status(500).json({status: "error",error: error.messag});
     }
   }
@@ -209,7 +208,8 @@ class ProductController {
 
       const items = await Product.findAndCountAll({
         where: {
-          available: true
+          available: true,
+          expired:false
         },
         include: [
           {
@@ -343,6 +343,34 @@ class ProductController {
             : "Internal server error"
       });
     }
+  }
+
+  static async checkExpiredProducts(req,res){
+      try {
+        const expiredProducts =  await Product.findAll({ where:{
+          expiredDate:{[Op.lt]:new Date()},
+          expired:false
+        }});
+        let vendors = [];
+        const vendorsWithExpiredProducts = Array.from(new Set(expiredProducts.map(product => product.dataValues.VendorId)));
+        vendorsWithExpiredProducts.forEach(async vendor => {
+          const existingVendor = await Vendor.findAll({where:{ id:vendor},include:User});
+          existingVendor.map(vendor => vendors.push(vendor.toJSON()));
+          vendors.map(vendor =>{
+            const emailData = {
+              email:vendor.User.email,
+              firstName:vendor.User.firstName
+            }
+            sendEmail(emailData,"expiredProducts")
+          })
+        });
+        await Promise.all(expiredProducts.map(product =>{
+          return product.update({expired:true});
+        }));
+        return res.status(200).json({status:"success",data:expiredProducts});
+      } catch (error) {
+        return res.status(500).json({status:"fail",error:error.message});
+      }   
   }
 }
 

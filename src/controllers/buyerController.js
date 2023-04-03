@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Op } from "sequelize";
-import SendEmail from "../utils/sendEmail";
+import sendEmail from "../utils/sendEmail";
+
 import * as profiles from "../services/profile.service";
 
 dotenv.config();
@@ -46,8 +47,13 @@ class BuyerController {
       const buyerProfile = await Buyer.create({});
       buyer.setBuyer(buyerProfile);
       const url = process.env.URL;
-      const sendmail = new SendEmail(buyer, token, url);
-      sendmail.send("sendEmailToBuyer", "Welcome");
+      const emailData = {
+        token,
+        url,
+        email:buyer.dataValues.email,
+        firstName:buyer.dataValues.firstName
+      };
+      await sendEmail(emailData, "createBuyerAccount");
 
       res.status(201).json({
         status: "success",
@@ -64,11 +70,7 @@ class BuyerController {
 
 
   static async verifyBuyer(req,res){
-
-
     const userId=jwt.verify(req.query.token,process.env.JWT_SECRET);
-  
-  
   if(!userId){
     return res.status(403).json({status:"error",
   message:"Invalid token"});
@@ -76,8 +78,6 @@ class BuyerController {
   
   const verifiedUser=await User.findOne({
     where: {id:userId.id}});
-  
-  
     if(!verifiedUser){
       return res.status(404).json({status:"fail",message:"user not found"});
     }

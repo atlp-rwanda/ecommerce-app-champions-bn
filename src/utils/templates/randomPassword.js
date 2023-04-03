@@ -1,5 +1,5 @@
 /*eslint-disable*/ 
-export const randomPasswordEmail = (authNum,firstName) =>{
+export const randomPasswordEmail = (firstName,authNum) =>{
   return `
   <!DOCTYPE html>
   <html>
