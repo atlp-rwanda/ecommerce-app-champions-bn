@@ -12,6 +12,7 @@ import reportRouteDoc from "./reportActivity.docs";
 import vendorRouteDoc from "./vendor.docs";
 import productRouteDoc from "./product.docs";
 import categoryRouteDoc from "./category.docs";
+import ReviewRouteDoc from "./review.docs";
 
 
 dotenv.config();
@@ -37,6 +38,7 @@ const options = {
     tags: [
       { name: "Users", description: "User Routes" },
       { name: "Product", description: "Product Routes" },
+      { name: "Reviews", description: "Product Review Routes" },
       { name: "Permission", description: "Permission Routes" },
       { name: "Role", description: "Role Routes" },
       { name: "Auth", description: "Authentication Routes" }
@@ -79,7 +81,8 @@ const options = {
       ...TwoFactorAuthRouteDoc,
       ...reportRouteDoc,
       ...productRouteDoc,
-      ...categoryRouteDoc
+      ...categoryRouteDoc,
+      ...ReviewRouteDoc
     }
   },
   apis: ["../routes/**/*.js"]

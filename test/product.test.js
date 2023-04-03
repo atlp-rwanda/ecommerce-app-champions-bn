@@ -31,7 +31,7 @@ describe("testing search the product", () => {
   describe("testing get available items",() =>{
     test('get available items', async () => { 
         const res = await request(app).get("/api/product/getAvailable");
-        expect(res.statusCode).toBe(401);
+        expect(res.statusCode).toBe(200);
        
      })
   });
