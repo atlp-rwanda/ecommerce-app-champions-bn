@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Buyer);
       User.hasOne(models.Vendor);
       User.belongsTo(models.Role, { foreignKey: "RoleId" });
+
+      User.hasMany(models.Review, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
   }
   User.init({

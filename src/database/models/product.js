@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       //   onUpdate: 'CASCADE'
       // });
 
+      Product.hasMany(models.Review, {
+        foreignKey: 'productId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
+
       Product.belongsTo(models.Category,{foreignKey:"CategoryId"});
     }
   }
