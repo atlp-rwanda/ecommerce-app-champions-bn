@@ -5,6 +5,9 @@ import models from "../database/models";
 import sendEmail from "../utils/sendEmail";
 const {Product,Category,Vendor,User,Wishlist,Buyer} = models;
 
+// eslint-disable-next-line import/no-cycle
+import emitter from "../events/notifications";
+
 class ProductController {
   static async searchProduct(req, res) {
     const { searchParam } = req.query;
@@ -64,7 +67,12 @@ class ProductController {
       const existVendor = await Vendor.findOne({where: { UserId: req.user.id }});
       await postProduct.setVendor(existVendor);
       await postProduct.setCategory(existCategory);
+
+      const logedVendor=await User.findOne({where: {id:req.user.id}});
+
+      emitter.emit("newProductAdded",postProduct.productName,logedVendor);
       return res.status(200).json({ status: "success", postProduct });
+
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }
