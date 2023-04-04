@@ -47,7 +47,7 @@ class CartController {
       if (!cart) {
         res.status(401).json({ status: "fail", message: "Cart is Empty" });
       } else {
-        res.status(201).json({ status:"success", cart });
+        res.status(201).json({ status:"success", message:"cart items", data: cart });
       }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {

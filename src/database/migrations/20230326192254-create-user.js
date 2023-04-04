@@ -47,6 +47,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      lastPasswordUpdate:{ 
+        type:Sequelize.DATEONLY} ,
+      passwordStatus: {
+        type:Sequelize.BOOLEAN},
       profilepic: {
         type: Sequelize.STRING,
       },

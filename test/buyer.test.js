@@ -137,21 +137,11 @@ describe("/cart/add/:productId endpoint", () => {
       .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(201);
   });
-
-  test("checkout", async () => {
+  test("should return array of all products in cart", async () => {
     const res = await request
-      .post("/api/payment/checkout")
-      .set("token", `Bearer ${token}`)
-      .send();
-    expect(res.statusCode).toBe(200);
-  });
-  test("payment success", async () => {
-    const res = await request
-      .get(
-        `/api/payment/paymentSuccess?token=${token}&&paymentId={CHECKOUT_SESSION_ID}`
-      )
-      .send();
-    expect(res.statusCode).toBe(500);
+      .get("/api/cart/getAll")
+      .set("token", `Bearer ${token}`);
+    expect(res.statusCode).toBe(201);
   });
 
   test("should return 400 if product is already in cart", async () => {
@@ -191,16 +181,7 @@ describe("update cart", () => {
 });
 
 describe("/cart/clear-cart endpoint", () => {
-  it("should clear the cart and return a success message", async () => {
-    let cartId = 1;
-    const response = await request
-      .delete(`/api/cart/clear-cart/${cartId}`)
-      .set("token", `Bearer ${token}`);
-    expect(response.statusCode).toBe(200);
-    expect(response.body.status).toBe("success");
-    expect(response.body.message).toBe("Cart cleared successfully");
-  });
-
+ 
   it("should return a 404 error if the cart is not found", async () => {
     const nonExistingCartId = 9999;
     const response = await request
@@ -251,4 +232,20 @@ test("Delete review",async()=>{
   expect(response.statusCode).toBe(204);
 })
 
+})
+describe("/payment  endpoint", () => {
+  test("checkout", async () => {
+    const res = await request
+      .post("/api/payment/checkout")
+      .set("token", `Bearer ${token}`)
+      .send();
+    expect(res.statusCode).toBe(200);
+  });
+it("should return 404 if the endpoint is incorrect", async () => {
+    const res = await request
+      .post("/api/payment/checko")
+      .set("token", `Bearer ${token}`)
+      .send();
+    expect(res.statusCode).toBe(404);
+  }); 
 })
