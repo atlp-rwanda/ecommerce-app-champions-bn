@@ -14,7 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       });
-    }
+    
+    Buyer.hasMany(models.cart, {
+      foreignKey: 'buyerId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    
+  } 
   }
   Buyer.init({
     id: {

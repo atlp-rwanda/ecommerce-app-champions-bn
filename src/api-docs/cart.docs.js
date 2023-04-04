@@ -1,36 +1,3 @@
-const getCartItems = {
-  tags: ["Cart"],
-  description: "list all items in cart",
-  parameters: [],
-  security: [
-    {
-      token: []
-    }
-  ],
-  responses: {
-    200: {
-      description: "ok",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    },
-    404: {
-      description: "Not found",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    }
-  }
-};
-
 const postCart = {
   tags: ["Cart"],
   description: "create a cart",
@@ -123,9 +90,6 @@ const updateCart = {
 };
 
 const cartRouteDoc = {
-  "/api/cart/getAll": {
-    get: getCartItems
-  },
   "/api/cart/add/{productId}": {
     post: postCart
   },
