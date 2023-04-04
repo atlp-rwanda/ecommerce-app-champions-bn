@@ -97,8 +97,6 @@ class CartController {
     }
   }
 
-
-
   static async clearCart(req, res) {
     try {
       const cart = await Cart.findOne({ where: { BuyerId: req.user.id,id:req.params.id } });
