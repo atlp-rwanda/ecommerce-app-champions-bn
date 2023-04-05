@@ -20,7 +20,7 @@ describe("create report", () => {
       const res = await request.post("/api/report/create").send({
         activity:"nudity clothes", 
         category: "nudity" ,
-        productId:1,
+        productId:2,
         buyerId:1,
         VendorId:1
     }).set('token',`Bearer ${token}`); 

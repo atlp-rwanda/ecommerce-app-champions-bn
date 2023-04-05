@@ -26,22 +26,22 @@ const sendEmail = (info, action) => {
 
   switch (action) {
     case "createVendorAccount":
-      subject = "Vendor account creation";
+      subject = `Welcome to Our Marketplace - Vendor Account Created ${info.email}`;
       emailto = info.email;
       composition = randomPasswordEmail(info.firstName, info.password);
       break;
     case "createBuyerAccount":
-      subject = "Buyer account creation";
+      subject = `Confirm Your Account ${info.firstName}`;
       emailto = info.email;
       composition = sendEmailToBuyer(info.firstName, info.url,info.token);
       break;
     case "twoFactorAuthentication":
-      subject = "Two factor Authentication";
+      subject = `Welcome to Our Marketplace - Verify your account ${info.email}`;
       emailto = info.email;
       composition = twoFactorEmail(info.firstName,info.authNum,info.url)
       break;
     case "resetPassword":
-      subject = "reset user password";
+      subject = `Reset your password ${info.firstName}`;
       emailto = info.email;
       composition = resetPasswordEmail(info.firstName,info.token)
       break;

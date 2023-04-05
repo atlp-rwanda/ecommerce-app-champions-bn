@@ -43,7 +43,7 @@ class VendorController {
         firstName:vendor.firstName,
         password
       };
-      await sendEmail(emailData,"createVendorAccount");
+     sendEmail(emailData,"createVendorAccount");
 
       return res.status(201).json({
         status: "success",
@@ -125,36 +125,68 @@ class VendorController {
 
   static async disableVendorAccount(req, res) {
     try {
-      const existingVendor = await Vendor.findByPk(req.params.id);
       const reportedactivities = await ReportedActivity.findAll({
         where: { VendorId: req.params.id }
       });
-      // eslint-disable-next-line prefer-const
-      let reports = [];
-      reportedactivities.forEach(report => {
-          reports.push(report.toJSON());
-      });
+      console.log(reportedactivities);
+      if(!reportedactivities.length >= 1){
+        return res.status(404).json({status:"fail",message:"this vendor have no reported activities"});
+      }
+      const existingVendor = await Vendor.findByPk(req.params.id);
       const user = await User.findOne({
         where: { id: existingVendor.dataValues.UserId }
       });
       const existingUser = user.toJSON();
       if (existingUser.active === false) {
         return res
-          .status(403)
-          .json({ status: "fail", message: "user is already suspended" });
+        .status(403)
+        .json({ status: "fail", message: "user is already suspended" });
       }
+      // eslint-disable-next-line prefer-const
+      let reports = [];
+      reportedactivities.forEach(report => {
+          reports.push(report.toJSON());
+      });
       await User.update(
         { active: false },
         { where: { id: existingVendor.dataValues.UserId } }
       );
       const emailData={
         email:existingUser.email,
-        report:reports[1].category
+        report:reports[0].category
       };
-      await sendEmail(emailData,"disableVendorAccount");
+     sendEmail(emailData,"disableVendorAccount");
       return res
         .status(200)
         .json({ status: "success", message: "user desactivated" });
+    } catch (error) {
+      return res.status(500).json({ status: "error", error: error.message });
+    }
+  }
+
+  static async enableVendorAccount(req,res){
+    try {
+      const existingVendor = await Vendor.findByPk(req.params.id);
+      const user = await User.findOne({
+        where: { id: existingVendor.dataValues.UserId }
+      });
+      const existingUser = user.toJSON();
+      if (existingUser.active === true) {
+        return res
+          .status(403)
+          .json({ status: "fail", message: "user is active already" });
+      }
+      const reportedActivities = await ReportedActivity.findAll({where:{VendorId:req.params.id}});
+      if(!reportedActivities.length >=1){
+        return res.status(404).json({status:"fail",message:"no reported activities on this vendor"});
+      }
+      
+      await User.update(
+        { active: true },
+        { where: { id: existingVendor.dataValues.UserId } }
+      );
+      await ReportedActivity.destroy({where:{VendorId:req.params.id}});
+      return res.status(200).json({status:"success",message:"account re-activated"});
     } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
     }

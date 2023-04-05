@@ -1,3 +1,22 @@
+const getAllReports = {
+  tags: ["Reports"],
+  description: "get all reports",
+  responses: {
+    200: {
+      description: "OK",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+          },
+        },
+      },
+    },
+    404: {
+      description: "profile not found",
+    },
+  },
+};
 const createReport = {
     tags: ["Reports"],
     description: "report the product",
@@ -53,6 +72,7 @@ const createReport = {
   };
   
   const reportRouteDoc = {
+    "/api/report/all": { get: getAllReports },
     "/api/report/create": { post: createReport },
   };
   

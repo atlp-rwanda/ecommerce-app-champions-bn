@@ -32,7 +32,7 @@ class ProductController {
       });
       return res.status(200).json({ status: "success", data: search });
     } catch (error) {
-      return res.status(500).json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
 
@@ -92,7 +92,7 @@ class ProductController {
       );
       return res.status(200).json({ status: "success", productUpdate });
     } catch (error) {
-      return res.json({status: "failed to update a product",error: error.message});
+      return res.status(500).json({status: "fail",error: error.message});
     }
   }
 
@@ -100,14 +100,11 @@ class ProductController {
     const { name } = req.body;
     try {
       const postCategory = await Category.create({ name });
-      return res.status(201).json({ status: "category created", category: postCategory });
+      return res.status(201).json({ status: "success", category: postCategory });
     } catch (error) {
-      return res.status(500).json({ status: "failed to add category", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
-
-      
-
 
   static async deleteProduct(req,res){
     
@@ -122,7 +119,7 @@ class ProductController {
       return res.status(204).json({ status: req.t("success"),data:null, message: req.t("productdeleted") });
   
     } catch (error) {
-      return res.status(500).json({ status: "error", message: "Internal server error" });
+      return res.status(500).json({ status: "fail", message: "Internal server error" });
     }
   
   };
@@ -142,14 +139,6 @@ class ProductController {
       if (!product.available) {
         return res.status(404).json({ status: "fail", message: "Product not available for sale." });
       }
-      if (
-        req.user &&
-        req.user.role.roleName === "vendor" &&
-        req.user.role.id !== product.vendorId
-      ) {
-        return res.status(403).json({status: "fail",message: "You are not allowed to perform this operation"
-          });
-      }
       res.status(200).json({ status: "success", item: product });
     } catch (err) {
       res.status(400).json({ status: "fail", message: err.message });
@@ -158,12 +147,6 @@ class ProductController {
 
   static async getAllProducts(req, res) {
     try {
-      if (req.user.role.roleName !== "vendor") {
-        return res.status(401).json({
-          status: "error",
-          error: "Unauthorized. You must be a seller to perform this action."
-        });
-      }
       const vendor = await Vendor.findOne({where:{UserId:req.user.id}});
       console.log("vendor",vendor);
       const { page = 1, limit = 10 } = req.query;
@@ -197,8 +180,7 @@ class ProductController {
         currentPage: page
       });
     } catch (error) {
-      console.log(error)
-      return res.status(500).json({status: "error",error: error.messag});
+      return res.status(500).json({status: "fail",error: error.messag});
     }
   }
 
@@ -280,7 +262,7 @@ class ProductController {
         return res.status(200).json({status: "success",message: "products retrieved successfully",data: search, recommendedProducts,});
       } 
      catch (error) {
-      return res.status(500).json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
   
@@ -296,9 +278,7 @@ class ProductController {
       }
       let wishlists = await Wishlist.findOne({ where: { userId: buyerId } });
       if (!wishlists) {
-        // create a new wishlist if it doesn't exist
         const newWishlist = await Wishlist.create({ userId: buyerId });
-        // await newWishlist.save();
         wishlists = newWishlist;
       }
       if (wishlists.products.includes(parseInt(productId))) {

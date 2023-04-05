@@ -53,7 +53,7 @@ class BuyerController {
         email:buyer.dataValues.email,
         firstName:buyer.dataValues.firstName
       };
-      await sendEmail(emailData, "createBuyerAccount");
+     sendEmail(emailData, "createBuyerAccount");
 
       res.status(201).json({
         status: "success",
