@@ -18,10 +18,9 @@ class BuyerController {
       });
 
       if (existingBuyer) {
-        return res.status(409).json({
-          status: "fail",
-          message: req.t("existEmail")
-        });
+        return res
+          .status(409)
+          .json({ status: "fail", message: req.t("existEmail") });
       }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -50,10 +49,10 @@ class BuyerController {
       const emailData = {
         token,
         url,
-        email:buyer.dataValues.email,
-        firstName:buyer.dataValues.firstName
+        email: buyer.dataValues.email,
+        firstName: buyer.dataValues.firstName
       };
-     sendEmail(emailData, "createBuyerAccount");
+      sendEmail(emailData, "createBuyerAccount");
 
       res.status(201).json({
         status: "success",
@@ -68,27 +67,31 @@ class BuyerController {
     }
   }
 
-
-  static async verifyBuyer(req,res){
-    const userId=jwt.verify(req.query.token,process.env.JWT_SECRET);
-  if(!userId){
-    return res.status(403).json({status:"error",
-  message:"Invalid token"});
-  }
-  
-  const verifiedUser=await User.findOne({
-    where: {id:userId.id}});
-    if(!verifiedUser){
-      return res.status(404).json({status:"fail",message:"user not found"});
+  static async verifyBuyer(req, res) {
+    const userId = jwt.verify(req.query.token, process.env.JWT_SECRET);
+    if (!userId) {
+      return res
+        .status(403)
+        .json({ status: "error", message: "Invalid token" });
     }
-  
-    verifiedUser.isVerified=true;
-  
+
+    const verifiedUser = await User.findOne({
+      where: { id: userId.id }
+    });
+    if (!verifiedUser) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "user not found" });
+    }
+
+    verifiedUser.isVerified = true;
+
     verifiedUser.save();
-  
-    return res.status(200).json({status:"success",message:"Token verified successfully"});
+
+    return res
+      .status(200)
+      .json({ status: "success", message: "Token verified successfully" });
   }
-  
 
   static async updateProfile(req, res, next) {
     try {

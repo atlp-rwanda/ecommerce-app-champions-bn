@@ -12,7 +12,7 @@ import reportRouteDoc from "./reportActivity.docs";
 import vendorRouteDoc from "./vendor.docs";
 import productRouteDoc from "./product.docs";
 import categoryRouteDoc from "./category.docs";
-
+import cartRouteDoc from "./cart.docs";
 
 dotenv.config();
 
@@ -79,7 +79,8 @@ const options = {
       ...TwoFactorAuthRouteDoc,
       ...reportRouteDoc,
       ...productRouteDoc,
-      ...categoryRouteDoc
+      ...categoryRouteDoc,
+      ...cartRouteDoc
     }
   },
   apis: ["../routes/**/*.js"]
