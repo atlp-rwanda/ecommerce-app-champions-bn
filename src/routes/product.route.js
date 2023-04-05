@@ -10,12 +10,13 @@ import { verifyBuyer, verifyVendor } from "../middlewares/authenticate";
 const productRoute = express.Router();
 
 productRoute.get("/searcch", ProductController.searchProduct);
-productRoute.get("/getAll", isLoggedIn, ProductController.getAllProducts);
-productRoute.get("/getAvailable",isLoggedIn,ProductController.getAvailableProduct);
+productRoute.get("/getAll", verifyVendor, ProductController.getAllProducts);
+productRoute.get("/getAvailable",ProductController.getAvailableProduct);
 productRoute.get("/getOne/:id", isLoggedIn, ProductController.getProductById);
 productRoute.post("/addToWishlist/:productId",verifyBuyer,ProductController.addToWishlist);
 productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
 productRoute.get("/recommended", ProductController.getRecommendedProducts);
+productRoute.get("/checkExpired", ProductController.checkExpiredProducts);
 productRoute.post("/create",verifyVendor,uploadImages("productImage"),validate(productSchema),productExistAlready,ProductController.createProduct);
 productRoute.patch("/update/:id",verifyVendor,uploadImages("productImage"),IsProductExist,validate(updateSchema),ProductController.updateProduct);
 productRoute.delete("/delete/:id",verifyVendor,ProductController.deleteProduct);

@@ -31,7 +31,7 @@ describe("testing search the product", () => {
   describe("testing get available items",() =>{
     test('get available items', async () => { 
         const res = await request(app).get("/api/product/getAvailable");
-        expect(res.statusCode).toBe(401);
+        expect(res.statusCode).toBe(200);
        
      })
   });
@@ -55,5 +55,13 @@ describe("testing get all items", () => {
   test("get all items", async () => {
     const res = await request(app).get("/api/product/getAll");
     expect(res.statusCode).toBe(401);
+  });
+});
+
+describe("testing get expired products", () => {
+  test("get all expired products", async () => {
+    const res = await request(app).get("/api/product/checkExpired");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('success');
   });
 });

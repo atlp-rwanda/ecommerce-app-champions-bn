@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import speakeasy from "speakeasy";
 import { handleCookies, getCookieInfo } from "../utils/handleCookies";
 import comparePassword from "../utils/verifyPassword";
-import SendEmail from "../utils/2faEmail";
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
 

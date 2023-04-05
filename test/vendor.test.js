@@ -7,6 +7,7 @@ import {Product} from "../src/database/models"
 
 let vendorToken;
 let adminToken;
+let buyertoken
 
 const request = defaults(supertest(app));
 
@@ -130,6 +131,31 @@ describe("DELETE /api/product/delete/:id", () => {
   
 });
 
+describe("testing signin email and password", () => {    
+  test("sign in the buyer",async () => {
+    const res = await request.post("/api/user/login").send({
+      email:"buyer@yopmail.com", 
+      password: "buyer@1234" }); 
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('success');
+    buyertoken = res.body.token;
+});
+});
+
+describe("create report", () => {    
+  test("report the product",async () => {
+    const res = await request.post("/api/report/create").send({
+      activity:"nudity clothes", 
+      category: "nudity" ,
+      productId:3,
+      buyerId:1,
+      VendorId:1
+  }).set('token',`Bearer ${buyertoken}`); 
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('success');
+});
+});
+
 describe("disable vendor", () => {
   test("it should disable vendor", async () => {
     const response = await request
@@ -139,6 +165,48 @@ describe("disable vendor", () => {
     expect(response.body.status).toBe("success");
   });
 });
+
+describe("disable vendor", () => {
+  test("it should check if vendor have reported activities", async () => {
+    const response = await request
+      .post("/api/vendor/disable/2")
+      .set("token", `Bearer ${adminToken}`);
+    expect(response.statusCode).toBe(404);
+    expect(response.body.status).toBe("fail");
+  });
+});
+
+describe("already suspended vendor", () => {
+  test("it should check if vendor is already suspended", async () => {
+    const response = await request
+      .post("/api/vendor/disable/1")
+      .set("token", `Bearer ${adminToken}`);
+    expect(response.statusCode).toBe(403);
+    expect(response.body.status).toBe("fail");
+  });
+});
+
+describe("enable vendor account", () => {
+  test("it should check if vendor is already active", async () => {
+    const response = await request
+      .put("/api/vendor/enable/2")
+      .set("token", `Bearer ${adminToken}`);
+    expect(response.statusCode).toBe(403);
+    expect(response.body.status).toBe("fail");
+  });
+});
+
+describe("enable vendor account", () => {
+  test("it should reactivate vendor account", async () => {
+    const response = await request
+      .put("/api/vendor/enable/1")
+      .set("token", `Bearer ${adminToken}`);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.status).toBe("success");
+  });
+});
+
+
 
 
 

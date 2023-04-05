@@ -6,7 +6,6 @@ const request = defaults(supertest(app))
 
 let token;
 let userId;
-let cookie;
     
 describe("testing buyer signup",() =>{
     test("buyer signup",async () =>{
@@ -48,7 +47,6 @@ describe("testing buyer signup",() =>{
       expect(res.statusCode).toBe(200);
       expect(res.body.status).toBe('success');
       token = res.body.token;
-      cookie = res.headers['set-cookie'][0];
   });
 
   describe('/addToWishlist/:productId endpoint', () => {
