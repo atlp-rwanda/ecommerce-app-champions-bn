@@ -145,14 +145,28 @@ class ProductController {
     }
   }
 
+
+
   static async getAllProducts(req, res) {
+   
     try {
-      const vendor = await Vendor.findOne({where:{UserId:req.user.id}});
-      console.log("vendor",vendor);
+      if (req.user.role.roleName !== "vendor") {
+        return res.status(401).json({
+          status: "error",
+          error: "Unauthorized. You must be a seller to perform this action."
+        });
+      }
+       
+      const existingVender=await Vendor.findOne({where:{UserId:req.user.id}});
+
+      const sellerId = existingVender.dataValues.id;
       const { page = 1, limit = 10 } = req.query;
+
+      
+
       const items = await Product.findAndCountAll({
         where: {
-          VendorId: vendor.dataValues.id
+          VendorId: sellerId
         },
         include: [
           {

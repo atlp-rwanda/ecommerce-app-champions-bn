@@ -10,7 +10,7 @@ import { verifyBuyer, verifyVendor } from "../middlewares/authenticate";
 const productRoute = express.Router();
 
 productRoute.get("/searcch", ProductController.searchProduct);
-productRoute.get("/getAll", verifyVendor, ProductController.getAllProducts);
+productRoute.get("/getAll",verifyVendor, ProductController.getAllProducts);
 productRoute.get("/getAvailable",ProductController.getAvailableProduct);
 productRoute.get("/getOne/:id", isLoggedIn, ProductController.getProductById);
 productRoute.post("/addToWishlist/:productId",verifyBuyer,ProductController.addToWishlist);

@@ -92,6 +92,11 @@ const getAllProducts = {
   ],
   summary: "Get all products",
   description: "Retrieves a list of all products.",
+  security: [
+    {
+      token: []
+    }
+  ],
   responses: {
     200: {
       description: "OK",
