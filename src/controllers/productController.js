@@ -1,10 +1,9 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable radix */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
+/* eslint-disable*/
 import { Op } from "sequelize";
 
-import {Product,sequelize,Category,Vendor,User,Wishlist,Buyer} from "../database/models";
+import models from "../database/models";
+import sendEmail from "../utils/sendEmail";
+const {Product,Category,Vendor,User,Wishlist,Buyer} = models;
 
 class ProductController {
   static async searchProduct(req, res) {
@@ -33,7 +32,7 @@ class ProductController {
       });
       return res.status(200).json({ status: "success", data: search });
     } catch (error) {
-      return res.status(500).json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
 
@@ -93,7 +92,7 @@ class ProductController {
       );
       return res.status(200).json({ status: "success", productUpdate });
     } catch (error) {
-      return res.json({status: "failed to update a product",error: error.message});
+      return res.status(500).json({status: "fail",error: error.message});
     }
   }
 
@@ -101,14 +100,11 @@ class ProductController {
     const { name } = req.body;
     try {
       const postCategory = await Category.create({ name });
-      return res.status(201).json({ status: "category created", category: postCategory });
+      return res.status(201).json({ status: "success", category: postCategory });
     } catch (error) {
-      return res.status(500).json({ status: "failed to add category", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
-
-      
-
 
   static async deleteProduct(req,res){
     
@@ -123,7 +119,7 @@ class ProductController {
       return res.status(204).json({ status: req.t("success"),data:null, message: req.t("productdeleted") });
   
     } catch (error) {
-      return res.status(500).json({ status: "error", message: "Internal server error" });
+      return res.status(500).json({ status: "fail", message: "Internal server error" });
     }
   
   };
@@ -142,14 +138,6 @@ class ProductController {
       }
       if (!product.available) {
         return res.status(404).json({ status: "fail", message: "Product not available for sale." });
-      }
-      if (
-        req.user &&
-        req.user.role.roleName === "vendor" &&
-        req.user.role.id !== product.vendorId
-      ) {
-        return res.status(403).json({status: "fail",message: "You are not allowed to perform this operation"
-          });
       }
       res.status(200).json({ status: "success", item: product });
     } catch (err) {
@@ -206,7 +194,7 @@ class ProductController {
         currentPage: page
       });
     } catch (error) {
-      return res.status(500).json({status: "error",error: error.messag});
+      return res.status(500).json({status: "fail",error: error.messag});
     }
   }
 
@@ -216,7 +204,8 @@ class ProductController {
 
       const items = await Product.findAndCountAll({
         where: {
-          available: true
+          available: true,
+          expired:false
         },
         include: [
           {
@@ -287,7 +276,7 @@ class ProductController {
         return res.status(200).json({status: "success",message: "products retrieved successfully",data: search, recommendedProducts,});
       } 
      catch (error) {
-      return res.status(500).json({ status: "error", error: error.message });
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
   
@@ -303,9 +292,7 @@ class ProductController {
       }
       let wishlists = await Wishlist.findOne({ where: { userId: buyerId } });
       if (!wishlists) {
-        // create a new wishlist if it doesn't exist
         const newWishlist = await Wishlist.create({ userId: buyerId });
-        // await newWishlist.save();
         wishlists = newWishlist;
       }
       if (wishlists.products.includes(parseInt(productId))) {
@@ -350,6 +337,34 @@ class ProductController {
             : "Internal server error"
       });
     }
+  }
+
+  static async checkExpiredProducts(req,res){
+      try {
+        const expiredProducts =  await Product.findAll({ where:{
+          expiredDate:{[Op.lt]:new Date()},
+          expired:false
+        }});
+        let vendors = [];
+        const vendorsWithExpiredProducts = Array.from(new Set(expiredProducts.map(product => product.dataValues.VendorId)));
+        vendorsWithExpiredProducts.forEach(async vendor => {
+          const existingVendor = await Vendor.findAll({where:{ id:vendor},include:User});
+          existingVendor.map(vendor => vendors.push(vendor.toJSON()));
+          vendors.map(vendor =>{
+            const emailData = {
+              email:vendor.User.email,
+              firstName:vendor.User.firstName
+            }
+            sendEmail(emailData,"expiredProducts")
+          })
+        });
+        await Promise.all(expiredProducts.map(product =>{
+          return product.update({expired:true});
+        }));
+        return res.status(200).json({status:"success",data:expiredProducts});
+      } catch (error) {
+        return res.status(500).json({status:"fail",error:error.message});
+      }   
   }
 }
 

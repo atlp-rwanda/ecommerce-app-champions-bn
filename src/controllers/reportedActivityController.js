@@ -1,8 +1,15 @@
+import { Op } from "sequelize";
+
 const { ReportedActivity} = require("../database/models");
 
 class ReportedActivityController{
     static async reportIllegalActivity(req,res){
         try {
+            const existingProductReport = await ReportedActivity.findOne({where:{[Op.and]:[{productId:req.body.productId},{buyerId:req.body.buyerId}]
+        }});
+            if(existingProductReport){
+                return res.status(403).json({status:"fail",message:"your reports exists"});
+            }
             const reportactivity = await ReportedActivity.create({
                 activity:req.body.activity,
                 category:req.body.category,

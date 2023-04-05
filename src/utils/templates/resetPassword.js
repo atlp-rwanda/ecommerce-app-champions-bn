@@ -1,5 +1,10 @@
 /*eslint-disable*/ 
-export const resetPasswordEmail = () =>{
+import dotenv from "dotenv";
+dotenv.config();
+
+export const resetPasswordEmail = (firstName,token) =>{
+  const resetLink = `${process.env.APP_URL}/reset-password/${token}`;
+
   return  `
   <!DOCTYPE html>
   <html lang="en">
@@ -11,21 +16,11 @@ export const resetPasswordEmail = () =>{
     <body>
       <h1>Password Reset Request</h1>
       <p>Hello,</p>
-      <p>
-        You are receiving this email because a request was made to reset the password for your account. If you did not make
-        this request, please ignore this email.
-      </p>
-      <p>
-        To reset your password, please click on the following link or copy and paste it into your browser:
-        <a href="${[Inserthere]}">Reset Password</a>
-      </p>
-      <p>
-        If the link does not work, please copy and paste the following token into the reset password form:
-        <strong>[Insert reset token here]</strong>
-      </p>
-      <p>This link and token will expire in 24 hours. If you do not reset your password within that time, you will need to request another reset.</p>
-      <p>If you have any questions or concerns, please reply to this email and we will be happy to help.</p>
-      <p>Thank you,<br />[Your company name]</p>
+      Hi ${firstName},\n\nYou are receiving 
+      this email because we received a password reset request 
+      for your account.\n\nPlease click on the following link, or paste 
+      this into your browser to complete the process:<a href="${resetLink}">Reset Password</a>If you did not 
+      request this, please ignore this email and your password will remain unchanged.\n
     </body>
   </html>
   `;

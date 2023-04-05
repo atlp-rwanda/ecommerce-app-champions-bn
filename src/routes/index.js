@@ -10,6 +10,7 @@ import reportedRoute from "./reportedActivity.route";
 import productRoute from "./product.route";
 import categoryRoute from "./category.route";
 import reviewRouter from "./review.route";
+import cartRoute from "./cart.route";
 
 const indexRouter = express.Router();
 
@@ -24,5 +25,6 @@ indexRouter.use("/api/report", reportedRoute);
 indexRouter.use("/api/category", categoryRoute);
 indexRouter.use("/api/product", productRoute);
 indexRouter.use("/api/review",reviewRouter);
+indexRouter.use("/api/cart", cartRoute);
 
 export default indexRouter;

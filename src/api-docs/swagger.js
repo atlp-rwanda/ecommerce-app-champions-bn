@@ -14,6 +14,7 @@ import productRouteDoc from "./product.docs";
 import categoryRouteDoc from "./category.docs";
 import ReviewRouteDoc from "./review.docs";
 
+import cartRouteDoc from "./cart.docs";
 
 dotenv.config();
 
@@ -82,7 +83,8 @@ const options = {
       ...reportRouteDoc,
       ...productRouteDoc,
       ...categoryRouteDoc,
-      ...ReviewRouteDoc
+      ...ReviewRouteDoc,
+      ...cartRouteDoc
     }
   },
   apis: ["../routes/**/*.js"]

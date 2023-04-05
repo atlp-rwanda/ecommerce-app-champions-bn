@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Op } from "sequelize";
-import SendEmail from "../utils/sendEmail";
+import sendEmail from "../utils/sendEmail";
+
 import * as profiles from "../services/profile.service";
 
 dotenv.config();
@@ -17,10 +18,9 @@ class BuyerController {
       });
 
       if (existingBuyer) {
-        return res.status(409).json({
-          status: "fail",
-          message: req.t("existEmail")
-        });
+        return res
+          .status(409)
+          .json({ status: "fail", message: req.t("existEmail") });
       }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -46,8 +46,13 @@ class BuyerController {
       const buyerProfile = await Buyer.create({});
       buyer.setBuyer(buyerProfile);
       const url = process.env.URL;
-      const sendmail = new SendEmail(buyer, token, url);
-      sendmail.send("sendEmailToBuyer", "Welcome");
+      const emailData = {
+        token,
+        url,
+        email: buyer.dataValues.email,
+        firstName: buyer.dataValues.firstName
+      };
+      sendEmail(emailData, "createBuyerAccount");
 
       res.status(201).json({
         status: "success",
@@ -62,33 +67,31 @@ class BuyerController {
     }
   }
 
-
-  static async verifyBuyer(req,res){
-
-
-    const userId=jwt.verify(req.query.token,process.env.JWT_SECRET);
-  
-  
-  if(!userId){
-    return res.status(403).json({status:"error",
-  message:"Invalid token"});
-  }
-  
-  const verifiedUser=await User.findOne({
-    where: {id:userId.id}});
-  
-  
-    if(!verifiedUser){
-      return res.status(404).json({status:"fail",message:"user not found"});
+  static async verifyBuyer(req, res) {
+    const userId = jwt.verify(req.query.token, process.env.JWT_SECRET);
+    if (!userId) {
+      return res
+        .status(403)
+        .json({ status: "error", message: "Invalid token" });
     }
-  
-    verifiedUser.isVerified=true;
-  
+
+    const verifiedUser = await User.findOne({
+      where: { id: userId.id }
+    });
+    if (!verifiedUser) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "user not found" });
+    }
+
+    verifiedUser.isVerified = true;
+
     verifiedUser.save();
-  
-    return res.status(200).json({status:"success",message:"Token verified successfully"});
+
+    return res
+      .status(200)
+      .json({ status: "success", message: "Token verified successfully" });
   }
-  
 
   static async updateProfile(req, res, next) {
     try {

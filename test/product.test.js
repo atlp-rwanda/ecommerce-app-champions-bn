@@ -57,3 +57,11 @@ describe("testing get all items", () => {
     expect(res.statusCode).toBe(401);
   });
 });
+
+describe("testing get expired products", () => {
+  test("get all expired products", async () => {
+    const res = await request(app).get("/api/product/checkExpired");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('success');
+  });
+});
