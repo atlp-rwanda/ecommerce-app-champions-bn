@@ -1,13 +1,10 @@
-const { Review, User, Product } = require('../models');
+const {User, Product } = require('../models');
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    // Get all products and users
+  async up (queryInterface, Sequelize) {
     const products = await Product.findAll();
     const users = await User.findAll();
-
-    // Create an array of review objects
-    const reviews = [
+    await queryInterface.bulkInsert('Reviews',[
       {
         title: 'Great product!',
         content: 'I really enjoyed using this product. It exceeded my expectations.',
@@ -25,16 +22,11 @@ module.exports = {
         productId: products[1].productId,
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-      // Add more reviews here
-    ];
-
-    // Insert the reviews into the database
-    return Review.bulkCreate(reviews);
+      }
+    ]);
   },
 
-  down: async (queryInterface, Sequelize) => 
-    // Delete all reviews
-     Review.destroy({ where: {} })
-  
+  async down (queryInterface, Sequelize){
+    await queryInterface.bulkDelete("Reviews",null,{});
+  }
 };

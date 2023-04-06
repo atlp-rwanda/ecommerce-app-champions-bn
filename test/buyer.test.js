@@ -5,8 +5,10 @@ import app from "../src/app";
 const request = defaults(supertest(app));
 
 let token;
+let vendorToken;
 let userId;
 let cookie;
+let couponCode;
 
 describe("testing buyer signup", () => {
   test("buyer signup", async () => {
@@ -46,6 +48,18 @@ describe("testing signin email and password", () => {
     token = res.body.token;
     cookie = res.headers["set-cookie"][0];
   });
+
+  describe("testing coupon code", () => {
+    test("vendor login", async () => {
+      const response = await request.post("/api/user/login").send({
+        email: "vendor@yopmail.com",
+        password: "vendor@1234",
+      });
+      expect(response.statusCode).toBe(200);
+      expect(response.body.status).toBe("success");
+      vendorToken = response.body.token;
+    });
+});
 
   describe("/addToWishlist/:productId endpoint", () => {
     test("should return 404 if product is not found", async () => {
@@ -159,7 +173,6 @@ describe("update cart", () => {
     expect(res.statusCode).toBe(201);
   });
 });
-
 
 describe('/cart/clear-cart endpoint', () => {
     it("should clear the cart and return a success message", async () => {

@@ -2,7 +2,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Products', {
-      id: {
+      productId: {
         type: Sequelize.INTEGER,
         autoIncrement:true,
         primaryKey:true
@@ -36,12 +36,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull:false,
         defaultValue:1,
-      },
-      discount:{
-        type:Sequelize.INTEGER,
-      },
-      newPrice:{
-        type:Sequelize.DOUBLE,
       },
       available:{
         type: Sequelize.BOOLEAN,

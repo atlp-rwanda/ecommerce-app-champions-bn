@@ -13,6 +13,7 @@ import vendorRouteDoc from "./vendor.docs";
 import productRouteDoc from "./product.docs";
 import categoryRouteDoc from "./category.docs";
 import ReviewRouteDoc from "./review.docs";
+import couponCodeRouteDoc from "./coupon.docs";
 
 import cartRouteDoc from "./cart.docs";
 
@@ -43,7 +44,8 @@ const options = {
       { name: "Reviews", description: "Product Review Routes" },
       { name: "Permission", description: "Permission Routes" },
       { name: "Role", description: "Role Routes" },
-      { name: "Auth", description: "Authentication Routes" }
+      { name: "Auth", description: "Authentication Routes" },
+      { name: "Coupon", description: "Coupon code Routes" }
     ],
     components: {
       securitySchemes: {
@@ -85,7 +87,8 @@ const options = {
       ...productRouteDoc,
       ...categoryRouteDoc,
       ...ReviewRouteDoc,
-      ...cartRouteDoc
+      ...cartRouteDoc,
+      ...couponCodeRouteDoc
     }
   },
   apis: ["../routes/**/*.js"]

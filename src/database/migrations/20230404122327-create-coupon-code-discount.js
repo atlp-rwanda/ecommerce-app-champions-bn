@@ -11,28 +11,26 @@ module.exports = {
       couponCode: {
         type: Sequelize.STRING
       },
-      ProductId: {
+      product: {
         type: Sequelize.INTEGER,
         references:{
           model:'Products',
-          key:'id'
+          key:'productId'
         }
       },
       discount: {
         type: Sequelize.INTEGER
       },
-      discountStatus: {
-        type: Sequelize.BOOLEAN,
-        defaultValue:false
-      },
-      originalPrice: {
-        type: Sequelize.DOUBLE
-      },
-      finalPrice: {
-        type: Sequelize.DOUBLE
-      },
-      expirationTime: {
+      expirationDate: {
         type: Sequelize.DATE
+      },
+      maxUsage:{
+        type:Sequelize.INTEGER,
+        defaultValue:1
+      },
+      usageCount:{
+        type:Sequelize.INTEGER,
+        defaultValue:0
       },
       VendorId:{
         type:Sequelize.INTEGER,

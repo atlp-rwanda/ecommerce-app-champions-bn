@@ -88,11 +88,10 @@ class ProductController {
           bonus,
           productImage
         },
-        { where: {id:req.params.id } }
+        { where: { productId: req.params.id } }
       );
       return res.status(200).json({ status: "success", productUpdate });
     } catch (error) {
-      console.log("error",error);
       return res.status(500).json({status: "fail",error: error.message});
     }
   }
@@ -112,7 +111,7 @@ class ProductController {
     try {
       const existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
       const vendor = existingVendor.toJSON();
-      const product = await Product.findOne({ where: { id: req.params.id,VendorId:vendor.id } });
+      const product = await Product.findOne({ where: { productId: req.params.id,VendorId:vendor.id } });
       if (!product) {
         return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
       }
@@ -287,7 +286,7 @@ class ProductController {
     try { 
       const buyerId = req.user.id; 
       const {productId} = req.params; 
-      const product = await Product.findOne({ where:{id:productId} });
+      const product = await Product.findOne({ where:{productId} });
       if (!product) {
         return res.status(404).json({ status: "fail", message: "Product not found" });
       }
@@ -323,7 +322,7 @@ class ProductController {
       });
       const products = [];
       for (const item of wishlistItems.products) {
-        const product = await Product.findOne({ where: { id: item } });
+        const product = await Product.findOne({ where: { productId: item } });
         if (product) {
           products.push(product);
         }

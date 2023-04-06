@@ -74,6 +74,19 @@ module.exports = {
         createdAt: new Date(),
         updatedAt:new Date()
        },
+       {
+        VendorId: 2,
+        productName:"orange",
+        CategoryId:3,
+        productImage:['https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png'],
+        productPrice:40,
+        quantity:40,
+        available:true,
+        productDescription:"this is the best product ever",
+        productOwner:"sostene ng",
+        createdAt: new Date(),
+        updatedAt:new Date()
+       }
   ], {});
   },
 

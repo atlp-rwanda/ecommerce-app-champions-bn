@@ -23,14 +23,14 @@ module.exports = (sequelize, DataTypes) => {
 
       Product.belongsTo(models.Category,{foreignKey:"CategoryId"});
       Product.hasOne(models.CouponCodeDiscount,{
-        foreignKey:'ProductId',
+        foreignKey:'product',
         onDelete:'CASCADE',
         onUpdate:'CASCADE'
       });
     }
   }
   Product.init({
-    id: {
+    productId: {
       type: DataTypes.INTEGER,
       autoIncrement:true,
       primaryKey:true,
@@ -59,12 +59,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull:false,
       defaultValue:1,
-    },
-    discount:{
-      type:DataTypes.INTEGER,
-    },
-    newPrice:{
-      type:DataTypes.DOUBLE,
     },
     available:{
       type: DataTypes.BOOLEAN,
