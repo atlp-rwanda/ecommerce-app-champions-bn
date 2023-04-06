@@ -14,5 +14,7 @@
     "productnotfound":"igicuruzwa nticyabonetse",
      "productdeleted":"igicuruzwa cyahanaguwe ",
      "Unauthorized":"Kwinjira utabifitiye uburenganzira",
-    "productupdated":"byagenze neza"
+    "productupdated":"byagenze neza",
+    "Cartnotfound":"ntabicurinzwa wahisemo",
+     "CartCleared":"byagenze neza"
 }

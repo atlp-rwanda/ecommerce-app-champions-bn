@@ -8,6 +8,10 @@ import {Product} from "../src/database/models"
 let vendorToken;
 let adminToken;
 let buyertoken
+let product;
+let product1;
+let productToUpdate;
+let productdisable
 
 const request = defaults(supertest(app));
 
@@ -207,6 +211,68 @@ describe("enable vendor account", () => {
 });
 
 
+
+
+describe("should make product available or unavailable", () => {
+  beforeAll(async()=>{
+    product= await Product.create({
+      VendorId: 1,
+      productName: "Test",
+      CategoryId: 1,
+      productImage: ['https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png'],
+      productPrice: 1.4,
+      quantity: 23,
+      available:false,
+      productDescription: "this is the best product ever",
+      productOwner: "kaleb curry",
+      expiredDate:new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+    productToUpdate=product.toJSON();
+
+
+
+    product1= await Product.create({
+      VendorId: 1,
+      productName: "Test1",
+      CategoryId: 1,
+      productImage: ['https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png'],
+      productPrice: 1.4,
+      quantity:0,
+      available:true,
+      productDescription: "this is the best product ever",
+      productOwner: "kaleb curry",
+      expiredDate:new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+    productdisable=product1.toJSON();
+  })
+  it("enable product", async () => {
+
+    const res = await request
+      .get(`/api/product/enable?searchParam=${productToUpdate.productId}`)
+      .set("token", `Bearer ${vendorToken}`);
+    expect(res.statusCode).toBe(200);
+  });
+
+  it("disable product", async () => {
+
+    const res = await request
+      .get(`/api/product/disable?searchParam=${productdisable.productId}`)
+      .set("token", `Bearer ${vendorToken}`);
+    expect(res.statusCode).toBe(200);
+  });
+
+  it("getall product in seller collection", async () => {
+
+    const res = await request
+      .get(`/api/product/get-seller-products`)
+      .set("token", `Bearer ${vendorToken}`);
+    expect(res.statusCode).toBe(200);
+  });
+});
 
 
 

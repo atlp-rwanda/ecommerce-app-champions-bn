@@ -14,5 +14,9 @@
      "productnotfound":"Product not found in your collecton",
      "productdeleted":"Product delete",
      "Unauthorized":"Unauthorized access",
-     "productupdated":"product updated "
+     "productupdated":"product updated ",
+     "Cartnotfound":"Cart not found",
+     "CartCleared":"Cart cleared successfully",
+     "Cart is empty":"Cart is empty"
+
 }

@@ -366,6 +366,93 @@ class ProductController {
         return res.status(500).json({status:"fail",error:error.message});
       }   
   }
+
+
+  static async availableProductsInCollection(req,res){
+ 
+    try { 
+      const  existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
+      const vendor = existingVendor.toJSON();
+      const products = await Product.findAll({ where: {VendorId:vendor.id } });
+     
+      if (products.length===0) {
+        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+      }
+      return res.status(200).json({ status: req.t("success"),products:products });
+  
+    } catch (error) {
+      return res.status(500).json({ status: "error", message: error.message });
+    }
+  
+  };
+
+static async disableProduct(req, res) {
+  const { searchParam } = req.query;
+ 
+  try {
+    const  existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
+    const vendor = existingVendor.toJSON();
+      const productsToUpdate = await Product.findAll({
+          where: {
+            productId: searchParam,
+            [Op.or]: [
+              { quantity: 0 },
+              { expired: true }
+            ],
+            VendorId: vendor.id
+          }
+      });
+
+      if (productsToUpdate.length === 0) {
+        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+      }
+
+      const productIdsToUpdate = productsToUpdate.map(product => product.productId);
+       // update product available to false
+      await Product.update(
+          { available: false },
+          { where: { productId: productIdsToUpdate } }
+      );
+
+      return res.status(200).json({ status: "success",message:req.t("productupdated") });
+  } catch (error) {
+      return res.status(500).json({ status: "error", error: error.message });
+  }
+}
+
+static async enableProduct(req, res) {
+  const { searchParam } = req.query;
+  
+  try {
+    const  existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
+  const vendor = existingVendor.toJSON();
+      const productsToUpdate = await Product.findAll({
+          where: {
+            productId: searchParam,
+                 [Op.or]: [
+                      { quantity: { [Op.ne]: 0 } },
+                      { expired: false }
+                  ]
+              ,
+            VendorId: vendor.id 
+          }
+      });
+      
+      if (productsToUpdate.length === 0) {
+        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+      }
+
+      const productIdsToUpdate = productsToUpdate.map(product => product.productId);
+      // update product available to true
+      await Product.update(
+          { available: true },
+          { where: { productId: productIdsToUpdate } }
+      );
+      return res.status(200).json({ status: "success", message:req.t("productupdated") });
+  } catch (error) {
+      return res.status(500).json({ status: "error", error: error.message });
+  }
+}
 }
 
 export default ProductController;

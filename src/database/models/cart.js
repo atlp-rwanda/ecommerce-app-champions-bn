@@ -1,17 +1,17 @@
 const { Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class cart extends Model {
+  class Cart extends Model {
    
     static associate(models) {
-      cart.belongsTo(models.Buyer, {
+      Cart.belongsTo(models.Buyer, {
         foreignKey: 'buyerId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       });
     }
   }
-  cart.init( 
+  Cart.init( 
     {
      
       buyerId: {
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
     sequelize,
-    modelName: 'cart',
+    modelName: 'Cart',
   });
-  return cart;
+  return Cart;
 };
