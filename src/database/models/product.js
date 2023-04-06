@@ -1,4 +1,4 @@
-const { Model } = require('sequelize');
+const { Model, Sequelize } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
@@ -22,10 +22,15 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Product.belongsTo(models.Category,{foreignKey:"CategoryId"});
+      Product.hasOne(models.CouponCodeDiscount,{
+        foreignKey:'ProductId',
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE'
+      });
     }
   }
   Product.init({
-    productId: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement:true,
       primaryKey:true,
@@ -54,6 +59,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull:false,
       defaultValue:1,
+    },
+    discount:{
+      type:DataTypes.INTEGER,
+    },
+    newPrice:{
+      type:DataTypes.DOUBLE,
     },
     available:{
       type: DataTypes.BOOLEAN,

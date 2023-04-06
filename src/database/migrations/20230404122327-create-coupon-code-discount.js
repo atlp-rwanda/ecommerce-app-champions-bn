@@ -11,24 +11,35 @@ module.exports = {
       couponCode: {
         type: Sequelize.STRING
       },
-      productId: {
-        type: Sequelize.INTEGER
+      ProductId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:'Products',
+          key:'id'
+        }
       },
       discount: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       discountStatus: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue:false
       },
       originalPrice: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DOUBLE
       },
       finalPrice: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DOUBLE
       },
       expirationTime: {
         type: Sequelize.DATE
+      },
+      VendorId:{
+        type:Sequelize.INTEGER,
+        references:{
+          model:'Vendors',
+          key:'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +52,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("CouponCodeDiscounts");
+    await queryInterface.dropTable('CouponCodeDiscounts');
   }
 };

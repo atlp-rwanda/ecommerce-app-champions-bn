@@ -11,6 +11,7 @@ import productRoute from "./product.route";
 import categoryRoute from "./category.route";
 import reviewRouter from "./review.route";
 import cartRoute from "./cart.route";
+import couponCodeRoute from "./couponCode.route";
 
 const indexRouter = express.Router();
 
@@ -26,5 +27,6 @@ indexRouter.use("/api/category", categoryRoute);
 indexRouter.use("/api/product", productRoute);
 indexRouter.use("/api/review",reviewRouter);
 indexRouter.use("/api/cart", cartRoute);
+indexRouter.use("/api/coupon",couponCodeRoute);
 
 export default indexRouter;
