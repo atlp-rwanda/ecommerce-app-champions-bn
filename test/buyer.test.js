@@ -87,7 +87,6 @@ describe("testing signin email and password", () => {
       expect(res.statusCode).toBe(200);
     });
   });
-
   test("returns 404 if the profile does not exist", async () => {
     const response = await request
       .put("/999")
@@ -96,19 +95,17 @@ describe("testing signin email and password", () => {
 
     expect(response.statusCode).toBe(404);
   });
-
-  it("should log out user and clear token cookie", async () => {
+  it('should log out user and clear token cookie', async () => {
     const response = await request
-      .get("/api/user/logout")
-      .set("Cookie", cookie);
+      .get('/api/user/logout')
+      .set('Cookie', cookie);
     expect(response.status).toBe(200);
-    expect(response.body.status).toBe("success");
-    expect(response.body.message).toBe("User logged out successfully");
-    expect(response.header["set-cookie"]).toBeDefined();
-    expect(response.header["set-cookie"][0]).toContain(
-      "token=; Path=/; Expires="
-    );
+    expect(response.body.status).toBe('success');
+    expect(response.body.message).toBe('User logged out successfully');
+    expect(response.header['set-cookie']).toBeDefined();
+    expect(response.header['set-cookie'][0]).toContain('token=; Path=/; Expires=');
   });
+
 });
 
 describe("/cart/add/:productId endpoint", () => {
@@ -162,3 +159,26 @@ describe("update cart", () => {
     expect(res.statusCode).toBe(201);
   });
 });
+
+
+describe('/cart/clear-cart endpoint', () => {
+    it("should clear the cart and return a success message", async () => {
+      let cartId=1;
+      const response = await request.delete(`/api/cart/clear-cart/${cartId}`)
+      .set('token', `Bearer ${token}`)
+      expect(response.statusCode).toBe(200);
+      expect(response.body.status).toBe("success");
+      expect(response.body.message).toBe("Cart cleared successfully");
+    });
+
+
+    it("should return a 404 error if the cart is not found", async () => {
+      const nonExistingCartId=9999;
+      const response = await request.delete(`/api/cart/clear-cart/${nonExistingCartId}`)
+        .set("token", `Bearer ${token}`);
+      expect(response.statusCode).toBe(404);
+      expect(response.body.status).toBe("fail");
+      expect(response.body.message).toBe("Cart not found");
+    });
+    
+  })

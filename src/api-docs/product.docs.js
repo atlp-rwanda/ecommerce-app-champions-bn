@@ -1,3 +1,8 @@
+
+import response from "./response";
+
+
+
 const postProduct = {
   tags: ["Product"],
   description: "create a product",
@@ -67,29 +72,11 @@ const postProduct = {
       }
     }
   },
-  responses: {
-    200: {
-      description: "Success"
-    },
-    400: {
-      description: "Bad request"
-    },
-    401: {
-      description: "Unauthorized"
-    },
-    500: {
-      description: "internal server error"
-    }
-  }
+  responses: response
 };
 
 const getAllProducts = {
   tags: ["Product"],
-  security: [
-    {
-      token: []
-    }
-  ],
   summary: "Get all products",
   description: "Retrieves a list of all products.",
   security: [
@@ -97,43 +84,7 @@ const getAllProducts = {
       token: []
     }
   ],
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                productId: {
-                  type: "integer",
-                  example: 1
-                },
-                name: {
-                  type: "string",
-                  example: "Product 1"
-                },
-                description: {
-                  type: "string",
-                  example: "This is the first product."
-                },
-                price: {
-                  type: "number",
-                  example: 9.99
-                },
-                quantity: {
-                  type: "integer",
-                  example: 50
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  responses:response
 };
 const addToWishlist = {
   tags: ["Product"],
@@ -155,34 +106,7 @@ const addToWishlist = {
       token: []
     }
   ],
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              message: {
-                type: "string",
-                description:
-                  "Message indicating that the product was added to the wishlist",
-                example: "Product added to wishlist"
-              },
-              product: {
-                type: "object",
-                description: "The product that was added to the wishlist",
-                properties: {}
-              }
-            }
-          }
-        }
-      }
-    },
-    404: {
-      description: "No products found."
-    }
-  }
+  responses: response
 };
 
 const getAvailableProducts = {
@@ -194,46 +118,7 @@ const getAvailableProducts = {
   ],
   summary: "Get available products",
   description: "Retrieves a list of all products.",
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                productId: {
-                  type: "integer",
-                  example: 1
-                },
-                name: {
-                  type: "string",
-                  example: "Product 1"
-                },
-                description: {
-                  type: "string",
-                  example: "This is the first product."
-                },
-                price: {
-                  type: "number",
-                  example: 9.99
-                },
-                quantity: {
-                  type: "integer",
-                  example: 50
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    404: {
-      description: "No products found."
-    }
-  }
+  responses:response
 };
 
 const searchProduct = {
@@ -248,21 +133,7 @@ const searchProduct = {
       example: "apple"
     }
   ],
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    },
-    404: {
-      description: "profile not found"
-    }
-  }
+  responses: response
 };
 
 const getProductById = {
@@ -277,28 +148,7 @@ const getProductById = {
       example: "1"
     }
   ],
-  responses: {
-    204: {
-      description: "no Content",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    },
-    404: {
-      description: "Not found",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    }
-  }
+  responses: response
 };
 const updateProduct = {
   tags: ["Product"],
@@ -376,20 +226,7 @@ const updateProduct = {
       }
     }
   },
-  responses: {
-    200: {
-      description: "Success"
-    },
-    400: {
-      description: "Bad request"
-    },
-    401: {
-      description: "Unauthorized"
-    },
-    500: {
-      description: "internal server error"
-    }
-  }
+  responses: response
 };
 
 const deleteProduct = {
@@ -409,28 +246,7 @@ const deleteProduct = {
       example: "12"
     }
   ],
-  responses: {
-    204: {
-      description: "no Content",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    },
-    404: {
-      description: "Not found",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    }
-  }
+  responses: response
 };
 
 const retrieveProductItems = {
@@ -441,100 +257,65 @@ const retrieveProductItems = {
       token: []
     }
   ],
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              wishlist: {
-                type: "array",
-                description: "The array of products in the wishlist",
-                items: {
-                  type: "object",
-                  properties: {
-                    // Define the properties of the product object here
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    500: {
-      description: "Internal Server Error",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            properties: {
-              error: {
-                type: "string",
-                description: "The error message",
-                example: "Internal Server Error"
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  responses: response
 };
 
-const disableProduct = {
-  tags: ["Product"],
-  description: "make product unavailable",
-  parameters: [
-    {
-      name: "searchParam",
-      in: "query",
-      description: "the text you want to search",
-      type: "string",
-      example: "1"
-    }
-  ],
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    }
-  }
-};
 
-const enableProduct = {
-  tags: ["Product"],
-  description: "make product available",
-  parameters: [
-    {
-      name: "searchParam",
-      in: "query",
-      description: "the text you want to search",
-      type: "string",
-      example: "2"
-    }
-  ],
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
+   
+  const listProduct = {
+    tags: ["Product"],
+    description: "list all product from seller collection",
+    security: [
+      {
+        token: [],
+      },
+    ],
+    parameters: [],
+    responses: response
+  };
+
+  const enableProduct = {
+    tags: ["Product"],
+    description: "make product available",
+    security: [
+      {
+        token: [],
+      },
+    ],
+    parameters: [
+      {
+        name: "searchParam",
+        in: "query",
+        description: "the text you want to search",
+        type: "string",
+        example: "2"
       }
-    }
-  }
-};
+    ],
+    responses: response
+  };
+  
+
+
+
+  const disableProduct = {
+    tags: ["Product"],
+    description: "make product unavailable",
+    security: [
+      {
+        token: [],
+      },
+    ],
+    parameters: [
+      {
+        name: "searchParam",
+        in: "query",
+        description: "the text you want to search",
+        type: "string",
+        example: "1"
+      }
+    ],
+    responses: response
+  };
 
 const getRecommendedProducts = {
   tags: ["Product"],
@@ -549,38 +330,13 @@ const getRecommendedProducts = {
     }
   ],
 
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    }
-  }
+  responses: response
 };
 
 const getExpiredProducts = {
   tags: ["Product"],
   description: "get the expired products and unlist them from the available products",
-  responses: {
-    200: {
-      description: "OK",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object"
-          }
-        }
-      }
-    },
-    404: {
-      description: "profile not found"
-    }
-  }
+  responses:response
 };
 
 const productRouteDoc = {
@@ -611,12 +367,14 @@ const productRouteDoc = {
   "/api/product/retrieveWishlistItems": {
     get: retrieveProductItems
   },
+  "/api/product/get-seller-products":{get: listProduct},
+   
   "/api/product/disable": {
-    get: disableProduct
-  },
-  "/api/product/enable": {
-    get: enableProduct
-  },
+      get: disableProduct
+    },
+    "/api/product/enable": {
+      get: enableProduct
+    },
   "/api/product/recommended": {
     get: getRecommendedProducts
   },
@@ -624,5 +382,5 @@ const productRouteDoc = {
     get: getExpiredProducts
   }
 };
-
-export default productRouteDoc;
+  
+  export default productRouteDoc;

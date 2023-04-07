@@ -14,5 +14,7 @@
      "productnotfound":"Produit introuvable dans votre collection",
      "productdeleted":"Produit supprimé",
      "Unauthorized":"Accès non autorisé",
-     "productupdated":"produit mis à jour "
+     "productupdated":"produit mis à jour ",
+     "Cartnotfound":"Panier introuvable",
+     "CartCleared":"Panier vidé avec succès"
 }

@@ -40,6 +40,17 @@ module.exports = {
       isVerified:true,
       createdAt: new Date(),
       updatedAt: new Date()
+     },
+     {
+      firstName: 'buyer',
+      lastName: "mr",
+      email:"buyer1@yopmail.com",
+      profilepic:"https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png",
+      password: buyerPassword,
+      RoleId:3,
+      isVerified:true,
+      createdAt: new Date(),
+      updatedAt: new Date()
      }
     ], {});
   },

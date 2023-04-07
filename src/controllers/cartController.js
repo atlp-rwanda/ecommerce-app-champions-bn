@@ -1,4 +1,4 @@
-import { Product, cart } from "../database/models";
+import {Product, Cart} from "../database/models";
 
 class CartController {
   static async addItem(req, res) {
@@ -16,23 +16,23 @@ class CartController {
         productPrice: product.productPrice,
         productTotal: product.productPrice
       };
-      const Cart = await cart.findOne({ where: { buyerId: req.user.id } });
-      if (!Cart) {
-        const newCart = await cart.create({products: [item],buyerId: req.user.id
+      const cart = await Cart.findOne({ where: { buyerId: req.user.id } });
+      if (!cart) {
+        const newCart = await Cart.create({products: [item],buyerId: req.user.id
         });
         newCart.total = newCart.products.map((item1) => JSON.parse(item1.productTotal)).reduce((sum, next) => sum + next);
         await newCart.save();
         return res.status(201).json({status: "success",message: "product added to cart successfully"});
       }
-      const itemExists = Cart.products.some(
+      const itemExists = cart.products.some(
         (cartItem) => cartItem.productId === product.productId
       );
       if (itemExists === true) {
         return res.status(409).json({ status: "fail", message: "Product already in cart" });
       }
-      Cart.products.push(item);
-      const subtotal = Cart.products.map((item1) => JSON.parse(item1.productTotal)).reduce((sum, next) => sum + next);
-      await cart.update({ products: Cart.products, total: subtotal },{ where: { id: Cart.id } }
+      cart.products.push(item);
+      const subtotal = cart.products.map((item1) => JSON.parse(item1.productTotal)).reduce((sum, next) => sum + next);
+      await Cart.update({ products: cart.products, total: subtotal },{ where: { id: cart.id } }
       );
       res.status(201).json({status: "success",message: "product added to cart successfully"
       });
@@ -43,13 +43,16 @@ class CartController {
 
   static async getCartItems(req, res) {
     try {
-      const Cart = await cart.findOne({ where: { buyerId: req.user.id } });
-      if (!Cart) {
+      const cart = await Cart.findOne({ where: { buyerId: req.user.id } });
+      if (!cart) {
         res.status(401).json({ status: "fail", message: "Cart is Empty" });
       } else {
-        res.status(201).json({ status:"success", Cart });
+        res.status(201).json({ status:"success", cart });
       }
     } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        return res.status(422).json({ status: "DatabaseError", message: error.message });
+      }
       res.status(500).json({ message: error.message });
     }
   }
@@ -59,7 +62,7 @@ class CartController {
       const { quantity } = req.body;
       const { productId } = req.params;
       const product = await Product.findOne({where: { productId, available: true }});
-      const buyerCart = await cart.findOne({ where: { buyerId: req.user.id } });
+      const buyerCart = await Cart.findOne({ where: { buyerId: req.user.id } });
       if (buyerCart) {
         const productIndex = buyerCart.products.findIndex(
           // eslint-disable-next-line eqeqeq
@@ -73,17 +76,17 @@ class CartController {
               buyerCart.products.splice(productIndex, 1);
               if (buyerCart.products.length !== 0) {
                 const newTotal = buyerCart.products.map((item) => JSON.parse(item.productTotal)).reduce((sum, next) => sum + next);
-                const newCart = await cart.update({ products: buyerCart.products, total: newTotal },{ where: { id: buyerCart.id } });
+                const newCart = await Cart.update({ products: buyerCart.products, total: newTotal },{ where: { id: buyerCart.id } });
                 return res.status(201).json({status: "success",message: "cart items updated successfully", newCart});
               }
-              const newCart = await cart.update({ products: buyerCart.products, total: 0 },{ where: { id: buyerCart.id } });
+              const newCart = await Cart.update({ products: buyerCart.products, total: 0 },{ where: { id: buyerCart.id } });
               return res.status(201).json({status: "success",message: "cart updated, total is now zero", newCart});
             }
             const newProductTotal = product.dataValues.productPrice * quantity;
             buyerCart.products[productIndex].quantity = quantity;
             buyerCart.products[productIndex].productTotal = newProductTotal;
             const newTotal = buyerCart.products.map((item) => JSON.parse(item.productTotal)).reduce((sum, next) => sum + next);
-            const newCart = await cart.update({ products: buyerCart.products, total: newTotal },{ where: { id: buyerCart.id } }
+            const newCart = await Cart.update({ products: buyerCart.products, total: newTotal },{ where: { id: buyerCart.id } }
             );
             return res.status(201).json({status: "success",message: "Cart updated successfully", newCart });
         }
@@ -93,6 +96,23 @@ class CartController {
       return res.status(500).json({ status: "fail", message: error.message });
     }
   }
+
+
+
+  static async clearCart(req, res) {
+    try {
+      const cart = await Cart.findOne({ where: { buyerId: req.user.id,id:req.params.id } });
+      if (!cart) {
+        return res.status(404).json({ status:"fail", message:req.t("Cart not found") });
+      }
+      await cart.update({ products: [], total: 0 });
+      return res.status(200).json({ status: "success", message: req.t("CartCleared") });
+    
+    } catch (error) {
+      res.status(500).json({ status:"error", message: error.message});
+    }
+  }
+  
 }
 
 export default CartController;
