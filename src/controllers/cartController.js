@@ -101,7 +101,7 @@ class CartController {
 
   static async clearCart(req, res) {
     try {
-      const cart = await Cart.findOne({ where: { buyerId: req.user.id,id:req.params.id } });
+      const cart = await Cart.findOne({ where: { BuyerId: req.user.id,id:req.params.id } });
       if (!cart) {
         return res.status(404).json({ status:"fail", message:req.t("Cart not found") });
       }
