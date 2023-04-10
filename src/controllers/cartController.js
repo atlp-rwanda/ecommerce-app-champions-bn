@@ -1,4 +1,4 @@
-import {Product, Cart} from "../database/models";
+import { Product, Cart } from "../database/models";
 
 class CartController {
   static async addItem(req, res) {
@@ -16,9 +16,9 @@ class CartController {
         productPrice: product.productPrice,
         productTotal: product.productPrice
       };
-      const cart = await Cart.findOne({ where: { buyerId: req.user.id } });
+      const cart = await Cart.findOne({ where: { BuyerId: req.user.id } });
       if (!cart) {
-        const newCart = await Cart.create({products: [item],buyerId: req.user.id
+        const newCart = await Cart.create({products: [item],BuyerId: req.user.id
         });
         newCart.total = newCart.products.map((item1) => JSON.parse(item1.productTotal)).reduce((sum, next) => sum + next);
         await newCart.save();
@@ -43,7 +43,7 @@ class CartController {
 
   static async getCartItems(req, res) {
     try {
-      const cart = await Cart.findOne({ where: { buyerId: req.user.id } });
+      const cart = await Cart.findOne({ where: { BuyerId: req.user.id } });
       if (!cart) {
         res.status(401).json({ status: "fail", message: "Cart is Empty" });
       } else {
@@ -62,7 +62,7 @@ class CartController {
       const { quantity } = req.body;
       const { productId } = req.params;
       const product = await Product.findOne({where: { productId, available: true }});
-      const buyerCart = await Cart.findOne({ where: { buyerId: req.user.id } });
+      const buyerCart = await Cart.findOne({ where: { BuyerId: req.user.id } });
       if (buyerCart) {
         const productIndex = buyerCart.products.findIndex(
           // eslint-disable-next-line eqeqeq

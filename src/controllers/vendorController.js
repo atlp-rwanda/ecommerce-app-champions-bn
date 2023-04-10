@@ -3,13 +3,7 @@ import { Op} from "sequelize";
 import randomPassword from "../utils/randomPassword";
 import sendEmail from "../utils/sendEmail";
 
-import {
-  User,
-  Role,
-  Permission,
-  Vendor,
-  ReportedActivity
-} from "../database/models";
+import { User, Role, Permission, Vendor, ReportedActivity } from "../database/models";
 
 class VendorController {
   static async registerVendor(req, res) {

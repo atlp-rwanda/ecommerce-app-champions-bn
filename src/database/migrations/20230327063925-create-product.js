@@ -9,10 +9,7 @@ module.exports = {
       },
       VendorId: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'Vendors',
-        key:'id',
-        }
+        references:{ model:'Vendors', key:'id', }
       },
       productName: {
         type: Sequelize.STRING,
@@ -20,10 +17,7 @@ module.exports = {
       },
       CategoryId: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'Categories',
-          key:'id'
-        }
+        references:{ model:'Categories', key:'id' }
       },
       productImage:{
       type: Sequelize.ARRAY(Sequelize.STRING),
