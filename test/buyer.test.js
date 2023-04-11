@@ -7,6 +7,8 @@ const request = defaults(supertest(app));
 let token;
 let userId;
 let cookie;
+let reviewId;
+
 
 describe("testing buyer signup", () => {
   test("buyer signup", async () => {
@@ -18,6 +20,17 @@ describe("testing buyer signup", () => {
     });
     userId = response.body.data.id;
     expect(response.statusCode).toBe(201);
+  });
+
+  test("Testing existing buyer", async () => {
+    const response = await request.post("/api/buyer/signup").send({
+      firstName: "sostene",
+      lastName: "ngarukiyimana",
+      email: "ngarukiyimanasostene@gmail.com",
+      password: "1234567@password"
+    });
+    
+    expect(response.statusCode).toBe(409);
   });
 });
 
@@ -198,3 +211,44 @@ describe("/cart/clear-cart endpoint", () => {
     expect(response.body.message).toBe("Cart not found");
   });
 });
+
+describe("Review product",()=>{
+test("Create a product review",async()=>{
+  const productId=2;
+  const response = await request.post("/api/review/createReview").send({
+    title:"Good product",
+    content:"I like this product, it exceeded my expectations",
+    rating:7,
+    userId,
+    productId
+  })
+  .set("token",`Bearer ${token}`);
+ 
+  reviewId=response.body.review.id;
+ 
+
+  expect(response.statusCode).toBe(201);
+
+
+})
+
+test("Get product reviews",async()=>{
+  const response= await request.get(`/api/review/getProductReviews/${reviewId}`)
+expect(response.statusCode).toBe(200);
+});
+
+test("Get product rate",async ()=>{
+  const productId=2;
+
+  const response= await request.get(`/api/review/getProductRate/${productId}`);
+  expect(response.statusCode).toBe(200);
+});
+
+
+test("Delete review",async()=>{
+  const response = await request.delete(`/api/review/deleteReview/${reviewId}`)
+  .set("token",`Bearer ${token}`);
+  expect(response.statusCode).toBe(204);
+})
+
+})

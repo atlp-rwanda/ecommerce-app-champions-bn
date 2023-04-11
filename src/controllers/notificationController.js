@@ -1,66 +1,22 @@
-
 import socketIOClient from "socket.io-client";
 import nodemailer from "nodemailer";
 import crown from "node-cron";
+import dotenv from "dotenv";
 
-import Product from  "../database/models/product";
-import User from "../database/models/user";
-import Vendor from "../database/models/vendor";
+import {Vendor,Notification,User,Product} from "../database/models";
 
-import { Notification } from "../database/models";
-
-const sendEmail = async(receiver)=>{
-
-  const transporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+import sendEmail from "../utils/sendEmail";
 
 
-  const options = {
+dotenv.config();
 
-    from:process.env.EMAIL,
-    to:receiver.email,
-    subject:receiver.subject,
-    html:receiver.html,
-    secure:true,
-  };
-
-  
-transporter.sendMail(options,async(error,info)=>{
-  if (error) {
-    console.log(error);
-} else {
-    console.log(`Email sent:${info.response}`);
-}
-});
-
-};
-
-
-  const templateHeader = `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#008080">
-  <tbody><tr>
-  <td style="padding-top:54px;padding-bottom:42px" align="center">
-  <h2 style="color:#FFFFFF;font-size: xx-large;">E-commerce ATLP-Champions project</h2>
-  </td>
-  </tr>
-  </tbody></table>`;
-
-  const templateFotter = `<h3>Best regards,</h3>
-<h5><i>E-commerce ATLP-Champions project team</i></h5>`;
 
 const emitProductAdded = async(productName,vendor)=>{
 
-const socket = socketIOClient("http://localhost:5000");
+const socket = socketIOClient(`${process.env.APP_URL}`);
 
 const notification = await Notification.create({
-subject:"New product addedd",
+subject:"New product added",
 message:`Hello ${vendor.firstName}, a product ${productName} is added into your collection successfuly`,
 type:"newProduct",
 userId:vendor.id
@@ -68,14 +24,27 @@ userId:vendor.id
 });
 
 
+sendEmail({email:vendor.email,firstName:vendor.firstName,productName},"productAddedNotification");
 
-const sendEmaiOption = {
-  email:vendor.email,
-  subject:notification.subject,
-  html: `${templateHeader} <p> Dear <h2> ${vendor.firstName} </h2> We want to inform you that a product <b>${productName}</b> is added into your collection  successfully, thank you for working  with us </p> ${templateFotter}`,
+socket.emit("notification", {
+  message: notification.message,
+  userId: vendor.id
+});
+
 };
 
-await sendEmail(sendEmaiOption);
+const emitProductDeleted=async(productName,vendor)=>{
+  const socket = socketIOClient(`${process.env.APP_URL}`);
+
+const notification = await Notification.create({
+  subject:"product deleted",
+  message:`Hello ${vendor.firstName}, a product ${productName} is deleted successfuly`,
+  type:"productDeleted",
+  userId:vendor.id
+  
+  });
+
+  sendEmail({email:vendor.email,firstName:vendor.firstName,productName},"productDeletedNotification");
 
 socket.emit("notification", {
   message: notification.message,
@@ -85,13 +54,82 @@ socket.emit("notification", {
 
 };
 
-const emitProductDeleted=async()=>{
+const emitProductUpdated = async (productId,vendor) =>{
 
-};
+  const socket = socketIOClient(`${process.env.APP_URL}`);
+
+  const notification = await Notification.create({
+    subject:"product updated",
+    message:`Hello ${vendor.firstName}, a product with id: ${productId} is updated successfuly`,
+    type:"productUpdate",
+    userId:vendor.id
+    
+    });
+
+    socket.emit("notification", {
+      message: notification.message,
+      userId: vendor.id
+    });
+
+    sendEmail({email:vendor.email,firstName:vendor.firstName,productId},"productUpdatedNotification");
+   
+ };
+
+ const emitProductSold=async(productName,vendor)=>{
+  const socket = socketIOClient(`${process.env.APP_URL}`);
+
+  const notification = await Notification.create({
+    subject:"product sold",
+    message:`Hello ${vendor.firstName}, a product ${productName} is sold from your collection`,
+    type:"productSold",
+    userId:vendor.id
+    
+    });
+
+    sendEmail({email:vendor.email,firstName:vendor.firstName,productName},"productSoldNotification");
+    socket.emit("notification", {
+      message: notification.message,
+      userId: vendor.id
+    });
+
+ };
+
+ const getNotifications=async(req,res)=>{
+
+  try{
+   
+    const existingVendor = await Vendor.findOne({where:{UserId:req.user.id}});
+
+    const notifications=await Notification.findAll({where: {userId:existingVendor.dataValues.UserId}});
+
+    if(!notifications){
+      res.status(404).json({status:"error",message:"Notifications not found"});
+    }
+    res.status(200).json({status:"success",message:notifications});
+  }catch(error){
+    return res.status(500).json({status:"error",message:error.message});
+  }
+
+ };
+
+ const deleteNotifications=async(req,res)=>{
+
+  try{
+  
+    const notification=await Notification.findOne({where: {id:req.params.id}});
 
 
-export {emitProductAdded,emitProductDeleted};
+    if(!notification){
+      res.status(404).json({status:"error",message:"Notification not found"});
+    }
 
+    await Notification.destroy({where:{id:req.params.id}});
 
+    res.status(200).json({status:"success",message:[]});
+  }catch(error){
+    return res.status(500).json({status:"error",message:error.message});
+  }
 
+ };
 
+export {emitProductAdded,emitProductDeleted,emitProductUpdated,emitProductSold,getNotifications,deleteNotifications};

@@ -98,6 +98,10 @@ class ProductController {
         },
         { where: { productId: req.params.id } }
       );
+
+      const logedVendor=await User.findOne({where: {id:req.user.id}});
+      emitter.emit("productUpdated",req.params.id,logedVendor);
+
       return res.status(200).json({ status: "success", productUpdate });
     } catch (error) {
       return res.status(500).json({status: "fail",error: error.message});
@@ -124,6 +128,9 @@ class ProductController {
         return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
       }
       await product.destroy();
+      const logedVendor=await User.findOne({where: {id:req.user.id}});
+      
+      emitter.emit("productDeleted",product.productName,logedVendor);
       return res.status(204).json({ status: req.t("success"),data:null, message: req.t("productdeleted") });
   
     } catch (error) {
