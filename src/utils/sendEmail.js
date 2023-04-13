@@ -7,6 +7,7 @@ import { twoFactorEmail } from "./templates/2FA";
 import { disableVendorAccount } from "./templates/disableVendor";
 import { resetPasswordEmail } from "./templates/resetPassword";
 import { expiredProductsTemplate } from "./templates/expiredProducts";
+import { productAddNotification,productDeletedNotification,productUpdatedNotification,productSoldNotification } from "./templates/notification";
 
 dotenv.config();
 
@@ -55,6 +56,30 @@ const sendEmail = (info, action) => {
       emailto = info.email;
       composition = expiredProductsTemplate(info.firstName);
       break;
+
+      case "productAddedNotification":
+        subject = "product added";
+        emailto = info.email;
+        composition = productAddNotification(info.firstName,info.productName);
+        break;
+
+        case "productDeletedNotification":
+          subject = "product deleted";
+          emailto = info.email;
+          composition = productDeletedNotification(info.firstName,info.productName);
+          break;
+
+          case "productUpdatedNotification":
+            subject = "product updated";
+            emailto = info.email;
+            composition = productUpdatedNotification(info.firstName,info.productId);
+            break;
+
+            case "productSoldNotification":
+              subject = "product sold";
+              emailto = info.email;
+              composition = productSoldNotification(info.firstName,info.productName);
+              break;
   }
 
   const mailOptions = {
@@ -67,8 +92,10 @@ const sendEmail = (info, action) => {
   try {
     const sendMail = transporter.sendMail(mailOptions, (error, result) => {
       if(error){
+       
         throw new Error(error);
       }
+      
       return sendMail;
     });
   } catch (error) {

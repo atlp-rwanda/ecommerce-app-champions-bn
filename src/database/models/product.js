@@ -3,6 +3,7 @@ const { Model, Sequelize } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
+<<<<<<< HEAD
       // define association here
       Product.belongsTo(models.Vendor, {
         foreignKey: 'VendorId',
@@ -27,6 +28,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete:'CASCADE',
         onUpdate:'CASCADE'
       });
+=======
+      Product.belongsTo(models.Vendor, { foreignKey: 'VendorId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Product.hasMany(models.Review, { foreignKey: 'productId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Product.belongsTo(models.Category,{foreignKey:"CategoryId", onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Product.hasOne(models.Sale, { foreignKey: "ProductId", onDelete: "CASCADE", onUpdate: "CASCADE" });
+>>>>>>> develop
     }
   }
   Product.init({

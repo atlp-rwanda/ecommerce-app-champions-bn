@@ -9,6 +9,8 @@ let vendorToken;
 let userId;
 let cookie;
 let couponCode;
+let reviewId;
+
 
 describe("testing buyer signup", () => {
   test("buyer signup", async () => {
@@ -20,6 +22,17 @@ describe("testing buyer signup", () => {
     });
     userId = response.body.data.id;
     expect(response.statusCode).toBe(201);
+  });
+
+  test("Testing existing buyer", async () => {
+    const response = await request.post("/api/buyer/signup").send({
+      firstName: "sostene",
+      lastName: "ngarukiyimana",
+      email: "ngarukiyimanasostene@gmail.com",
+      password: "1234567@password"
+    });
+    
+    expect(response.statusCode).toBe(409);
   });
 });
 
@@ -109,17 +122,18 @@ describe("testing signin email and password", () => {
 
     expect(response.statusCode).toBe(404);
   });
-  it('should log out user and clear token cookie', async () => {
+  it("should log out user and clear token cookie", async () => {
     const response = await request
-      .get('/api/user/logout')
-      .set('Cookie', cookie);
+      .get("/api/user/logout")
+      .set("Cookie", cookie);
     expect(response.status).toBe(200);
-    expect(response.body.status).toBe('success');
-    expect(response.body.message).toBe('User logged out successfully');
-    expect(response.header['set-cookie']).toBeDefined();
-    expect(response.header['set-cookie'][0]).toContain('token=; Path=/; Expires=');
+    expect(response.body.status).toBe("success");
+    expect(response.body.message).toBe("User logged out successfully");
+    expect(response.header["set-cookie"]).toBeDefined();
+    expect(response.header["set-cookie"][0]).toContain(
+      "token=; Path=/; Expires="
+    );
   });
-
 });
 
 describe("/cart/add/:productId endpoint", () => {
@@ -136,6 +150,22 @@ describe("/cart/add/:productId endpoint", () => {
       .post(`/api/cart/add/${productId}`)
       .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(201);
+  });
+
+  test("checkout", async () => {
+    const res = await request
+      .post("/api/payment/checkout")
+      .set("token", `Bearer ${token}`)
+      .send();
+    expect(res.statusCode).toBe(200);
+  });
+  test("payment success", async () => {
+    const res = await request
+      .get(
+        `/api/payment/paymentSuccess?token=${token}&&paymentId={CHECKOUT_SESSION_ID}`
+      )
+      .send();
+    expect(res.statusCode).toBe(500);
   });
 
   test("should return 400 if product is already in cart", async () => {
@@ -174,24 +204,65 @@ describe("update cart", () => {
   });
 });
 
-describe('/cart/clear-cart endpoint', () => {
-    it("should clear the cart and return a success message", async () => {
-      let cartId=1;
-      const response = await request.delete(`/api/cart/clear-cart/${cartId}`)
-      .set('token', `Bearer ${token}`)
-      expect(response.statusCode).toBe(200);
-      expect(response.body.status).toBe("success");
-      expect(response.body.message).toBe("Cart cleared successfully");
-    });
+describe("/cart/clear-cart endpoint", () => {
+  it("should clear the cart and return a success message", async () => {
+    let cartId = 1;
+    const response = await request
+      .delete(`/api/cart/clear-cart/${cartId}`)
+      .set("token", `Bearer ${token}`);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.status).toBe("success");
+    expect(response.body.message).toBe("Cart cleared successfully");
+  });
 
+  it("should return a 404 error if the cart is not found", async () => {
+    const nonExistingCartId = 9999;
+    const response = await request
+      .delete(`/api/cart/clear-cart/${nonExistingCartId}`)
+      .set("token", `Bearer ${token}`);
+    expect(response.statusCode).toBe(404);
+    expect(response.body.status).toBe("fail");
+    expect(response.body.message).toBe("Cart not found");
+  });
+});
 
-    it("should return a 404 error if the cart is not found", async () => {
-      const nonExistingCartId=9999;
-      const response = await request.delete(`/api/cart/clear-cart/${nonExistingCartId}`)
-        .set("token", `Bearer ${token}`);
-      expect(response.statusCode).toBe(404);
-      expect(response.body.status).toBe("fail");
-      expect(response.body.message).toBe("Cart not found");
-    });
-    
+describe("Review product",()=>{
+test("Create a product review",async()=>{
+  const productId=2;
+  const response = await request.post("/api/review/createReview").send({
+    title:"Good product",
+    content:"I like this product, it exceeded my expectations",
+    rating:7,
+    userId,
+    productId
   })
+  .set("token",`Bearer ${token}`);
+ 
+  reviewId=response.body.review.id;
+ 
+
+  expect(response.statusCode).toBe(201);
+
+
+})
+
+test("Get product reviews",async()=>{
+  const response= await request.get(`/api/review/getProductReviews/${reviewId}`)
+expect(response.statusCode).toBe(200);
+});
+
+test("Get product rate",async ()=>{
+  const productId=2;
+
+  const response= await request.get(`/api/review/getProductRate/${productId}`);
+  expect(response.statusCode).toBe(200);
+});
+
+
+test("Delete review",async()=>{
+  const response = await request.delete(`/api/review/deleteReview/${reviewId}`)
+  .set("token",`Bearer ${token}`);
+  expect(response.statusCode).toBe(204);
+})
+
+})

@@ -4,17 +4,12 @@ module.exports = (sequelize, DataTypes) => {
   class Cart extends Model {
    
     static associate(models) {
-      Cart.belongsTo(models.Buyer, {
-        foreignKey: 'buyerId',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      });
+      Cart.belongsTo(models.User, { foreignKey: 'BuyerId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
     }
   }
   Cart.init( 
     {
-     
-      buyerId: {
+      BuyerId: {
         type: DataTypes.INTEGER,
       },
       products: {

@@ -6,7 +6,6 @@ import { handleCookies, getCookieInfo } from "../utils/handleCookies";
 import comparePassword from "../utils/verifyPassword";
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
-
 const {
   User,
   Role,
@@ -16,11 +15,9 @@ const {
 } = require("../database/models");
 
 dotenv.config();
-
 class UserController {
   static async signin(req, res) {
     try {
-
       const nodenv = process.env.NODE_ENV;
       const { dataValues } = await User.findOne({where: { email: req.body.email }});
       if (!dataValues)
@@ -48,7 +45,6 @@ class UserController {
       //     OTP
       //   ).twoFactorAuth();
       //   const encodedOTP = Buffer.from(hashedOTP).toString("base64");
-
       //   await handleCookies(
       //     5,
       //     "loginOTP",
@@ -134,7 +130,6 @@ class UserController {
           const existingRole = await Role.findByPk(vendor.RoleId, {
             include: { model: Permission }
           });
-
           const roles = existingRole.toJSON();
           // provide a new token
           const token = await generateAccessToken({
@@ -179,5 +174,4 @@ class UserController {
     }
   }
 }
-
 export default UserController;

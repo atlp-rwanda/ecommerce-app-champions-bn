@@ -1,7 +1,8 @@
 import supertest from "supertest";
 import defaults from "superagent-defaults";
 import app from "../src/app";
-import {Product} from "../src/database/models"
+import {Product} from "../src/database/models";
+import { Notification } from "../src/database/models";
 
 let vendorToken;
 let adminToken;
@@ -10,6 +11,7 @@ let product;
 let product1;
 let productToUpdate;
 let productdisable
+let productId;
 
 const request = defaults(supertest(app));
 
@@ -271,6 +273,24 @@ describe("should make product available or unavailable", () => {
     expect(res.statusCode).toBe(200);
   });
 });
+
+describe('Notifications', () => {
+
+  test("get all notifications",async ()=>{
+      const response=await request.get("/api/notification/getNotifications")
+      .set("token",`Bearer ${vendorToken}`);
+      expect(response.statusCode).toBe(200);
+  });
+
+  test("delete notifications",async ()=>{
+      const response=await request.delete(`/api/notification/deleteNotifications/1`)
+      .set("token",`Bearer ${vendorToken}`);
+      expect(response.statusCode).toBe(200);
+  })
+
+  
+});
+
 
 
 

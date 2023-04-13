@@ -15,8 +15,9 @@ import categoryRouteDoc from "./category.docs";
 import ReviewRouteDoc from "./review.docs";
 import couponCodeRouteDoc from "./coupon.docs";
 
+import paymentRouteDoc from "./payment.docs";
 import cartRouteDoc from "./cart.docs";
-
+import notificationRouteDoc from "./notification.docs";
 
 dotenv.config();
 
@@ -45,7 +46,10 @@ const options = {
       { name: "Permission", description: "Permission Routes" },
       { name: "Role", description: "Role Routes" },
       { name: "Auth", description: "Authentication Routes" },
-      { name: "Coupon", description: "Coupon code Routes" }
+      { name: "Coupon", description: "Coupon code Routes" },
+      { name: "Payments", description: "Payment Routes" },
+      { name: "Notifications", description: "Notifications to a vendor of products" }
+
     ],
     components: {
       securitySchemes: {
@@ -88,7 +92,10 @@ const options = {
       ...categoryRouteDoc,
       ...ReviewRouteDoc,
       ...cartRouteDoc,
-      ...couponCodeRouteDoc
+      ...couponCodeRouteDoc,
+      ...paymentRouteDoc,
+      ...notificationRouteDoc,
+      
     }
   },
   apis: ["../routes/**/*.js"]

@@ -2,17 +2,12 @@ const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate(models) {
-      // define association here
-      User.hasOne(models.Buyer);
-      User.hasOne(models.Vendor);
-      User.belongsTo(models.Role, { foreignKey: "RoleId" });
-
-      User.hasMany(models.Review, {
-        foreignKey: 'userId',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      });
+    static associate(models) {User.hasOne(models.Buyer);
+       User.hasOne(models.Vendor);
+       User.belongsTo(models.Role, { foreignKey: "RoleId" });
+       User.hasMany(models.Review, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+       User.hasOne(models.Cart, { foreignKey: "BuyerId", onDelete: "CASCADE", onUpdate: "CASCADE" });
+       User.hasMany(models.Order, { foreignKey: "BuyerId", onDelete: 'CASCADE', onUpdate: 'CASCADE' });
     }
   }
   User.init({

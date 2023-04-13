@@ -1,7 +1,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Carts', {
+    await queryInterface.createTable("Orders", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,12 +12,17 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: "Users", key: "id" }
       },
-      products: {
-        type: Sequelize.ARRAY(Sequelize.JSONB),
-        defaultValue: []
+      orderTotal: {
+        type: Sequelize.STRING,
+        defaultValue: "order"
       },
-      total: {
-        type: Sequelize.FLOAT,
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: "order"
+      },
+      paymentStatus: {
+        type: Sequelize.STRING,
+        defaultValue: "pending"
       },
       createdAt: {
         allowNull: false,
@@ -30,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Carts');
+    await queryInterface.dropTable("Orders");
   }
 };
