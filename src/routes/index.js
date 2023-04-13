@@ -11,6 +11,8 @@ import productRoute from "./product.route";
 import categoryRoute from "./category.route";
 import reviewRouter from "./review.route";
 import cartRoute from "./cart.route";
+import paymentRoute from "./payment.route";
+import notificationRouter from "./notification.route";
 
 const indexRouter = express.Router();
 
@@ -26,5 +28,7 @@ indexRouter.use("/api/category", categoryRoute);
 indexRouter.use("/api/product", productRoute);
 indexRouter.use("/api/review",reviewRouter);
 indexRouter.use("/api/cart", cartRoute);
+indexRouter.use("/api/payment", paymentRoute);
+indexRouter.use("/api/notification",notificationRouter);
 
 export default indexRouter;

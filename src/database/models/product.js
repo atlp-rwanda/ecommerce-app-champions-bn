@@ -3,25 +3,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-      // define association here
-      Product.belongsTo(models.Vendor, {
-        foreignKey: 'VendorId',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      });
-      // Product.hasMany(models.Wishlist, {
-      //   foreignKey: 'productId',
-      //   onDelete: 'CASCADE',
-      //   onUpdate: 'CASCADE'
-      // });
-
-      Product.hasMany(models.Review, {
-        foreignKey: 'productId',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      });
-
-      Product.belongsTo(models.Category,{foreignKey:"CategoryId"});
+      Product.belongsTo(models.Vendor, { foreignKey: 'VendorId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Product.hasMany(models.Review, { foreignKey: 'productId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Product.belongsTo(models.Category,{foreignKey:"CategoryId", onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Product.hasOne(models.Sale, { foreignKey: "ProductId", onDelete: "CASCADE", onUpdate: "CASCADE" });
     }
   }
   Product.init({

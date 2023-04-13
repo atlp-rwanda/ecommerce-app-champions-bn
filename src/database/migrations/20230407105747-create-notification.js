@@ -1,19 +1,28 @@
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('wishlists', {
+    await queryInterface.createTable('Notifications', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.INTEGER
+      subject: {
+        type: Sequelize.STRING
       },
-      products: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        defaultValue: []
+      message:{
+        type: Sequelize.STRING
+      },
+      type:{
+        type: Sequelize.STRING
+      },
+      isRead:{
+        type: Sequelize.BOOLEAN
+      },
+      userId:{
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -26,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('wishlists');
+    await queryInterface.dropTable('Notifications');
   }
 };
