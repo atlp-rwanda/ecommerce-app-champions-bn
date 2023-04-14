@@ -6,21 +6,13 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Vendor.belongsTo(models.User, { foreignKey: "UserId", onDelete: "CASCADE", onUpdate: "CASCADE" });
       Vendor.hasMany(models.ReportedActivity);
-<<<<<<< HEAD
-      Vendor.hasMany(models.Product, {
-        foreignKey: 'VendorId',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      });
+      Vendor.hasMany(models.Product, { foreignKey: 'VendorId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+      Vendor.hasMany(models.Sale, { foreignKey: "VendorId", onDelete: 'CASCADE', onUpdate: 'CASCADE' });
       Vendor.hasMany(models.CouponCodeDiscount,{
         foreignKey:'VendorId',
         onDelete:'CASCADE',
         onUpdate:'CASCADE'
       });
-=======
-      Vendor.hasMany(models.Product, { foreignKey: 'VendorId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-      Vendor.hasMany(models.Sale, { foreignKey: "VendorId", onDelete: 'CASCADE', onUpdate: 'CASCADE' });
->>>>>>> develop
     }
   }
   Vendor.init({

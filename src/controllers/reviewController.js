@@ -1,3 +1,5 @@
+import { Op } from "sequelize";
+
 import { Product, Review, User } from "../database/models";
 
 class ReviewController {

@@ -5,7 +5,7 @@ const { User } = require("../database/models");
 
 // Define the nodemailer transporter object
 const transporter = nodemailer.createTransport({
-  service: "hotmail",
+  service: process.env.SERVICE,
   auth: {
     user: process.env.EMAIL,
     pass: process.env.EMAIL_PASSWORD

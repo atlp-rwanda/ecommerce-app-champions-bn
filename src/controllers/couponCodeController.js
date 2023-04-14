@@ -93,14 +93,14 @@ class CouponCodeController {
         return res.status(400).json({ message: "Invalid product ID" });
       }
       eligibleProducts.push(product.dataValues);
-      const cart = await Cart.findOne({ where: { buyerId: req.user.id } });
-      console.log(buyer);
+      const cart = await Cart.findOne({ where: { BuyerId: req.user.id } });
       const updatedCartItems = cart.dataValues.products.map((item) => {
         const product = eligibleProducts.find(
-          (product) => product.id === item.id
+          (product) => product.productId === item.productId
         );
-        if (product && !item.discount) {
-          const discountAmount =
+        
+        if (product) {
+            const discountAmount =
             item.productPrice * (coupon.dataValues.discount / 100);
           const discountedPrice = item.productPrice - discountAmount;
           return {
@@ -119,7 +119,7 @@ class CouponCodeController {
       const updatedCartTotal = cart.dataValues.total - totalDiscount;
       await Cart.update(
         { products: updatedCartItems, total: updatedCartTotal },
-        { where: { buyerId: req.user.id } }
+        { where: { BuyerId: req.user.id } }
       );
       await CouponCodeDiscount.increment(
         { usageCount: 1 },

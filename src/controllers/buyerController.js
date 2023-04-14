@@ -45,7 +45,7 @@ class BuyerController {
       await buyer.setRole(role);
       const buyerProfile = await Buyer.create({});
       buyer.setBuyer(buyerProfile);
-      const url = process.env.URL;
+      const url = process.env.APP_URL;
       const emailData = {
         token,
         url,
