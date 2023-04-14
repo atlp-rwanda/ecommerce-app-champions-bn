@@ -17,25 +17,26 @@ class CartController {
         productTotal: product.productPrice
       };
       const cart = await Cart.findOne({ where: { BuyerId: req.user.id } });
-      if (!cart) {
+      if(cart){
+        const itemExists = cart.products.some(
+          (cartItem) => cartItem.productId === product.productId
+        );
+        if (itemExists === true) {
+          return res.status(409).json({ status: "fail", message: "Product already in cart" });
+        }
+        cart.products.push(item);
+        const subtotal = cart.products.map((item1) => JSON.parse(item1.productTotal)).reduce((sum, next) => sum + next);
+        await Cart.update({ products: cart.products, total: subtotal },{ where: { id: cart.id } }
+        );
+        return res.status(201).json({status: "success",message: "product added to cart successfully"
+        });
+      }
+      
         const newCart = await Cart.create({products: [item],BuyerId: req.user.id
         });
         newCart.total = newCart.products.map((item1) => JSON.parse(item1.productTotal)).reduce((sum, next) => sum + next);
         await newCart.save();
-        return res.status(201).json({status: "success",message: "product added to cart successfully"});
-      }
-      const itemExists = cart.products.some(
-        (cartItem) => cartItem.productId === product.productId
-      );
-      if (itemExists === true) {
-        return res.status(409).json({ status: "fail", message: "Product already in cart" });
-      }
-      cart.products.push(item);
-      const subtotal = cart.products.map((item1) => JSON.parse(item1.productTotal)).reduce((sum, next) => sum + next);
-      await Cart.update({ products: cart.products, total: subtotal },{ where: { id: cart.id } }
-      );
-      res.status(201).json({status: "success",message: "product added to cart successfully"
-      });
+        return res.status(201).json({status: "success",message: "product added to cart successfully"});      
     } catch (error) {
       return res.status(500).json({ status: "fail", message: error.message });
     }

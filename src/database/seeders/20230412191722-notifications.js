@@ -1,11 +1,6 @@
-
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-   
- 
-   
           await queryInterface.bulkInsert('Notifications', [{
           subject: 'Product added',
           message:" A product is added into your collection.",
@@ -19,9 +14,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    
-
      await queryInterface.bulkDelete('Notifications', null,{});
-     
   }
 };

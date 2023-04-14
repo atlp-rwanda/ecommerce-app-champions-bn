@@ -1,6 +1,11 @@
 const getAllReports = {
   tags: ["Reports"],
   description: "get all reports",
+  security: [
+    {
+      token: []
+    }
+  ],
   responses: {
     200: {
       description: "OK",
@@ -20,6 +25,11 @@ const getAllReports = {
 const createReport = {
     tags: ["Reports"],
     description: "report the product",
+    security: [
+      {
+        token: []
+      }
+    ],
     requestBody: {
       content: {
         "Application/json": {

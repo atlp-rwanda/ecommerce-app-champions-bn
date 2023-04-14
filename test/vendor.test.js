@@ -1,5 +1,3 @@
-
-
 import supertest from "supertest";
 import defaults from "superagent-defaults";
 import app from "../src/app";

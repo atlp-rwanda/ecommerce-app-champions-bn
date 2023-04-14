@@ -31,6 +31,17 @@ module.exports = {
       updatedAt: new Date()
      },
      {
+      firstName: 'vendor250',
+      lastName: "miss",
+      email:"missvendor@yopmail.com",
+      profilepic:"https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png",
+      password: vendorPassword,
+      RoleId:2,
+      isVerified:true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+     },
+     {
       firstName: 'buyer',
       lastName: "mr",
       email:"buyer@yopmail.com",
