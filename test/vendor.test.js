@@ -32,7 +32,7 @@ describe("testing vendor", () => {
       firstName: "ngarukiye",
       lastName: "sostene",
       email: "shumba2500@gmail.com"
-    }).set("token", `Bearer ${adminToken}`);
+    });
     expect(response.statusCode).toBe(201);
   });
 });
@@ -104,7 +104,7 @@ describe("testing get all items", () => {
   });
 });
 describe("DELETE /api/product/delete/:id", () => {
-  it("should delete product in seller collection", async () => {
+  test("should delete product in seller collection", async () => {
     const response = await request
       .delete(`/api/product/delete/${1}`)
       .set("token", `Bearer ${vendorToken}`);
@@ -112,7 +112,7 @@ describe("DELETE /api/product/delete/:id", () => {
     const deletedProduct = await Product.findByPk(1);
     expect(deletedProduct).toBeNull();
   });
-  it("should return 404 if product not found", async () => {
+  test("should return 404 if product not found", async () => {
     const response = await request
       .delete(`/api/product/delete/99999`)
       .set("token", `Bearer ${vendorToken}`);
@@ -121,7 +121,7 @@ describe("DELETE /api/product/delete/:id", () => {
     expect(response.body.message).toBe("Product not found in your collecton");
     expect(typeof response.body).toBe("object");
   });
-  it("should return 401 if user is not a vendor", async () => {
+  test("should return 401 if user is not a vendor", async () => {
     const res = await request.post("/api/user/login").send({
       email: "buyer@yopmail.com",
       password: "buyer@1234"

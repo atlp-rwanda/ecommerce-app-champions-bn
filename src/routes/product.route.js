@@ -21,9 +21,9 @@ productRoute.get("/recommended", ProductController.getRecommendedProducts);
 productRoute.get("/checkExpired", ProductController.checkExpiredProducts);
 productRoute.post("/create",verifyVendor,uploadImages("productImage"),validate(productSchema),productExistAlready,ProductController.createProduct);
 productRoute.patch("/update/:id",verifyVendor,uploadImages("productImage"),IsProductExist, checkOwner,validate(updateSchema),ProductController.updateProduct);
-productRoute.delete("/delete/:id",verifyVendor, checkOwner,ProductController.deleteProduct);
+productRoute.delete("/delete/:id",verifyVendor,ProductController.deleteProduct);
 productRoute.get("/get-seller-products",verifyVendor,ProductController.availableProductsInCollection);
-productRoute.get("/disable",verifyVendor, checkOwner,ProductController.disableProduct);
-productRoute.get("/enable",verifyVendor, checkOwner,ProductController.enableProduct);
+productRoute.get("/disable",verifyVendor,ProductController.disableProduct);
+productRoute.get("/enable",verifyVendor,ProductController.enableProduct);
 
 export default productRoute;
