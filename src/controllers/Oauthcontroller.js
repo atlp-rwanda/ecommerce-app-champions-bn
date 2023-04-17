@@ -30,7 +30,8 @@ passport.use(
           email: userEmail,
           isVerified: profile._json.email_verified,
           googleId: profile.id,
-          profilepic: profile._json.picture
+          profilepic: profile._json.picture,
+          RoleId: 3
         };
 
         const [User, created] = await user.findOrCreate({

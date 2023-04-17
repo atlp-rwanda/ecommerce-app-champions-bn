@@ -1,20 +1,19 @@
 import supertest from "supertest";
 import defaults from "superagent-defaults";
 import app from "../src/app";
-import {Product} from "../src/database/models";
+import { Product } from "../src/database/models";
 import { Notification } from "../src/database/models";
 
 let vendorToken;
 let adminToken;
-let buyertoken
+let buyertoken;
 let product;
 let product1;
 let productToUpdate;
-let productdisable
+let productdisable;
 let productId;
 
 const request = defaults(supertest(app));
-
 describe("testing vendor", () => {
   test("adding a vendor", async () => {
     const response = await request.post("/api/vendor/signup").send({
@@ -25,7 +24,6 @@ describe("testing vendor", () => {
     expect(response.statusCode).toBe(201);
   });
 });
-
 describe("validations", () => {
   test("vendor validations", async () => {
     const response = await request.post("/api/vendor/signup").send({
@@ -36,7 +34,6 @@ describe("validations", () => {
     expect(response.statusCode).toBe(401);
   });
 });
-
 describe("routes", () => {
   test("testing a wrong route", async () => {
     const response = await request.post("/signu").send({
@@ -47,7 +44,6 @@ describe("routes", () => {
     expect(response.statusCode).toBe(404);
   });
 });
-
 describe("tesing signin email and password", () => {
   test("vendor signin", async () => {
     const res = await request.post("/api/user/login").send({
@@ -59,7 +55,6 @@ describe("tesing signin email and password", () => {
     vendorToken = res.body.token;
   });
 });
-
 describe("tesing signin email and password", () => {
   test("ADMIN signin", async () => {
     const res = await request.post("/api/user/login").send({
@@ -71,7 +66,6 @@ describe("tesing signin email and password", () => {
     adminToken = res.body.token;
   });
 });
-
 describe("should create a category", () => {
   it("create a category", async () => {
     const res = await request
@@ -81,7 +75,6 @@ describe("should create a category", () => {
     expect(res.statusCode).toBe(201);
   });
 });
-
 describe("create a product", () => {
   test("should add a product", async () => {
     const res = await request
@@ -95,71 +88,78 @@ describe("create a product", () => {
       .field("expiredDate", "2023-02-30")
       .field("bonus", "21")
       .field("productDescription", "toyota rava4")
-      .attach("productImage",`${__dirname}/test-image.png`);
+      .attach("productImage", `${__dirname}/test-image.png`);
     expect(res.status).toBe(200);
   });
 });
-  
+describe("testing get all items", () => {
+  test("get all items", async () => {
+    const res = await request
+      .get("/api/product/getAll")
+      .set("token", `Bearer ${vendorToken}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe("success");
+  });
+});
 describe("DELETE /api/product/delete/:id", () => {
   it("should delete product in seller collection", async () => {
-    const response = await request.delete(`/api/product/delete/${1}`)
-    .set("token", `Bearer ${vendorToken}`)
+    const response = await request
+      .delete(`/api/product/delete/${1}`)
+      .set("token", `Bearer ${vendorToken}`);
     expect(response.statusCode).toBe(204);
     const deletedProduct = await Product.findByPk(1);
     expect(deletedProduct).toBeNull();
   });
-  
   it("should return 404 if product not found", async () => {
     const response = await request
-    .delete(`/api/product/delete/99999`)
-    .set("token", `Bearer ${vendorToken}`)
+      .delete(`/api/product/delete/99999`)
+      .set("token", `Bearer ${vendorToken}`);
     expect(response.statusCode).toBe(404);
     expect(response.body.status).toBe("fail");
     expect(response.body.message).toBe("Product not found in your collecton");
-    expect(typeof response.body).toBe('object');
+    expect(typeof response.body).toBe("object");
   });
-  
   it("should return 401 if user is not a vendor", async () => {
     const res = await request.post("/api/user/login").send({
-      "email": "buyer@yopmail.com",
-      "password": "buyer@1234"
+      email: "buyer@yopmail.com",
+      password: "buyer@1234"
     });
     const buyertoken = res.body.token;
-    const response = await request.delete(`/api/product/delete/${1}`)
+    const response = await request
+      .delete(`/api/product/delete/${1}`)
       .set("token", `${buyertoken}`);
-  
     expect(response.statusCode).toBe(401);
     expect(response.body.status).toBe("fail");
-    expect(typeof response.body).toBe('object');
+    expect(typeof response.body).toBe("object");
   });
-  
 });
-
-describe("testing signin email and password", () => {    
-  test("sign in the buyer",async () => {
+describe("testing signin email and password", () => {
+  test("sign in the buyer", async () => {
     const res = await request.post("/api/user/login").send({
-      email:"buyer@yopmail.com", 
-      password: "buyer@1234" }); 
+      email: "buyer@yopmail.com",
+      password: "buyer@1234"
+    });
     expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('success');
+    expect(res.body.status).toBe("success");
     buyertoken = res.body.token;
+  });
 });
-});
-
-describe("create report", () => {    
-  test("report the product",async () => {
-    const res = await request.post("/api/report/create").send({
-      activity:"nudity clothes", 
-      category: "nudity" ,
-      productId:3,
-      buyerId:1,
-      VendorId:1
-  }).set('token',`Bearer ${buyertoken}`); 
+describe("create report", () => {
+  test("report the product", async () => {
+    const res = await request
+      .post("/api/report/create")
+      .send({
+        activity: "nudity clothes",
+        category: "nudity",
+        productId: 3,
+        buyerId: 1,
+        VendorId: 1
+      })
+      .set("token", `Bearer ${buyertoken}`);
     expect(res.statusCode).toBe(201);
-    expect(res.body.status).toBe('success');
+    expect(res.body.status).toBe("success");
+  });
 });
-});
-
 describe("disable vendor", () => {
   test("it should disable vendor", async () => {
     const response = await request
@@ -169,7 +169,6 @@ describe("disable vendor", () => {
     expect(response.body.status).toBe("success");
   });
 });
-
 describe("disable vendor", () => {
   test("it should check if vendor have reported activities", async () => {
     const response = await request
@@ -179,7 +178,6 @@ describe("disable vendor", () => {
     expect(response.body.status).toBe("fail");
   });
 });
-
 describe("already suspended vendor", () => {
   test("it should check if vendor is already suspended", async () => {
     const response = await request
@@ -189,7 +187,6 @@ describe("already suspended vendor", () => {
     expect(response.body.status).toBe("fail");
   });
 });
-
 describe("enable vendor account", () => {
   test("it should check if vendor is already active", async () => {
     const response = await request
@@ -199,7 +196,6 @@ describe("enable vendor account", () => {
     expect(response.body.status).toBe("fail");
   });
 });
-
 describe("enable vendor account", () => {
   test("it should reactivate vendor account", async () => {
     const response = await request
@@ -209,64 +205,56 @@ describe("enable vendor account", () => {
     expect(response.body.status).toBe("success");
   });
 });
-
-
-
-
 describe("should make product available or unavailable", () => {
-  beforeAll(async()=>{
-    product= await Product.create({
+  beforeAll(async () => {
+    product = await Product.create({
       VendorId: 1,
       productName: "Test",
       CategoryId: 1,
-      productImage: ['https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png'],
+      productImage: [
+        "https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png"
+      ],
       productPrice: 1.4,
       quantity: 23,
-      available:false,
+      available: false,
       productDescription: "this is the best product ever",
       productOwner: "kaleb curry",
-      expiredDate:new Date(),
+      expiredDate: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
     });
-    productToUpdate=product.toJSON();
-
-
-
-    product1= await Product.create({
+    productToUpdate = product.toJSON();
+    product1 = await Product.create({
       VendorId: 1,
       productName: "Test1",
       CategoryId: 1,
-      productImage: ['https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png'],
+      productImage: [
+        "https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png"
+      ],
       productPrice: 1.4,
-      quantity:0,
-      available:true,
+      quantity: 0,
+      available: true,
       productDescription: "this is the best product ever",
       productOwner: "kaleb curry",
-      expiredDate:new Date(),
+      expiredDate: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
     });
-    productdisable=product1.toJSON();
-  })
+    productdisable = product1.toJSON();
+  });
   it("enable product", async () => {
-
     const res = await request
       .get(`/api/product/enable?searchParam=${productToUpdate.productId}`)
       .set("token", `Bearer ${vendorToken}`);
     expect(res.statusCode).toBe(200);
   });
-
   it("disable product", async () => {
-
     const res = await request
       .get(`/api/product/disable?searchParam=${productdisable.productId}`)
       .set("token", `Bearer ${vendorToken}`);
     expect(res.statusCode).toBe(200);
   });
-
   it("getall product in seller collection", async () => {
-
     const res = await request
       .get(`/api/product/get-seller-products`)
       .set("token", `Bearer ${vendorToken}`);
@@ -274,23 +262,18 @@ describe("should make product available or unavailable", () => {
   });
 });
 
-describe('Notifications', () => {
-
-  test("get all notifications",async ()=>{
-      const response=await request.get("/api/notification/getNotifications")
-      .set("token",`Bearer ${vendorToken}`);
-      expect(response.statusCode).toBe(200);
+describe("Notifications", () => {
+  test("get all notifications", async () => {
+    const response = await request
+      .get("/api/notification/getNotifications")
+      .set("token", `Bearer ${vendorToken}`);
+    expect(response.statusCode).toBe(200);
   });
 
-  test("delete notifications",async ()=>{
-      const response=await request.delete(`/api/notification/deleteNotifications/1`)
-      .set("token",`Bearer ${vendorToken}`);
-      expect(response.statusCode).toBe(200);
-  })
-
-  
+  test("delete notifications", async () => {
+    const response = await request
+      .delete(`/api/notification/deleteNotifications/1`)
+      .set("token", `Bearer ${vendorToken}`);
+    expect(response.statusCode).toBe(200);
+  });
 });
-
-
-
-
