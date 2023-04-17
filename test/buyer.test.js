@@ -148,6 +148,7 @@ describe("/cart/add/:productId endpoint", () => {
       .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(201);
   });
+
   test("should return 400 if product is already in cart", async () => {
     const productId = 2;
     const res = await request
@@ -163,6 +164,7 @@ describe("/cart/add/:productId endpoint", () => {
     expect(res.statusCode).toBe(200);
   });
 });
+
 describe("update cart", () => {
   test("should return 404 if product is not in cart", async () => {
     const productId = 10;
