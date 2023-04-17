@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src",
+    "dev": "npm run migrate:undo:all  && npm run migrate:up && npm run db:seeds && nodemon --exec babel-node src", 
     "start": "node dist/index.js",
     "build": "babel src -d dist",
     "lint": "esw src --color",

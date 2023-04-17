@@ -7,7 +7,6 @@ import { categoryExistAlready } from "../middlewares/productExists";
 
 const categoryRoute = express.Router();
 
-categoryRoute.post("/create",verifyVendor,categoryExistAlready,validate(categorySchema),ProductController.categoryController
-);
+categoryRoute.post("/create",verifyVendor,categoryExistAlready,validate(categorySchema),ProductController.categoryController);
 
 export default categoryRoute;

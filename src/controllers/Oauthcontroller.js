@@ -15,7 +15,7 @@ dotenv.config();
 passport.use(
   new GoogleStrategy(
     {
-      callbackURL: `http://localhost:5000/auth/google/redirect`,
+      callbackURL: `${process.env.APP_URL}/auth/google/redirect`,
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET
@@ -30,7 +30,8 @@ passport.use(
           email: userEmail,
           isVerified: profile._json.email_verified,
           googleId: profile.id,
-          profilepic: profile._json.picture
+          profilepic: profile._json.picture,
+          RoleId: 3
         };
 
         const [User, created] = await user.findOrCreate({

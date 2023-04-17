@@ -173,5 +173,19 @@ class UserController {
       return res.status(500).json({ status: "fail", error: error.message });
     }
   }
+
+  // get single user profile
+  static async getUserProfile(req, res) {
+    try {
+      const user = await User.findOne({ where: { id:req.user.id} });
+      if (user) {
+        res.status(200).json({status:"success", message: req.t("Found"), data:user });
+      } else {
+        res.status(404).json({status:"fail", message: req.t("notfound") });
+      }
+    } catch (error) {
+      res.status(500).json({status:"fail", error: error.message });
+    }
+  }
 }
 export default UserController;

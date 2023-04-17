@@ -30,8 +30,7 @@ class BuyerController {
         email,
         password: hashedPassword,
         lastPasswordUpdate: new Date(),
-         passwordStatus:true
-
+        passwordStatus: true
       });
       const token = jwt.sign({ id: buyer.id }, process.env.JWT_SECRET, {
         expiresIn: "1d"

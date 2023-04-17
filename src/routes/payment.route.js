@@ -6,6 +6,6 @@ import buyerHasCart from "../middlewares/buyerHasCart";
 const paymentRoute = express.Router();
 
 paymentRoute.post("/checkout", verifyBuyer, buyerHasCart, PaymentController.paymentCheckout);
-
+paymentRoute.get("/paymentSuccess", PaymentController.paymentSuccess);
 
 export default paymentRoute;

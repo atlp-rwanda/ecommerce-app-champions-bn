@@ -1,8 +1,9 @@
-import { Product } from "../database/models";
+import { Product, Vendor } from "../database/models";
 
 const checkOwner = async (req, res, next) => {
+  const Vendors = await Vendor.findOne({where: { UserId: req.user.id }});
   const product = await Product.findOne({ where: { productId: req.params.id } });
-  if (req.user.id === product.VendorId) {
+  if (Vendors.dataValues.id === product.dataValues.VendorId) {
     req.product = product;
     next();
   } else {

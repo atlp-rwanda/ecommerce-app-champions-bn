@@ -7,7 +7,7 @@ import { verifyAdmin } from "../middlewares/authenticate";
 
 const vendorRoute = express.Router();
 
-vendorRoute.post("/signup", validate(vendorSchema), VendorController.registerVendor);
+vendorRoute.post("/signup", validate(vendorSchema), verifyAdmin,VendorController.registerVendor);
 vendorRoute.put("/profile/:userId", isLoggedIn, validate(vendorUpSchema), VendorController.updateProfile);
 vendorRoute.get("/all", VendorController.getAllVendors);
 vendorRoute.get("/:id", VendorController.getAllVendors);
