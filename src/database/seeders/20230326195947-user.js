@@ -17,7 +17,8 @@ module.exports = {
       RoleId:1,
       isVerified:true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+     
      },
      {
       firstName: 'vendor',
@@ -28,7 +29,9 @@ module.exports = {
       RoleId:2,
       isVerified:true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      // lastPasswordUpdate: new Date(),
+      // passwordStatus:true
      },
      {
       firstName: 'vendor250',
@@ -50,7 +53,9 @@ module.exports = {
       RoleId:3,
       isVerified:true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      // lastPasswordUpdate: new Date(),
+      // passwordStatus:true
      },
      {
       firstName: 'buyer',
@@ -61,7 +66,35 @@ module.exports = {
       RoleId:3,
       isVerified:true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      // lastPasswordUpdate: new Date(),
+      // passwordStatus:true
+     },
+     {
+      firstName: 'Lucie',
+      lastName: "mr",
+      email:"niyomutonilucie@gmail.com",
+      profilepic:"https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png",
+      password: buyerPassword,
+      RoleId:3,
+      isVerified:true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      lastPasswordUpdate: new Date(),
+      passwordStatus:true
+     },
+     {
+      firstName: 'paccy',
+      lastName: "mr",
+      email:"kwizerapacifique19@gmail.com",
+      profilepic:"https://res.cloudinary.com/dr8kkof5r/image/upload/v1677341496/articles/fz9vsmgcvjd2iem4pkcy.png",
+      password: buyerPassword,
+      RoleId:3,
+      isVerified:true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      // lastPasswordUpdate: new Date(),
+      // passwordStatus:true
      }
     ], {});
   },
