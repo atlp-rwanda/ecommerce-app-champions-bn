@@ -171,7 +171,7 @@ a {
     const userStatus = document.querySelector('.status');
     let socket;
 async function liveChat(){
-     await fetch('http://localhost:5000/api/user/single', {
+     await fetch('https://ecommerce-champions.onrender.com/api/user/single', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ async function liveChat(){
       .then(async response => await response.json())
       .then(async data => {
        const userdata=data.data;
-       socket =await io('http://localhost:5000', {query:userdata}); 
+       socket =await io('https://ecommerce-champions.onrender.com', {query:userdata}); 
        
        let userName= await userdata.firstName;
         //user join chat
@@ -213,7 +213,7 @@ async function liveChat(){
        async function outputMessage(message) {
 
           // fetch message from server
-          await fetch(`http://localhost:${5000}/api/chat/get-all-chat`,{
+          await fetch(`https://ecommerce-champions.onrender.com/api/chat/get-all-chat`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

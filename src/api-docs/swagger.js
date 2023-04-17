@@ -35,7 +35,7 @@ const options = {
         description: "Development server"
       },
       {
-        url: "https://ecommerce-app-champions-bn-production.up.railway.app/",
+        url: "https://ecommerce-champions.onrender.com",
         description: "Production server"
       }
     ],
@@ -48,10 +48,7 @@ const options = {
       { name: "Auth", description: "Authentication Routes" },
       { name: "Coupon", description: "Coupon code Routes" },
       { name: "Payments", description: "Payment Routes" },
-      {
-        name: "Notifications",
-        description: "Notifications to a vendor of products"
-      }
+      { name: "Notifications", description: "Notifications to a vendor of products" }
     ],
     components: {
       securitySchemes: {

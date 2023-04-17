@@ -1,8 +1,8 @@
 import supertest from "supertest";
 import defaults from "superagent-defaults";
 import app from "../src/app";
-import { Product } from "../src/database/models";
-import { Notification } from "../src/database/models";
+import { Product , Notification } from "../src/database/models";
+
 
 let vendorToken;
 let adminToken;
@@ -12,15 +12,27 @@ let product1;
 let productToUpdate;
 let productdisable;
 let productId;
-
 const request = defaults(supertest(app));
+
+describe("tesing signin email and password", () => {
+  test("ADMIN signin", async () => {
+    const res = await request.post("/api/user/login").send({
+      email: "admin@gmail.com",
+      password: "test@1234"
+    });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe("success");
+    adminToken = res.body.token;
+  });
+});
+
 describe("testing vendor", () => {
   test("adding a vendor", async () => {
     const response = await request.post("/api/vendor/signup").send({
       firstName: "ngarukiye",
       lastName: "sostene",
       email: "shumba2500@gmail.com"
-    });
+    }).set("token", `Bearer ${adminToken}`);
     expect(response.statusCode).toBe(201);
   });
 });
@@ -55,17 +67,7 @@ describe("tesing signin email and password", () => {
     vendorToken = res.body.token;
   });
 });
-describe("tesing signin email and password", () => {
-  test("ADMIN signin", async () => {
-    const res = await request.post("/api/user/login").send({
-      email: "admin@gmail.com",
-      password: "test@1234"
-    });
-    expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe("success");
-    adminToken = res.body.token;
-  });
-});
+
 describe("should create a category", () => {
   it("create a category", async () => {
     const res = await request
@@ -102,7 +104,7 @@ describe("testing get all items", () => {
   });
 });
 describe("DELETE /api/product/delete/:id", () => {
-  it("should delete product in seller collection", async () => {
+  test("should delete product in seller collection", async () => {
     const response = await request
       .delete(`/api/product/delete/${1}`)
       .set("token", `Bearer ${vendorToken}`);
@@ -110,7 +112,7 @@ describe("DELETE /api/product/delete/:id", () => {
     const deletedProduct = await Product.findByPk(1);
     expect(deletedProduct).toBeNull();
   });
-  it("should return 404 if product not found", async () => {
+  test("should return 404 if product not found", async () => {
     const response = await request
       .delete(`/api/product/delete/99999`)
       .set("token", `Bearer ${vendorToken}`);
@@ -119,12 +121,12 @@ describe("DELETE /api/product/delete/:id", () => {
     expect(response.body.message).toBe("Product not found in your collecton");
     expect(typeof response.body).toBe("object");
   });
-  it("should return 401 if user is not a vendor", async () => {
+  test("should return 401 if user is not a vendor", async () => {
     const res = await request.post("/api/user/login").send({
       email: "buyer@yopmail.com",
       password: "buyer@1234"
     });
-    const buyertoken = res.body.token;
+    buyertoken = res.body.token;
     const response = await request
       .delete(`/api/product/delete/${1}`)
       .set("token", `${buyertoken}`);

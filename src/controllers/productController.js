@@ -98,7 +98,6 @@ class ProductController {
         },
         { where: { productId: req.params.id } }
       );
-
       const logedVendor=await User.findOne({where: {id:req.user.id}});
       emitter.emit("productUpdated",req.params.id,logedVendor);
 

@@ -15,6 +15,8 @@ import couponCodeRoute from "./couponCode.route";
 import paymentRoute from "./payment.route";
 import notificationRouter from "./notification.route";
 import chatRoute from "./chat.route";
+import salesRoute from "./sales.route";
+import ordersRoute from "./order.route";
 
 const indexRouter = express.Router();
 
@@ -34,5 +36,7 @@ indexRouter.use("/api/coupon", couponCodeRoute);
 indexRouter.use("/api/payment", paymentRoute);
 indexRouter.use("/api/notification", notificationRouter);
 indexRouter.use("/api/chat", chatRoute);
+indexRouter.use("/api/sales", salesRoute);
+indexRouter.use("/api/orders", ordersRoute);
 
 export default indexRouter;
