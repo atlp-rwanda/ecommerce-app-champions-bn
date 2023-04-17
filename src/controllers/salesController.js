@@ -8,7 +8,7 @@ class SalesController {
       if (getSales.length === 0) {
         return res.status(404).json({ status: "fail", message: "No product sold" });
       }
-      return res.status(200).json({ status: "fail", data: { getSales } });
+      return res.status(200).json({ status: "success", data: { getSales } });
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }

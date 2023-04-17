@@ -69,7 +69,7 @@ class PaymentController {
         await Cart.destroy({ where: { BuyerId: user.id } });
       }
 
-      return res.json({ status: "success", payment_status: session.payment_status });
+      return res.json({ status: "success", message: "payment successful", payment_status: session.payment_status });
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }
