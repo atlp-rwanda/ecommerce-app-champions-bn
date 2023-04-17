@@ -1,9 +1,7 @@
 import supertest from "supertest";
 import defaults from "superagent-defaults";
 import app from "../src/app";
-
 const request = defaults(supertest(app));
-
 let token;
 let vendorToken;
 let userId;
@@ -31,11 +29,10 @@ describe("testing buyer signup", () => {
       email: "ngarukiyimanasostene@gmail.com",
       password: "1234567@password"
     });
-    
+
     expect(response.statusCode).toBe(409);
   });
 });
-
 describe("tesing update buyer profile update", () => {
   test("update profile", async () => {
     const res = await request.put(`/api/buyer/profile/${userId}`).send({
@@ -66,13 +63,13 @@ describe("testing signin email and password", () => {
     test("vendor login", async () => {
       const response = await request.post("/api/user/login").send({
         email: "vendor@yopmail.com",
-        password: "vendor@1234",
+        password: "vendor@1234"
       });
       expect(response.statusCode).toBe(200);
       expect(response.body.status).toBe("success");
       vendorToken = response.body.token;
     });
-});
+  });
 
   describe("/addToWishlist/:productId endpoint", () => {
     test("should return 404 if product is not found", async () => {
@@ -81,7 +78,6 @@ describe("testing signin email and password", () => {
         .set("token", `Bearer ${token}`);
       expect(res.statusCode).toBe(404);
     });
-
     test("should add a product to an existing wishlist", async () => {
       const prodId = 2;
       const res = await request
@@ -89,7 +85,6 @@ describe("testing signin email and password", () => {
         .set("token", `Bearer ${token}`);
       expect(res.statusCode).toBe(200);
     });
-
     test("should return 400 if product is already in wishlist", async () => {
       const proId = 2;
       const res = await request
@@ -98,7 +93,6 @@ describe("testing signin email and password", () => {
       expect(res.statusCode).toBe(400);
     });
   });
-
   describe("/retrieveWishlistItems endpoint", () => {
     it("should retrieve wishlist items", async () => {
       const res = await request
@@ -119,7 +113,6 @@ describe("testing signin email and password", () => {
       .put("/999")
       .send({ firstName: "John", lastName: "Doe" })
       .expect(404);
-
     expect(response.statusCode).toBe(404);
   });
   it("should log out user and clear token cookie", async () => {
@@ -135,7 +128,6 @@ describe("testing signin email and password", () => {
     );
   });
 });
-
 describe("/cart/add/:productId endpoint", () => {
   test("should return 404 if product is not found", async () => {
     const res = await request
@@ -143,7 +135,6 @@ describe("/cart/add/:productId endpoint", () => {
       .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(404);
   });
-
   test("should add a product to an existing cart", async () => {
     const productId = 2;
     const res = await request
@@ -164,6 +155,13 @@ describe("/cart/add/:productId endpoint", () => {
       .post(`/api/cart/add/${productId}`)
       .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(409);
+  });
+  test("checkout", async () => {
+    const res = await request
+      .post("/api/payment/checkout")
+      .set("token", `Bearer ${token}`)
+      .send();
+    expect(res.statusCode).toBe(200);
   });
 });
 
@@ -195,7 +193,15 @@ describe("update cart", () => {
 });
 
 describe("/cart/clear-cart endpoint", () => {
- 
+  it("should clear the cart and return a success message", async () => {
+    let cartId = 1;
+    const response = await request
+      .delete(`/api/cart/clear-cart/${cartId}`)
+      .set("token", `Bearer ${token}`);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.status).toBe("success");
+    expect(response.body.message).toBe("Cart cleared successfully");
+  });
   it("should return a 404 error if the cart is not found", async () => {
     const nonExistingCartId = 9999;
     const response = await request
@@ -207,59 +213,83 @@ describe("/cart/clear-cart endpoint", () => {
   });
 });
 
-describe("Review product",()=>{
-test("Create a product review",async()=>{
-  const productId=2;
-  const response = await request.post("/api/review/createReview").send({
-    title:"Good product",
-    content:"I like this product, it exceeded my expectations",
-    rating:7,
-    userId,
-    productId
-  })
-  .set("token",`Bearer ${token}`);
- 
-  reviewId=response.body.review.id;
- 
+describe("Review product", () => {
+  test("Create a product review", async () => {
+    const productId = 2;
+    const response = await request
+      .post("/api/review/createReview")
+      .send({
+        title: "Good product",
+        content: "I like this product, it exceeded my expectations",
+        rating: 7,
+        userId,
+        productId
+      })
+      .set("token", `Bearer ${token}`);
 
-  expect(response.statusCode).toBe(201);
+    reviewId = response.body.review.id;
 
-
-})
-
-test("Get product reviews",async()=>{
-  const response= await request.get(`/api/review/getProductReviews/${reviewId}`)
-expect(response.statusCode).toBe(200);
-});
-
-test("Get product rate",async ()=>{
-  const productId=2;
-
-  const response= await request.get(`/api/review/getProductRate/${productId}`);
-  expect(response.statusCode).toBe(200);
-});
-
-
-test("Delete review",async()=>{
-  const response = await request.delete(`/api/review/deleteReview/${reviewId}`)
-  .set("token",`Bearer ${token}`);
-  expect(response.statusCode).toBe(204);
-})
-
-})
-describe("/payment  endpoint", () => {
-  test("checkout", async () => {
-    const res = await request
-      .post("/api/payment/checkout")
-      .set("token", `Bearer ${token}`)
-      .send();
-    expect(res.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
   });
-it("should return 404 if the endpoint is incorrect", async () => {
+
+  test("Get product reviews", async () => {
+    const response = await request.get(
+      `/api/review/getProductReviews/${reviewId}`
+    );
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Get product rate", async () => {
+    const productId = 2;
+
+    const response = await request.get(
+      `/api/review/getProductRate/${productId}`
+    );
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Delete review", async () => {
+    const response = await request
+      .delete(`/api/review/deleteReview/${reviewId}`)
+      .set("token", `Bearer ${token}`);
+    expect(response.statusCode).toBe(204);
+  });
+});
+
+describe("chats endpoint", () => {
+  test("should return single user", async () => {
+    const res = await request.get("/api/user/single").set("Cookie", cookie);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe("success");
+  });
+  test("should return 401 if user is not authorized", async () => {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5peW9tdXRvbmlsdWNpZUBnbWFpbC5jb20iLCJpYXQiOjE2NzkzOTUzMzQsImV4cCI6MTY3OTM5ODkzNH0.N2b04wMRsmWIo2_3-kMS9W4xK7Fdiok5CqZYS6i2BKY";
+    const res = await request.get("/api/user/single").set("Cookie", token);
+    expect(res.statusCode).toBe(401);
+  });
+  it("should getallchat and return a success message", async () => {
+    const response = await request
+      .get("/api/chat/get-all-chat")
+      .set("Cookie", cookie);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.status).toBe("success");
+  });
+});
+
+describe("testing get specific item", () => {
+  test("should return 404 if product not found", async () => {
     const res = await request
-      .post("/api/payment/checko")
-      .set("token", `Bearer ${token}`)
-      .send();
+      .get(`/api/product/getOne/${9000}`)
+      .set("Cookie", cookie);
     expect(res.statusCode).toBe(404);
-  }); 
-})
+    expect(res.body.status).toBe("fail");
+  });
+  test("should get specific item", async () => {
+    const res = await request
+      .get(`/api/product/getOne/${2}`)
+      .set("Cookie", cookie);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe("success");
+  });
+});

@@ -1,6 +1,11 @@
 const createRole = {
   tags: ["Role"],
   description: "create role",
+  security: [
+    {
+      token: []
+    }
+  ],
   requestBody: {
     content: {
       "Application/json": {
@@ -35,6 +40,11 @@ const createRole = {
 const deleteRole = {
   tags: ["Role"],
   description: "delete role",
+  security: [
+    {
+      token: []
+    }
+  ],
   parameters: [
     {
       name: "id",

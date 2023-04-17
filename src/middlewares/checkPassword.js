@@ -4,6 +4,7 @@ import db from '../database/models';
 const {User} = db
 
 import { findUserProfile } from '../services/profile.service';
+
 export const checkPassword = async (req, res, next) => {
     try {
       const token = req.headers.token.split(' ')[1];

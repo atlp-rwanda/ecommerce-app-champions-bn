@@ -27,7 +27,7 @@ try {
         httpOnly:true,
         sameSite:'lax' ,signed:true       
       });
-      res.redirect("http://localhost:5000/");
+      res.redirect(`${process.env.APP_URL}`);
     }
   );
   

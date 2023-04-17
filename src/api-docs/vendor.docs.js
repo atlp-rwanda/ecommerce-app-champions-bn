@@ -1,6 +1,11 @@
 const vendorSignup = {
   tags: ["Users"],
   description: "create a vendor",
+  security: [
+    {
+      token: []
+    }
+  ],
   requestBody: {
     content: {
       "Application/json": {

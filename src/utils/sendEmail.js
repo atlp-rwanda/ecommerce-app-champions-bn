@@ -7,7 +7,12 @@ import { twoFactorEmail } from "./templates/2FA";
 import { disableVendorAccount } from "./templates/disableVendor";
 import { resetPasswordEmail } from "./templates/resetPassword";
 import { expiredProductsTemplate } from "./templates/expiredProducts";
-import { productAddNotification,productDeletedNotification,productUpdatedNotification,productSoldNotification } from "./templates/notification";
+import {
+  productAddNotification,
+  productDeletedNotification,
+  productUpdatedNotification,
+  productSoldNotification
+} from "./templates/notification";
 
 dotenv.config();
 
@@ -34,17 +39,17 @@ const sendEmail = (info, action) => {
     case "createBuyerAccount":
       subject = `Confirm Your Account ${info.firstName}`;
       emailto = info.email;
-      composition = sendEmailToBuyer(info.firstName, info.url,info.token);
+      composition = sendEmailToBuyer(info.firstName, info.url, info.token);
       break;
     case "twoFactorAuthentication":
       subject = `Welcome to Our Marketplace - Verify your account ${info.email}`;
       emailto = info.email;
-      composition = twoFactorEmail(info.firstName,info.authNum,info.url)
+      composition = twoFactorEmail(info.firstName, info.authNum, info.url);
       break;
     case "resetPassword":
       subject = `Reset your password ${info.firstName}`;
       emailto = info.email;
-      composition = resetPasswordEmail(info.firstName,info.token)
+      composition = resetPasswordEmail(info.firstName, info.token);
       break;
     case "disableVendorAccount":
       subject = "disable account for illegal activities";
@@ -57,29 +62,32 @@ const sendEmail = (info, action) => {
       composition = expiredProductsTemplate(info.firstName);
       break;
 
-      case "productAddedNotification":
-        subject = "product added";
-        emailto = info.email;
-        composition = productAddNotification(info.firstName,info.productName);
-        break;
+    case "productAddedNotification":
+      subject = "product added";
+      emailto = info.email;
+      composition = productAddNotification(info.firstName, info.productName);
+      break;
 
-        case "productDeletedNotification":
-          subject = "product deleted";
-          emailto = info.email;
-          composition = productDeletedNotification(info.firstName,info.productName);
-          break;
+    case "productDeletedNotification":
+      subject = "product deleted";
+      emailto = info.email;
+      composition = productDeletedNotification(
+        info.firstName,
+        info.productName
+      );
+      break;
 
-          case "productUpdatedNotification":
-            subject = "product updated";
-            emailto = info.email;
-            composition = productUpdatedNotification(info.firstName,info.productId);
-            break;
+    case "productUpdatedNotification":
+      subject = "product updated";
+      emailto = info.email;
+      composition = productUpdatedNotification(info.firstName, info.productId);
+      break;
 
-            case "productSoldNotification":
-              subject = "product sold";
-              emailto = info.email;
-              composition = productSoldNotification(info.firstName,info.productName);
-              break;
+    case "productSoldNotification":
+      subject = "product sold";
+      emailto = info.email;
+      composition = productSoldNotification(info.firstName, info.productName);
+      break;
   }
 
   const mailOptions = {
@@ -91,11 +99,10 @@ const sendEmail = (info, action) => {
 
   try {
     const sendMail = transporter.sendMail(mailOptions, (error, result) => {
-      if(error){
-       
+      if (error) {
         throw new Error(error);
       }
-      
+
       return sendMail;
     });
   } catch (error) {

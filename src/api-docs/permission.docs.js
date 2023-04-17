@@ -1,6 +1,11 @@
 const createPermission = {
   tags: ["Permission"],
   description: "create permission",
+  security: [
+    {
+      token: []
+    }
+  ],
   requestBody: {
     content: {
       "Application/json": {
@@ -35,6 +40,11 @@ const createPermission = {
 const deletePermission = {
   tags: ["Permission"],
   description: "delete permission",
+  security: [
+    {
+      token: []
+    }
+  ],
   parameters: [
     {
       name: "id",
