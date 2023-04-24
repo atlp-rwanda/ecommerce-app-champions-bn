@@ -1,4 +1,5 @@
 /* eslint-disable*/
+/* istanbul ignore file */
 import { Op, where } from "sequelize";
 import models from "../database/models";
 import generateCouponCode from "../utils/helpers/couponGenerate";

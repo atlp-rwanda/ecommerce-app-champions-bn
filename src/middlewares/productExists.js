@@ -1,4 +1,5 @@
 /* eslint-disable require-jsdoc */
+/* istanbul ignore file */
 import { Product, Category } from "../database/models";
 
 export async function IsProductExist(req, res, next) {

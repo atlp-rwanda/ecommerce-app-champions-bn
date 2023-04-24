@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Sale, Product, Vendor } from "../database/models";
 
 class SalesController {

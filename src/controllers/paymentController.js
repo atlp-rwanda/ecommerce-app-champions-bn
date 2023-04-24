@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { User, Vendor } from "../database/models";

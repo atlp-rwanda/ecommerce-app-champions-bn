@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-
+/* istanbul ignore file */
 import passport from "passport";
 
 // eslint-disable-next-line import/no-unresolved

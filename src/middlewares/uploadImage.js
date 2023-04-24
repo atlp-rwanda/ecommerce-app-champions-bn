@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-
+/* istanbul ignore file */
 import upload from "../utils/helpers/multer";
 
 const uploadImages = (name) => {

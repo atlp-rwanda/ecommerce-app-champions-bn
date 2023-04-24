@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");

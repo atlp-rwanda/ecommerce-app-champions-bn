@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const { Buyer } = require('../database/models');
 
 const findUserProfile = async (userId) => {

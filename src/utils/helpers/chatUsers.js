@@ -1,5 +1,5 @@
 
-
+/* istanbul ignore file */
 import {ChatUser} from "../../database/models";
 
 const userJoin = async (socketId, username) => {

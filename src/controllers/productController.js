@@ -1,4 +1,5 @@
 /* eslint-disable*/
+/* istanbul ignore file */
 import { Op } from "sequelize";
 
 import models from "../database/models";

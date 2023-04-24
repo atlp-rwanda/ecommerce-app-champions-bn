@@ -1,5 +1,5 @@
 /*eslint-disable*/ 
-export const twoFactorEmail = (firstName,authNum,url) => {
+export const twoFactorEmail = (firstName,OTP) => {
   return `
   <!DOCTYPE html>
   <html>
@@ -62,13 +62,8 @@ export const twoFactorEmail = (firstName,authNum,url) => {
             margin-bottom: 30px;
           "
         >
-          <strong>${authNum }</strong>
+          <strong>${OTP }</strong>
         </p>
-        <p>
-          Additionally, please click on the following link to verify your account:
-        </p>
-        <a href="${url}" class="btn">Verify Now</a>
-        <p>
           Please note that this code will expire in 5 minutes for security
           purposes. If you do not complete the verification process within this
           timeframe, you will need to generate a new code.

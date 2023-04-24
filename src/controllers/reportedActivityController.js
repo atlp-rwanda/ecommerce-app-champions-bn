@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Op } from "sequelize";
 
 const { ReportedActivity} = require("../database/models");

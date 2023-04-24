@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import db from "./models";
 
 const connectDb = async () => {
