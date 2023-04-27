@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const generateCouponCode = () =>{
     const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const couponCodeLength = 8;

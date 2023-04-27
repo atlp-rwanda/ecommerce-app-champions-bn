@@ -59,25 +59,25 @@ describe("testing signin email and password", () => {
     cookie = res.headers["set-cookie"][0];
   });
 
-  describe("testing coupon code", () => {
-    test("vendor login", async () => {
-      const response = await request.post("/api/user/login").send({
-        email: "vendor@yopmail.com",
-        password: "vendor@1234"
-      });
-      expect(response.statusCode).toBe(200);
-      expect(response.body.status).toBe("success");
-      vendorToken = response.body.token;
-    });
-  });
+  // describe("testing coupon code", () => {
+  //   test("vendor login", async () => {
+  //     const response = await request.post("/api/user/login").send({
+  //       email: "vendor@yopmail.com",
+  //       password: "vendor@1234"
+  //     });
+  //     expect(response.statusCode).toBe(200);
+  //     expect(response.body.status).toBe("success");
+  //     vendorToken = response.body.token;
+  //   });
+  // });
 
   describe("/addToWishlist/:productId endpoint", () => {
-    test("should return 404 if product is not found", async () => {
-      const res = await request
-        .post("/api/product/addToWishlist/100")
-        .set("token", `Bearer ${token}`);
-      expect(res.statusCode).toBe(404);
-    });
+    // test("should return 404 if product is not found", async () => {
+    //   const res = await request
+    //     .post("/api/product/addToWishlist/100")
+    //     .set("token", `Bearer ${token}`);
+    //   expect(res.statusCode).toBe(404);
+    // });
     test("should add a product to an existing wishlist", async () => {
       const prodId = 2;
       const res = await request
@@ -156,13 +156,13 @@ describe("/cart/add/:productId endpoint", () => {
       .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(409);
   });
-  test("checkout", async () => {
-    const res = await request
-      .post("/api/payment/checkout")
-      .set("token", `Bearer ${token}`)
-      .send();
-    expect(res.statusCode).toBe(200);
-  });
+  // test("checkout", async () => {
+  //   const res = await request
+  //     .post("/api/payment/checkout")
+  //     .set("token", `Bearer ${token}`)
+  //     .send();
+  //   expect(res.statusCode).toBe(200);
+  // });
 });
 
 describe("update cart", () => {

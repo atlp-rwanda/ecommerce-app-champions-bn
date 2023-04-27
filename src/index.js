@@ -27,6 +27,16 @@ app.get("/chat", (req, res) => {
   res.render("chat");
 });
 
+app.get('/api/checkPasswordExpiry', async (req, res) => {
+  try {
+    await CroneJobs();
+    return res.status(200).json({ message: 'Password expiry check and email sending initiated successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Something went wrong while initiating password expiry check and email sending process' });
+  }
+});
+
 server.listen(port, async () => {
   await connectDb();
   // socket middleware

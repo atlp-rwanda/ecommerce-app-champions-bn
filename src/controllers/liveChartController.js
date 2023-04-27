@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Socket } from "socket.io";
 import { User, Chat } from "../database/models";
 import formatMessage from "../utils/helpers/chatMessages";

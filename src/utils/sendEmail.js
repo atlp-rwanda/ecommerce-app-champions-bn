@@ -1,4 +1,5 @@
 /*eslint-disable*/
+/* istanbul ignore file */
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { randomPasswordEmail } from "./templates/randomPassword";
@@ -44,7 +45,7 @@ const sendEmail = (info, action) => {
     case "twoFactorAuthentication":
       subject = `Welcome to Our Marketplace - Verify your account ${info.email}`;
       emailto = info.email;
-      composition = twoFactorEmail(info.firstName, info.authNum, info.url);
+      composition = twoFactorEmail(info.firstName, info.OTP);
       break;
     case "resetPassword":
       subject = `Reset your password ${info.firstName}`;

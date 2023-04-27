@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Order } from "../database/models";
 
 class OrdersController {

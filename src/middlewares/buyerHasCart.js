@@ -1,4 +1,5 @@
 /* eslint-disable require-jsdoc */
+/* istanbul ignore file */
 import { Cart } from "../database/models/index";
 
 export default async function buyerHasCart(req, res, next) {

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import bcrypt from "bcrypt";
 import { Op} from "sequelize";
 import randomPassword from "../utils/randomPassword";

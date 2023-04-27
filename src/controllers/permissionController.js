@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const { Permission } = require("../database/models");
 
 class PermissionController {

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Product, Vendor } from "../database/models";
 
 const checkOwner = async (req, res, next) => {

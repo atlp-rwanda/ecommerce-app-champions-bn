@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
       expiresIn: "1h"
     });
-    const resetLink = `${process.env.APP_URL}/reset-password/${token}`;
+    const resetLink = `${process.env.APP_URL}/api/user/reset-password/${token}`;
     const mailOptions = {
       to: user,
       from: `ATLP-Champions E-commerce <${process.env.EMAIL}>`,

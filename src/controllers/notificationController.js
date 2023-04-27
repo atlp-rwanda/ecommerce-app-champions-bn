@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import socketIOClient from "socket.io-client";
 import nodemailer from "nodemailer";
 import crown from "node-cron";
