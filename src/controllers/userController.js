@@ -26,6 +26,10 @@ class UserController {
         return res
           .status(401)
           .json({ status: "fail", message: "user not exists" });
+      if (!dataValues.passwordStatus)
+        return res
+          .status(401)
+          .json({ status: "fail", message: " your password has expired",expriration:dataValues.passwordStatus });
       const existingRole = await Role.findByPk(dataValues.RoleId, {
         include: { model: Permission }
       });
@@ -53,7 +57,7 @@ class UserController {
           email: dataValues.email,
           OTP
         };
-        sendEmail(emailData,"twoFactorAuthentication");
+        sendEmail(emailData, "twoFactorAuthentication");
         const encodedOTP = Buffer.from(hashedOTP).toString("base64");
         await handleCookies(
           5,
@@ -65,7 +69,11 @@ class UserController {
         );
         return res
           .status(200)
-          .json({ firstName: dataValues.firstName, hashedOTP });
+          .json({
+            firstName: dataValues.firstName,
+            hashedOTP,
+            loginOTP: encodedOTP
+          });
       }
       const token = jwt.sign(
         { id: dataValues.id, role: roles },

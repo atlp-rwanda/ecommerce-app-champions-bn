@@ -27,7 +27,7 @@ try {
         httpOnly:true,
         sameSite:'lax' ,signed:true       
       });
-      res.redirect(`${process.env.APP_URL}`);
+      res.redirect(`${process.env.REDIRECT_URL}`);
     }
   );
   
