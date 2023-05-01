@@ -23,12 +23,20 @@ const transporter = nodemailer.createTransport({
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
       expiresIn: "1h"
     });
-    const resetLink = `${process.env.APP_URL}/api/user/reset-password/${token}`;
+    const frontendResetLink = `${process.env.FRONTEND_APP_URL}`;
     const mailOptions = {
       to: user,
       from: `ATLP-Champions E-commerce <${process.env.EMAIL}>`,
       subject: "Your App Password Reset",
-      text: `Hello,\n\nYou are receiving this email because  your password was expired.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${resetLink}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+      html: `
+      <p>Hi ${user.firstName},</p>
+      <p>You are receiving this email because we received a password reset request for your account.</p>
+      <p>Please click on the following button to reset your password:</p>
+      <button style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">
+        <a style="color: white; text-decoration: none;" href="${frontendResetLink}">Reset Password</a>
+      </button>
+      <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+    `
     };
     await transporter.sendMail(mailOptions);
 
@@ -45,7 +53,7 @@ export const checkPassword = () =>{
         if (expiredUsers.length) {
             try {
               for (let i = 0; i < expiredUsers.length; i++) {
-                // Update status of the User to "NeedsToUpdatePassword"
+                // Update status of the User to NeedsToUpdatePassword
                 await expiredUsers[i].update({ passwordStatus: false });
                 mailList.push(expiredUsers[i].email)
 

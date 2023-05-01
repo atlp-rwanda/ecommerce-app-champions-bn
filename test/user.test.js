@@ -24,11 +24,7 @@ describe("testing password reset", () => {
   const resetToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5peW9tdXRvbmlsdWNpZUBnbWFpbC5jb20iLCJpYXQiOjE2NzkzOTUzMzQsImV4cCI6MTY3OTM5ODkzNH0.N2b04wMRsmWIo2_3-kMS9W4xK7Fdiok5CqZYS6i2BKY";
 
-  // test("should request password reset email", async () => {
-  //   const res = await request(app).post("/api/user/requestReset").send({
-  //     email: "niyomutonilucie@gmail.com"
-  //   });
-  // });
+  
 
   test("should reset password", async () => {
     const res = await request(app)
