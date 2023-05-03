@@ -62,14 +62,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull:true
       },
-      lastPasswordUpdate:{
-       type:Sequelize.DATEONLY,
-       allowNull:true
-      },
-      passwordStatus:{ 
-        type: Sequelize.BOOLEAN,
-        allowNull:true
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

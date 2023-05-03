@@ -2,20 +2,15 @@
 const { Buyer } = require('../database/models');
 
 const findUserProfile = async (userId) => {
-  const Profile = await  Buyer.findOne({ where: { userId: `${userId}` } });
+  const Profile = await  Buyer.findOne({ where: { UserId: userId } });
   if (!Profile) {
     throw new Error(`Profile not found for userId ${userId}`);
   }
   return Profile;
 };
 
-// const findOneUserService = async (id) => {
-//   const findOneUserRequest = await User.findOne({ where: { id } });
-//   return findOneUserRequest;
-// };
-
 const updateProfile = async (userId, data) => {
-  const Profile = await  Buyer.findOne({ where: { userId: `${userId}` } });
+  const Profile = await  Buyer.findOne({ where: { UserId: userId } });
   if (!Profile) {
     throw new Error(`Profile not found for userId ${userId}`);
   }

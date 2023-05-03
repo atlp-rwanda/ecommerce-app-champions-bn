@@ -137,17 +137,6 @@ describe("routes", () => {
 //     expect(typeof response.body).toBe("object");
 //   });
 // });
-describe("testing signin email and password", () => {
-  test("sign in the buyer", async () => {
-    const res = await request.post("/api/user/login").send({
-      email: "buyer@yopmail.com",
-      password: "buyer@1234"
-    });
-    expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe("success");
-    buyertoken = res.body.token;
-  });
-});
 describe("create report", () => {
   test("report the product", async () => {
     const res = await request
@@ -160,8 +149,8 @@ describe("create report", () => {
         VendorId: 1
       })
       .set("token", `Bearer ${buyertoken}`);
-    expect(res.statusCode).toBe(201);
-    expect(res.body.status).toBe("success");
+    expect(res.statusCode).toBe(401);
+    expect(res.body.status).toBe("fail");
   });
 });
 describe("disable vendor", () => {

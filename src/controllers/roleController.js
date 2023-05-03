@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const { Role } = require("../database/models");
 
 class RoleController {

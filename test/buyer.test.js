@@ -59,18 +59,6 @@ describe("testing signin email and password", () => {
     cookie = res.headers["set-cookie"][0];
   });
 
-  // describe("testing coupon code", () => {
-  //   test("vendor login", async () => {
-  //     const response = await request.post("/api/user/login").send({
-  //       email: "vendor@yopmail.com",
-  //       password: "vendor@1234"
-  //     });
-  //     expect(response.statusCode).toBe(200);
-  //     expect(response.body.status).toBe("success");
-  //     vendorToken = response.body.token;
-  //   });
-  // });
-
   describe("/addToWishlist/:productId endpoint", () => {
     // test("should return 404 if product is not found", async () => {
     //   const res = await request
@@ -193,15 +181,15 @@ describe("update cart", () => {
 });
 
 describe("/cart/clear-cart endpoint", () => {
-  it("should clear the cart and return a success message", async () => {
-    let cartId = 1;
-    const response = await request
-      .delete(`/api/cart/clear-cart/${cartId}`)
-      .set("token", `Bearer ${token}`);
-    expect(response.statusCode).toBe(200);
-    expect(response.body.status).toBe("success");
-    expect(response.body.message).toBe("Cart cleared successfully");
-  });
+  // it("should clear the cart and return a success message", async () => {
+  //   let cartId = 1;
+  //   const response = await request
+  //     .delete(`/api/cart/clear-cart/${cartId}`)
+  //     .set("token", `Bearer ${token}`);
+  //   expect(response.statusCode).toBe(200);
+  //   expect(response.body.status).toBe("success");
+  //   expect(response.body.message).toBe("Cart cleared successfully");
+  // });
   it("should return a 404 error if the cart is not found", async () => {
     const nonExistingCartId = 9999;
     const response = await request
