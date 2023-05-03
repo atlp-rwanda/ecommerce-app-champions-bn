@@ -29,12 +29,15 @@ const transporter = nodemailer.createTransport({
       to: user,
       from: `ATLP-Champions E-commerce <${process.env.EMAIL}>`,
       subject: "Your App Password Reset",
+
+
+      
       html: `
-      <p>Hi,</p>
-      <p>You are receiving this email because we received a password reset request for your account.</p>
-      <p>Please click on the following button to reset your password:</p>
+      <p>Hello,</p>
+      <p>You are receiving this email because your password has expired.</p>
+      <p>Please click on the following button to update your password:</p>
       <button style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">
-        <a style="color: white; text-decoration: none;" href="${frontendResetLink}">Reset Password</a>
+        <a style="color: white; text-decoration: none;" href="${frontendResetLink}">Update Password</a>
       </button>
       <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
     `
