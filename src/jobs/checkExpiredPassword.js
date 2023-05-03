@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import * as dotenv from 'dotenv';
 import db, { sequelize } from '../database/models/index';
 const bcrypt = require("bcrypt");

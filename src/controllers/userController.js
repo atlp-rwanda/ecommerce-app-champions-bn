@@ -24,17 +24,9 @@ class UserController {
         where: { email: req.body.email }
       });
       if (!dataValues)
-        return res
-          .status(401)
-          .json({ status: "fail", message: "user not exists" });
-      if (!dataValues.passwordStatus)
-        return res
-          .status(401)
-          .json({
-            status: "fail",
-            message: " your password has expired",
-            expriration: dataValues.passwordStatus
-          });
+        return res.status(401).json({ status: "fail", message: "user not exists" });
+      if (dataValues.passwordStatus === false)
+        return res.status(401).json({status: "fail",message: " your password has expired",expriration: dataValues.passwordStatus});
       const existingRole = await Role.findByPk(dataValues.RoleId, {
         include: { model: Permission }
       });
