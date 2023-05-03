@@ -29,7 +29,11 @@ class UserController {
       if (!dataValues.passwordStatus)
         return res
           .status(401)
-          .json({ status: "fail", message: " your password has expired",expriration:dataValues.passwordStatus });
+          .json({
+            status: "fail",
+            message: " your password has expired",
+            expriration: dataValues.passwordStatus
+          });
       const existingRole = await Role.findByPk(dataValues.RoleId, {
         include: { model: Permission }
       });
@@ -67,13 +71,20 @@ class UserController {
           dataValues.id,
           res
         );
-        return res
-          .status(200)
-          .json({
-            firstName: dataValues.firstName,
-            hashedOTP,
-            loginOTP: encodedOTP
-          });
+        const payload = {
+          encodedOTP,
+          vendorId: dataValues.id
+        };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: "5m"
+        });
+        return res.status(200).json({
+          firstName: dataValues.firstName,
+          hashedOTP,
+          encodedOTP,
+          user: dataValues.id,
+          token
+        });
       }
       const token = jwt.sign(
         { id: dataValues.id, role: roles },
@@ -121,18 +132,18 @@ class UserController {
   static async Validate(req, res) {
     try {
       const { validToken } = req.body;
-      // checking if the cookies exists
-      if (req.headers.cookie) {
-        const Cookiearray = req.headers.cookie.trim().split(";");
-        const cookies = await getCookieInfo(Cookiearray);
-        const hashedOTP = cookies.loginOTP;
-        // validate the token
+      const { encodedOTP, vendorId } = jwt.verify(
+        req.params.token,
+        process.env.JWT_SECRET
+      );
+      const hashedOTP = encodedOTP;
+      if (hashedOTP) {
         const decodedToken = Buffer.from(hashedOTP, "base64").toString("utf-8");
-        const providedOTP = validToken.trim();
+        const providedOTP = validToken;
         const isMatch = await comparePassword(providedOTP, decodedToken);
         if (isMatch) {
           const vendor = await User.findOne({
-            where: { id: cookies.loginVendorid }
+            where: { id: vendorId }
           });
           if (vendor) {
             vendor.isVerified = true;
@@ -159,7 +170,11 @@ class UserController {
           res.status(200).json({
             status: "success",
             token,
-            message: "authentication was success"
+            message: "authentication was success",
+            firstName: vendor.firstName,
+            email: vendor.email,
+            RoleId: vendor.RoleId,
+            role: roles
           });
         } else {
           res
@@ -170,7 +185,7 @@ class UserController {
         res.status(403).json({ status: "fail", message: "No cookie found" });
       }
     } catch (error) {
-      console.log(error);
+      res.status(500).json({ status: "fail", error: error.message });
     }
   }
 
