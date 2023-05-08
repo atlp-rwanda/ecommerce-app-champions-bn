@@ -60,7 +60,7 @@ class VendorController {
     try {
       const { userId } = req.params;
       const requestBody = req.body;
-      const profile = await Vendor.findOne({ where: { id: userId } });
+      const profile = await Vendor.findOne({ where: { UserId: userId } });
       if (profile) {
         const updatedProfile = {
           ...profile.toJSON(),
@@ -84,7 +84,7 @@ class VendorController {
     try {
       const { userId } = req.params;
       const { dataValues } = await User.findOne({ where: { id: userId } });
-      const profile = await Vendor.findOne({ where: { id: userId } });
+      const profile = await Vendor.findOne({ where: { UserId: userId } });
       const { ...others } = dataValues;
       if (profile) {
         res.json({ message: req.t("Found"), data: { others, profile } });
