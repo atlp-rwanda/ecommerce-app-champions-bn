@@ -105,6 +105,10 @@ class CartController {
       if (!cart) {
         return res.status(404).json({ status:"fail", message:req.t("Cart not found") });
       }
+      if ((cart.products).length===0){
+        return res.status(404).json({ status:"fail", message:req.t("Cart is empty") });
+      }
+
       await cart.update({ products: [], total: 0 });
       return res.status(200).json({ status: "success", message: req.t("CartCleared") });
     

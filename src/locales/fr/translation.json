@@ -16,5 +16,6 @@
      "Unauthorized":"Accès non autorisé",
      "productupdated":"produit mis à jour ",
      "Cartnotfound":"Panier introuvable",
-     "CartCleared":"Panier vidé avec succès"
+     "CartCleared":"Panier vidé avec succès",
+     "Cart is empty":"Le panier est vide"
 }
