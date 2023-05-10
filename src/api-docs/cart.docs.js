@@ -87,11 +87,24 @@ const postCart = {
         token: []
       }
     ],
+    parameters: [],
+    responses:response
+  };
+
+
+  const deleteCartItem = {
+    tags: ["Cart"],
+    description: "delete single item in cart",
+    security: [
+      {
+        token: []
+      }
+    ],
     parameters: [
       {
         name: "id",
         in: "path",
-        description: "cart id",
+        description: "item id",
         type: "integer",
         example: 1
       }
@@ -104,12 +117,15 @@ const postCart = {
     "/api/cart/add/{productId}":{
         post:postCart
     },
-    "/api/cart/clear-cart/{id}":{
-      delete:clearCart
-  },
+  
   "/api/cart/getAll": {
     get: getCartItems
-  },
+  },  "/api/cart/clear-cart":{
+    delete:clearCart
+},
+"/api/cart/clear-cart-item/{id}":{
+  delete:deleteCartItem
+},
   "/api/cart/updateCart/{productId}": {
     put: updateCart
   }

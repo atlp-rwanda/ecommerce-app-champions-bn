@@ -180,26 +180,7 @@ describe("update cart", () => {
   });
 });
 
-describe("/cart/clear-cart endpoint", () => {
-  // it("should clear the cart and return a success message", async () => {
-  //   let cartId = 1;
-  //   const response = await request
-  //     .delete(`/api/cart/clear-cart/${cartId}`)
-  //     .set("token", `Bearer ${token}`);
-  //   expect(response.statusCode).toBe(200);
-  //   expect(response.body.status).toBe("success");
-  //   expect(response.body.message).toBe("Cart cleared successfully");
-  // });
-  it("should return a 404 error if the cart is not found", async () => {
-    const nonExistingCartId = 9999;
-    const response = await request
-      .delete(`/api/cart/clear-cart/${nonExistingCartId}`)
-      .set("token", `Bearer ${token}`);
-    expect(response.statusCode).toBe(404);
-    expect(response.body.status).toBe("fail");
-    expect(response.body.message).toBe("Cart not found");
-  });
-});
+
 
 describe("Review product", () => {
   test("Create a product review", async () => {
