@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import { Product, Cart } from "../database/models";
 
 class CartController {
@@ -100,7 +101,7 @@ class CartController {
 
   static async clearCart(req, res) {
     try {
-      const cart = await Cart.findOne({ where: { BuyerId: req.user.id,id:req.params.id } });
+      const cart = await Cart.findOne({ where: { BuyerId: req.user.id} });
       if (!cart) {
         return res.status(404).json({ status:"fail", message:req.t("Cart not found") });
       }
@@ -109,6 +110,32 @@ class CartController {
     
     } catch (error) {
       res.status(500).json({ status:"error", message: error.message});
+    }
+  }
+
+  static async deleteCartItem(req, res) {
+    try {
+      const  productId  = parseInt( req.params.id);
+      const cart = await Cart.findOne({ where: { BuyerId: req.user.id } });
+
+      if (!cart) {
+        return res.status(404).json({ status: "fail",message:req.t("Cart not found")});
+      }
+
+    
+      const productIndex = cart.products.findIndex((cartItem) => cartItem.productId ===  productId);
+
+      if (productIndex === -1) {
+        return res.status(404).json({ status: "fail",message: req.t("productnotfound") });
+      }
+      const updatedProducts = [...cart.products.slice(0, productIndex), ...cart.products.slice(productIndex + 1)];
+      const newTotal =await updatedProducts.reduce((sum, item) => sum + item.productTotal, 0);
+      await cart.update({products:updatedProducts, total: newTotal });
+
+
+      return res.status(200).json({ status: "success",message: req.t("CartCleared") });
+    } catch (error) {
+      return res.status(500).json({ status: "fail", message: error.message });
     }
   }
   

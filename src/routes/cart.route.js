@@ -10,6 +10,7 @@ cartRoute.post("/add/:productId", verifyBuyer, CartController.addItem);
 cartRoute.put("/updateCart/:productId",verifyBuyer,validate(updateCartSchema),CartController.updateCart);
 cartRoute.get("/getAll", verifyBuyer, CartController.getCartItems);
 cartRoute.post("/add/:productId",verifyBuyer,CartController.addItem );
-cartRoute.delete("/clear-cart/:id",verifyBuyer,CartController.clearCart );
+cartRoute.delete("/clear-cart",verifyBuyer,CartController.clearCart );
+cartRoute.delete("/clear-cart-item/:id",verifyBuyer,CartController.deleteCartItem );
 
 export default cartRoute;
