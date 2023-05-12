@@ -12,8 +12,6 @@ const {
   User,
   Role,
   Permission,
-  Vendor,
-  ReportedActivity
 } = require("../database/models");
 
 dotenv.config();

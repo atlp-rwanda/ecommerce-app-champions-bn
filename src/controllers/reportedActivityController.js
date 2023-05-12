@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import { Op } from "sequelize";
 
-const { ReportedActivity} = require("../database/models");
+const { ReportedActivity,Vendor} = require("../database/models");
 
 class ReportedActivityController{
     static async reportIllegalActivity(req,res){
@@ -26,7 +26,7 @@ class ReportedActivityController{
 
     static async reportedActivities(req,res){
         try {
-            const reports = await ReportedActivity.findAll();
+            const reports = await ReportedActivity.findAll({include:[Vendor]});
             return res.status(200).json({status:"success",data:reports});
         } catch (error) {
             return res.status(500).json({status:"success",error:error.message});

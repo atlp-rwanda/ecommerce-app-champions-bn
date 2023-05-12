@@ -158,8 +158,34 @@ requestBody: {
   }
 };
 
+const getAllBuyers = {
+  tags: ["Buyer"],
+  description: "get all buyers",
+  security: [
+    {
+      token: [],
+    },
+  ],
+  responses: {
+    200: {
+      description: "OK",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+          },
+        },
+      },
+    },
+    404: {
+      description: "profile not found",
+    },
+  },
+};
+
 const buyerRouteDoc = {
   "/api/buyer/signup": { post: buyerSignup },
+  "/api/buyer/all": { get:getAllBuyers}, 
   "/api/buyer/oneProfile/{userId}": { get:getOneProfile}, 
   "/api/buyer/profile/{userId}":{put:updateProfile}
 };

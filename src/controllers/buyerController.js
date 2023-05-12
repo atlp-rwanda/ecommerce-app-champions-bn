@@ -11,6 +11,19 @@ dotenv.config();
 const { User, Role, Permission, Buyer } = require("../database/models");
 
 class BuyerController {
+  static async getAllBuyers(req, res) {
+    try {
+      const vendorsProfile = await Buyer.findAll({include: [
+        {model:User,
+          include:{model:Role,include: [Permission]}
+        }
+      ]});
+      return res.status(200).json({ status: "success", data: vendorsProfile });
+    } catch (error) {
+      return res.status(500).json({ status: "success", error: error.message });
+    }
+  }
+
   static async createBuyer(req, res) {
     try {
       const { firstName, lastName, email, password } = req.body;

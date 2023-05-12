@@ -207,6 +207,35 @@ const requestReset = {
       }
     }
   };
+
+  const getUser = {
+    tags: ["Users"],
+    description: "get the user by id",
+    parameters: [
+      {
+        name: "id",
+        in: "path",
+        description: "user id",
+        type: "number",
+        example: "1",
+      },
+    ],
+    responses: {
+      200: {
+        description: "OK",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+            },
+          },
+        },
+      },
+      404: {
+        description: "profile not found",
+      },
+    },
+  }
   
   const userRouteDoc = {
     "/api/user/requestReset": {
@@ -216,7 +245,8 @@ const requestReset = {
         post: passwordReset
       }
    ,
-   "/api/user/login": { post: login }
+   "/api/user/login": { post: login },
+   "/api/user/{id}": { get: getUser }
   };
  
   

@@ -8,6 +8,7 @@ import { twoFactorEmail } from "./templates/2FA";
 import { disableVendorAccount } from "./templates/disableVendor";
 import { resetPasswordEmail } from "./templates/resetPassword";
 import { expiredProductsTemplate } from "./templates/expiredProducts";
+import { newRole } from "./templates/newRole";
 import {
   productAddNotification,
   productDeletedNotification,
@@ -88,6 +89,11 @@ const sendEmail = (info, action) => {
       subject = "product sold";
       emailto = info.email;
       composition = productSoldNotification(info.firstName, info.productName);
+      break;
+    case "assignRole":
+      subject = "assigned new role on our platform";
+      emailto = info.email;
+      composition = newRole(info.firstName, info.role);
       break;
   }
 

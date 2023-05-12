@@ -6,6 +6,10 @@ describe("testing all routes", () => {
     const response = await request(app).get("/").send();
     expect(response.statusCode).toBe(200);
   });
+  test("get user by id", async () => {
+    const response = await request(app).get("/api/user/1");
+    expect(response.statusCode).toBe(200);
+  });
 });
 
 describe("routes", () => {

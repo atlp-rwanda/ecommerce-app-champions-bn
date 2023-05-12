@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    permissionName: DataTypes.STRING,      
+    permissionName: DataTypes.STRING,  
+    permissionStatus:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    }    
   }, {
     sequelize,
     modelName: 'Permission',
