@@ -11,6 +11,10 @@ module.exports = {
       permissionName: {
         type: Sequelize.STRING
       },
+      permissionStatus:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

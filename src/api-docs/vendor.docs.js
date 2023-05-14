@@ -242,6 +242,31 @@ const enableVendorAccount =  {
   },
 };
 
+const getAllVendors = {
+  tags: ["Vendor"],
+  description: "get all vendors",
+  security: [
+    {
+      token: [],
+    },
+  ],
+  responses: {
+    200: {
+      description: "OK",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+          },
+        },
+      },
+    },
+    404: {
+      description: "profile not found",
+    },
+  },
+};
+
 const vendorRouteDoc = {
   "/api/vendor/signup": {
     post: vendorSignup
@@ -249,6 +274,9 @@ const vendorRouteDoc = {
   "/api/vendor/profile/{userId}":{
     put:updateProfile
   }, 
+  "/api/vendor/all":{
+    get:getAllVendors
+  },
   "/api/vendor/oneProfile/{userId}":{
     get:getOneProfile
   },
