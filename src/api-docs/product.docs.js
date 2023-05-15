@@ -139,6 +139,11 @@ const searchProduct = {
 const getProductById = {
   tags: ["Product"],
   description: "get product from seller collection",
+  security: [
+    {
+      token: []
+    }
+  ],
   parameters: [
     {
       name: "id",

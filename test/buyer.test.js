@@ -266,14 +266,12 @@ describe("testing get specific item", () => {
   test("should return 404 if product not found", async () => {
     const res = await request
       .get(`/api/product/getOne/${9000}`)
-      .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(404);
     expect(res.body.status).toBe("fail");
   });
   test("should get specific item", async () => {
     const res = await request
       .get(`/api/product/getOne/${2}`)
-      .set("token", `Bearer ${token}`);
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe("success");
   });

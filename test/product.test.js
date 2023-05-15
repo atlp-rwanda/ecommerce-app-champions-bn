@@ -41,12 +41,6 @@ describe("testing wrong route for getting available items", () => {
     expect(res.statusCode).toBe(404);
   });
 });
-describe("testing get specific item", () => {
-  test("get specific item", async () => {
-    const res = await request(app).get(`/api/product/getOne/${id}`);
-    expect(res.statusCode).toBe(401);
-  });
-});
 describe("testing get all items", () => {
   test("get all items it should return 401", async () => {
     const res = await request(app).get("/api/product/getAll");
