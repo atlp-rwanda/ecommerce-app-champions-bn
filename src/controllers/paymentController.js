@@ -17,7 +17,9 @@ class PaymentController {
     try {
       const cart = await Cart.findOne({ where: { BuyerId: req.user.id } });
       const orderItems = [];
+      let amountpaid= '';
       cart.products.forEach((element) => {
+        amountpaid=element.productPrice;
         const amount = element.productPrice * 100;
         const item = {
           price_data: {
@@ -35,7 +37,7 @@ class PaymentController {
       const session = await stripe.checkout.sessions.create({
         line_items: orderItems,
         mode: "payment",
-        success_url: `${appUrl}/api/payment/paymentSuccess?token=${token}&&paymentId={CHECKOUT_SESSION_ID}`
+        success_url: `${process.env.REDIRECT_URL}?token=${token}&&paymentId={CHECKOUT_SESSION_ID}&&amount=${amountpaid}`
       });
       res.status(200).json({ status: "success", token, paymentId: session.id, url: session.url });
     } catch (error) {
@@ -45,7 +47,7 @@ class PaymentController {
 
   static async paymentSuccess(req, res) {
     try {
-      const { token, paymentId } = req.query;
+      const { token, paymentId,amount } = req.query;
       const user = jwt.verify(token, process.env.JWT_SECRET);
       const cart = await Cart.findOne({ where: { BuyerId: user.id } });
       const session = await stripe.checkout.sessions.retrieve(paymentId);
@@ -69,8 +71,7 @@ class PaymentController {
         });
         await Cart.destroy({ where: { BuyerId: user.id } });
       }
-
-      return res.json({ status: "success", message: "payment successful", payment_status: session.payment_status });
+      return res.json({ status: "success", message: "payment successful", payment_status: session.payment_status ,amountpaid:amount });
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }
