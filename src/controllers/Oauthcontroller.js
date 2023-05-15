@@ -6,7 +6,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import dotenv from "dotenv";
 import connectDb from "../database/connectDb";
-import { User as user } from "../database/models";
+import { User as user ,Role,Permission } from "../database/models";
 
 import { generateAccessToken } from "../utils/helpers/generateToken";
 
@@ -34,13 +34,19 @@ passport.use(
           RoleId: 3
         };
 
+
+        const existingRole = await Role.findByPk(userInfo.RoleId, {
+          include: { model: Permission }
+        });
+        const roles = existingRole.toJSON();
+
         const [User, created] = await user.findOrCreate({
           where: { googleId: profile.id },
           defaults: userInfo
         });
         const token = await generateAccessToken({
           id: User.id,
-          roleId: User.roleId
+          role:roles,
         });
         User.token = token;
         if (created) return cb(null, User);

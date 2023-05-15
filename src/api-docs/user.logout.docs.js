@@ -3,6 +3,11 @@ module.exports={
         "get": {
           "tags": ["Users"],
           "description": "Logout a user from app",
+          "security": [
+            {
+              "token": []
+            }
+          ],
           "responses": {
             "200": {
               "description": "User logged out successfully"

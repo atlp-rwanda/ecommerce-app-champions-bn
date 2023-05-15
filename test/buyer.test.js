@@ -103,7 +103,7 @@ describe("testing signin email and password", () => {
   it("should log out user and clear token cookie", async () => {
     const response = await request
       .get("/api/user/logout")
-      .set("Cookie", cookie);
+      .set("token", `Bearer ${token}`);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe("success");
     expect(response.body.message).toBe("User logged out successfully");
@@ -237,7 +237,7 @@ describe("chats endpoint", () => {
   it("should getallchat and return a success message", async () => {
     const response = await request
       .get("/api/chat/get-all-chat")
-      .set("Cookie", cookie);
+      .set("token", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     expect(response.body.status).toBe("success");
   });
@@ -247,14 +247,12 @@ describe("testing get specific item", () => {
   test("should return 404 if product not found", async () => {
     const res = await request
       .get(`/api/product/getOne/${9000}`)
-      .set("Cookie", cookie);
     expect(res.statusCode).toBe(404);
     expect(res.body.status).toBe("fail");
   });
   test("should get specific item", async () => {
     const res = await request
       .get(`/api/product/getOne/${2}`)
-      .set("Cookie", cookie);
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe("success");
   });

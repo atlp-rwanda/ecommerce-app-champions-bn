@@ -22,11 +22,7 @@ try {
     passport.authenticate("google", { session: false }),
     (req, res) => {
       const {token} = req.user;
-      res.cookie("token", token, {
-        secure:false,
-        httpOnly:true,
-        sameSite:'lax' ,signed:true       
-      });
+      res.cookie("token", token);
       res.redirect(`${process.env.REDIRECT_URL}`);
     }
   );

@@ -1,6 +1,5 @@
 import express from "express";
 import ProductController from "../controllers/productController";
-import isLoggedIn from "../middlewares/checklogin";
 import uploadImages from "../middlewares/uploadImage";
 import { productExistAlready,IsProductExist } from "../middlewares/productExists";
 import { productSchema, updateSchema } from "../validations/validateProduct";
@@ -14,7 +13,7 @@ const productRoute = express.Router();
 productRoute.get("/searcch", ProductController.searchProduct);
 productRoute.get("/getAll",verifyVendor, ProductController.getAllProducts);
 productRoute.get("/getAvailable",ProductController.getAvailableProduct);
-productRoute.get("/getOne/:id", isLoggedIn, ProductController.getProductById);
+productRoute.get("/getOne/:id", ProductController.getProductById);
 productRoute.post("/addToWishlist/:productId",verifyBuyer,checkPassword,ProductController.addToWishlist);
 productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
 productRoute.get("/recommended", ProductController.getRecommendedProducts);
