@@ -7,8 +7,9 @@ import { Product, Review, User } from "../database/models";
 class ReviewController {
   static async createReview(req, res) {
     try {
-        const { title,content,rating,productId,  } = req.body;
+        const { title,content,rating, } = req.body;
         const userId = req.user.id;
+        const productId = req.params.id;
        
         const existingProduct = await Product.findByPk(productId);
         if (!existingProduct) {

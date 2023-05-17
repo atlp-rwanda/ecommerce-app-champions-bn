@@ -6,6 +6,18 @@ const createReview = {
       token: []
     }
   ],
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      description: "ID of product review",
+      required: true,
+      schema: {
+        type: "string",
+        example: "1"
+      }
+    }
+  ],
   requestBody: {
     content: {
       "application/json": {
@@ -27,16 +39,16 @@ const createReview = {
               description: "Product rating from 0 to 15",
               example: 10
             },
-            userId: {
-              type: "number",
-              description: "ID of the user",
-              example: 3
-            },
-            productId: {
-              type: "number",
-              description: "Product ID",
-              example: 2
-            }
+            // userId: {
+            //   type: "number",
+            //   description: "ID of the user",
+            //   example: 3
+            // },
+            // productId: {
+            //   type: "number",
+            //   description: "Product ID",
+            //   example: 2
+            // }
           },
           required: ["title", "content", "rating", "userId", "productId"]
         }
@@ -221,7 +233,7 @@ const updateReview = {
 
     
   const ReviewRouteDoc = {
-    "/api/review/createReview": {
+    "/api/review/createReview/{id}": {
       post: createReview
     },
     "/api/review/getProductReviews/{id}": {

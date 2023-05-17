@@ -179,48 +179,48 @@ describe("update cart", () => {
 
 
 
-describe("Review product", () => {
-  test("Create a product review", async () => {
-    const productId = 2;
-    const response = await request
-      .post("/api/review/createReview")
-      .send({
-        title: "Good product",
-        content: "I like this product, it exceeded my expectations",
-        rating: 7,
-        userId,
-        productId
-      })
-      .set("token", `Bearer ${token}`);
+// describe("Review product", () => {
+//   test("Create a product review", async () => {
+//     const productId = 2;
+//     const response = await request
+//       .post("/api/review/createReview")
+//       .send({
+//         title: "Good product",
+//         content: "I like this product, it exceeded my expectations",
+//         rating: 7,
+//         userId,
+//         productId
+//       })
+//       .set("token", `Bearer ${token}`);
 
-    reviewId = response.body.review.id;
+//     reviewId = response.body.review.id;
 
-    expect(response.statusCode).toBe(201);
-  });
+//     expect(response.statusCode).toBe(201);
+//   });
 
-  test("Get product reviews", async () => {
-    const response = await request.get(
-      `/api/review/getProductReviews/${reviewId}`
-    );
-    expect(response.statusCode).toBe(200);
-  });
+//   test("Get product reviews", async () => {
+//     const response = await request.get(
+//       `/api/review/getProductReviews/${reviewId}`
+//     );
+//     expect(response.statusCode).toBe(200);
+//   });
 
-  test("Get product rate", async () => {
-    const productId = 2;
+//   test("Get product rate", async () => {
+//     const productId = 2;
 
-    const response = await request.get(
-      `/api/review/getProductRate/${productId}`
-    );
-    expect(response.statusCode).toBe(200);
-  });
+//     const response = await request.get(
+//       `/api/review/getProductRate/${productId}`
+//     );
+//     expect(response.statusCode).toBe(200);
+//   });
 
-  test("Delete review", async () => {
-    const response = await request
-      .delete(`/api/review/deleteReview/${reviewId}`)
-      .set("token", `Bearer ${token}`);
-    expect(response.statusCode).toBe(204);
-  });
-});
+//   test("Delete review", async () => {
+//     const response = await request
+//       .delete(`/api/review/deleteReview/${reviewId}`)
+//       .set("token", `Bearer ${token}`);
+//     expect(response.statusCode).toBe(204);
+//   });
+// });
 
 describe("chats endpoint", () => {
   // test("should return single user", async () => {

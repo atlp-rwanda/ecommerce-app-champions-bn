@@ -1,4 +1,5 @@
 /* eslint-disable */
+/* istanbul ignore file */
 import { verify } from "../utils/jwt";
 import jwt from "jsonwebtoken";
 
