@@ -8,6 +8,7 @@ const { Product, Category, Vendor, User, Wishlist, Buyer } = models;
 
 // eslint-disable-next-line import/no-cycle
 import emitter from "../events/notifications";
+import { emitProductAdded, emitProductDeleted } from "./notificationController";
 
 class ProductController {
   static async searchProduct(req, res) {
@@ -73,9 +74,8 @@ class ProductController {
       await postProduct.setVendor(existVendor);
       await postProduct.setCategory(existCategory);
 
-      const logedVendor = await User.findOne({ where: { id: req.user.id } });
-
-      emitter.emit("newProductAdded", postProduct.productName, logedVendor);
+      const logedVendor=await User.findOne({where: {id:req.user.id}});
+      emitter.emit("newProductAdded",postProduct.productName,logedVendor);
       return res.status(200).json({ status: "success", postProduct });
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
@@ -143,16 +143,10 @@ class ProductController {
           .json({ status: "fail", message: req.t("productnotfound") });
       }
       await product.destroy();
-      const logedVendor = await User.findOne({ where: { id: req.user.id } });
-
-      emitter.emit("productDeleted", product.productName, logedVendor);
-      return res
-        .status(204)
-        .json({
-          status: req.t("success"),
-          data: null,
-          message: req.t("productdeleted")
-        });
+      const logedVendor=await User.findOne({where: {id:req.user.id}});
+       emitter.emit("productDeleted",product.productName,logedVendor);
+      return res.status(204).json({ status: req.t("success"),data:null, message: req.t("productdeleted") });
+  
     } catch (error) {
       return res
         .status(500)
@@ -347,6 +341,8 @@ class ProductController {
       const newProductIds = [...wishlists.products, productId];
       wishlists.products = newProductIds;
       await wishlists.save();
+      const logedBuyer=await User.findOne({where: {id:req.user.id}});
+      emitter.emit("product added to your wishlist", product.productName,logedBuyer);
       return res
         .status(200)
         .json({
