@@ -134,7 +134,6 @@ class VendorController {
       const reportedactivities = await ReportedActivity.findAll({
         where: { VendorId: req.params.id }
       });
-      console.log(reportedactivities);
       if (!reportedactivities.length >= 1) {
         return res.status(404).json({
           status: "fail",

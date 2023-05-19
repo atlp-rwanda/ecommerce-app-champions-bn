@@ -11,7 +11,7 @@ vendorRoute.put("/profile/:userId", verifyVendor, validate(vendorUpSchema), Vend
 vendorRoute.get("/all",verifyAdmin,VendorController.getAllVendors);
 vendorRoute.get("/:id", VendorController.getAllVendors);
 vendorRoute.get("/oneProfile/:userId", VendorController.getProfile);
-vendorRoute.post("/disable/:id",verifyAdmin, VendorController.disableVendorAccount);
-vendorRoute.put("/enable/:id",verifyAdmin, VendorController.enableVendorAccount);
+vendorRoute.post("/disable/:id", VendorController.disableVendorAccount);
+vendorRoute.put("/enable/:id", VendorController.enableVendorAccount);
 
 export default vendorRoute;
