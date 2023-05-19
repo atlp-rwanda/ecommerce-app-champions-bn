@@ -4,7 +4,7 @@ import { Op } from "sequelize";
 
 import models from "../database/models";
 import sendEmail from "../utils/sendEmail";
-const {Product,Category,Vendor,User,Wishlist,Buyer} = models;
+const { Product, Category, Vendor, User, Wishlist, Buyer } = models;
 
 // eslint-disable-next-line import/no-cycle
 import emitter from "../events/notifications";
@@ -64,16 +64,19 @@ class ProductController {
         bonus,
         productImage
       });
-      const existCategory = await Category.findOne({where: { name: req.body.category }});
-      const existVendor = await Vendor.findOne({where: { UserId: req.user.id }});
+      const existCategory = await Category.findOne({
+        where: { name: req.body.category }
+      });
+      const existVendor = await Vendor.findOne({
+        where: { UserId: req.user.id }
+      });
       await postProduct.setVendor(existVendor);
       await postProduct.setCategory(existCategory);
 
-      const logedVendor=await User.findOne({where: {id:req.user.id}});
+      const logedVendor = await User.findOne({ where: { id: req.user.id } });
 
-      emitter.emit("newProductAdded",postProduct.productName,logedVendor);
+      emitter.emit("newProductAdded", postProduct.productName, logedVendor);
       return res.status(200).json({ status: "success", postProduct });
-
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }
@@ -84,7 +87,12 @@ class ProductController {
       const {
         productName,
         productPrice,
-        quantity,productDescription,productOwner,bonus,expiredDate } = req.body;
+        quantity,
+        productDescription,
+        productOwner,
+        bonus,
+        expiredDate
+      } = req.body;
       const productImage = req.files.map((img) => img.path);
       const productUpdate = await Product.update(
         {
@@ -99,12 +107,12 @@ class ProductController {
         },
         { where: { productId: req.params.id } }
       );
-      const logedVendor=await User.findOne({where: {id:req.user.id}});
-      emitter.emit("productUpdated",req.params.id,logedVendor);
+      const logedVendor = await User.findOne({ where: { id: req.user.id } });
+      emitter.emit("productUpdated", req.params.id, logedVendor);
 
       return res.status(200).json({ status: "success", productUpdate });
     } catch (error) {
-      return res.status(500).json({status: "fail",error: error.message});
+      return res.status(500).json({ status: "fail", error: error.message });
     }
   }
 
@@ -112,32 +120,45 @@ class ProductController {
     const { name } = req.body;
     try {
       const postCategory = await Category.create({ name });
-      return res.status(201).json({ status: "success", category: postCategory });
+      return res
+        .status(201)
+        .json({ status: "success", category: postCategory });
     } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }
   }
 
-  static async deleteProduct(req,res){
-    
+  static async deleteProduct(req, res) {
     try {
-      const existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
+      const existingVendor = await Vendor.findOne({
+        where: { UserId: req.user.id }
+      });
       const vendor = existingVendor.toJSON();
-      const product = await Product.findOne({ where: { productId: req.params.id,VendorId:vendor.id } });
+      const product = await Product.findOne({
+        where: { productId: req.params.id, VendorId: vendor.id }
+      });
       if (!product) {
-        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+        return res
+          .status(404)
+          .json({ status: "fail", message: req.t("productnotfound") });
       }
       await product.destroy();
-      const logedVendor=await User.findOne({where: {id:req.user.id}});
-      
-      emitter.emit("productDeleted",product.productName,logedVendor);
-      return res.status(204).json({ status: req.t("success"),data:null, message: req.t("productdeleted") });
-  
+      const logedVendor = await User.findOne({ where: { id: req.user.id } });
+
+      emitter.emit("productDeleted", product.productName, logedVendor);
+      return res
+        .status(204)
+        .json({
+          status: req.t("success"),
+          data: null,
+          message: req.t("productdeleted")
+        });
     } catch (error) {
-      return res.status(500).json({ status: "fail", message: "Internal server error" });
+      return res
+        .status(500)
+        .json({ status: "fail", message: "Internal server error" });
     }
-  
-  };
+  }
 
   static async getProductById(req, res) {
     try {
@@ -149,10 +170,14 @@ class ProductController {
       }
       const product = await Product.findByPk(productId);
       if (!product) {
-        return res.status(404).json({ status: "fail", message: "Product not found." });
+        return res
+          .status(404)
+          .json({ status: "fail", message: "Product not found." });
       }
       if (!product.available) {
-        return res.status(404).json({ status: "fail", message: "Product not available for sale." });
+        return res
+          .status(404)
+          .json({ status: "fail", message: "Product not available for sale." });
       }
       res.status(200).json({ status: "success", item: product });
     } catch (err) {
@@ -160,10 +185,7 @@ class ProductController {
     }
   }
 
-
-
   static async getAllProducts(req, res) {
-   
     try {
       if (req.user.role.roleName !== "vendor") {
         return res.status(401).json({
@@ -171,13 +193,13 @@ class ProductController {
           error: "Unauthorized. You must be a seller to perform this action."
         });
       }
-       
-      const existingVender=await Vendor.findOne({where:{UserId:req.user.id}});
+
+      const existingVender = await Vendor.findOne({
+        where: { UserId: req.user.id }
+      });
 
       const sellerId = existingVender.dataValues.id;
       const { page = 1, limit = 10 } = req.query;
-
-      
 
       const items = await Product.findAndCountAll({
         where: {
@@ -209,7 +231,7 @@ class ProductController {
         currentPage: page
       });
     } catch (error) {
-      return res.status(500).json({status: "fail",error: error.messag});
+      return res.status(500).json({ status: "fail", error: error.messag });
     }
   }
 
@@ -220,7 +242,7 @@ class ProductController {
       const items = await Product.findAndCountAll({
         where: {
           available: true,
-          expired:false
+          expired: false
         },
         include: [
           {
@@ -255,55 +277,61 @@ class ProductController {
   }
 
   static async getRecommendedProducts(req, res) {
-    const { searchParam } = req.query; 
+    const { searchParam } = req.query;
     try {
-        const search = await Product.findAll({
-          where: {
-            [Op.or]: [
-              {
-                productName: {
-                  [Op.like]: `%${searchParam}%`,
-                },
-              },
-              {
-                productDescription: {
-                  [Op.like]: `%${searchParam}%`,
-                },
-              },
-              {
-                productOwner: {
-                  [Op.like]: `%${searchParam}%`,
-                },
-              },
-            ],
-          },
+      const search = await Product.findAll({
+        where: {
+          [Op.or]: [
+            {
+              productName: {
+                [Op.like]: `%${searchParam}%`
+              }
+            },
+            {
+              productDescription: {
+                [Op.like]: `%${searchParam}%`
+              }
+            },
+            {
+              productOwner: {
+                [Op.like]: `%${searchParam}%`
+              }
+            }
+          ]
+        }
+      });
+      const firstProduct = search[0];
+      const category = await Category.findOne({
+        where: { id: firstProduct.CategoryId }
+      });
+      const recommendedProducts = await Product.findAll({
+        where: {
+          [Op.and]: [{ CategoryId: category.id }]
+        },
+        limit: 20
+      });
+      return res
+        .status(200)
+        .json({
+          status: "success",
+          message: "products retrieved successfully",
+          data: search,
+          recommendedProducts
         });
-        const firstProduct = search[0];
-        const category = await Category.findOne({
-          where: { id: firstProduct.CategoryId },
-        });
-        const recommendedProducts = await Product.findAll({
-          where: {
-            [Op.and]: [{ CategoryId: category.id }],
-          },
-          limit: 20,
-        });
-        return res.status(200).json({status: "success",message: "products retrieved successfully",data: search, recommendedProducts,});
-      } 
-     catch (error) {
+    } catch (error) {
       return res.status(500).json({ status: "fail", error: error.message });
     }
   }
-  
-  
-       
+
   static async addToWishlist(req, res) {
-    try { 
-      const buyerId = req.user.id; 
-      const {productId} = req.params; 
-      const product = await Product.findOne({ where:{productId} });
+    try {
+      const buyerId = req.user.id;
+      const { productId } = req.params;
+      const product = await Product.findOne({ where: { productId } });
       if (!product) {
-        return res.status(404).json({ status: "fail", message: "Product not found" });
+        return res
+          .status(404)
+          .json({ status: "fail", message: "Product not found" });
       }
       let wishlists = await Wishlist.findOne({ where: { userId: buyerId } });
       if (!wishlists) {
@@ -311,13 +339,21 @@ class ProductController {
         wishlists = newWishlist;
       }
       if (wishlists.products.includes(parseInt(productId))) {
-        return res.status(400).json({ status: "fail", message: "Product already in wishlist" });
+        return res
+          .status(400)
+          .json({ status: "fail", message: "Product already in wishlist" });
       }
 
       const newProductIds = [...wishlists.products, productId];
       wishlists.products = newProductIds;
       await wishlists.save();
-      return res.status(200).json({status: "success",message: "Product added to wishlist",product});
+      return res
+        .status(200)
+        .json({
+          status: "success",
+          message: "Product added to wishlist",
+          product
+        });
     } catch (error) {
       return res.status(500).json({
         error: error.message,
@@ -328,7 +364,6 @@ class ProductController {
       });
     }
   }
-
   static async retrieveProductItems(req, res) {
     try {
       const userId = req.user.id;
@@ -354,120 +389,142 @@ class ProductController {
     }
   }
 
-  static async checkExpiredProducts(req,res){
-      try {
-        const expiredProducts =  await Product.findAll({ where:{
-          expiredDate:{[Op.lt]:new Date()},
-          expired:false
-        }});
-        let vendors = [];
-        const vendorsWithExpiredProducts = Array.from(new Set(expiredProducts.map(product => product.dataValues.VendorId)));
-        vendorsWithExpiredProducts.forEach(async vendor => {
-          const existingVendor = await Vendor.findAll({where:{ id:vendor},include:User});
-          existingVendor.map(vendor => vendors.push(vendor.toJSON()));
-          vendors.map(vendor =>{
-            const emailData = {
-              email:vendor.User.email,
-              firstName:vendor.User.firstName
-            }
-            sendEmail(emailData,"expiredProducts")
-          })
+  static async checkExpiredProducts(req, res) {
+    try {
+      const expiredProducts = await Product.findAll({
+        where: {
+          expiredDate: { [Op.lt]: new Date() },
+          expired: false
+        }
+      });
+      let vendors = [];
+      const vendorsWithExpiredProducts = Array.from(
+        new Set(expiredProducts.map((product) => product.dataValues.VendorId))
+      );
+      vendorsWithExpiredProducts.forEach(async (vendor) => {
+        const existingVendor = await Vendor.findAll({
+          where: { id: vendor },
+          include: User
         });
-        await Promise.all(expiredProducts.map(product =>{
-          return product.update({expired:true});
-        }));
-        return res.status(200).json({status:"success",data:expiredProducts});
-      } catch (error) {
-        return res.status(500).json({status:"fail",error:error.message});
-      }   
+        existingVendor.map((vendor) => vendors.push(vendor.toJSON()));
+        vendors.map((vendor) => {
+          const emailData = {
+            email: vendor.User.email,
+            firstName: vendor.User.firstName
+          };
+          sendEmail(emailData, "expiredProducts");
+        });
+      });
+      await Promise.all(
+        expiredProducts.map((product) => {
+          return product.update({ expired: true });
+        })
+      );
+      return res.status(200).json({ status: "success", data: expiredProducts });
+    } catch (error) {
+      return res.status(500).json({ status: "fail", error: error.message });
+    }
   }
 
-
-  static async availableProductsInCollection(req,res){
- 
-    try { 
-      const  existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
+  static async availableProductsInCollection(req, res) {
+    try {
+      const existingVendor = await Vendor.findOne({
+        where: { UserId: req.user.id }
+      });
       const vendor = existingVendor.toJSON();
-      const products = await Product.findAll({ where: {VendorId:vendor.id } });
-     
-      if (products.length===0) {
-        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+      const products = await Product.findAll({
+        where: { VendorId: vendor.id }
+      });
+
+      if (products.length === 0) {
+        return res
+          .status(404)
+          .json({ status: "fail", message: req.t("productnotfound") });
       }
-      return res.status(200).json({ status: req.t("success"),products:products });
-  
+      return res
+        .status(200)
+        .json({ status: req.t("success"), products: products });
     } catch (error) {
       return res.status(500).json({ status: "error", message: error.message });
     }
-  
-  };
+  }
 
-static async disableProduct(req, res) {
-  const { searchParam } = req.query;
- 
-  try {
-    const  existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
-    const vendor = existingVendor.toJSON();
+  static async disableProduct(req, res) {
+    const { searchParam } = req.query;
+
+    try {
+      const existingVendor = await Vendor.findOne({
+        where: { UserId: req.user.id }
+      });
+      const vendor = existingVendor.toJSON();
       const productsToUpdate = await Product.findAll({
-          where: {
-            productId: searchParam,
-            [Op.or]: [
-              { quantity: 0 },
-              { expired: true }
-            ],
-            VendorId: vendor.id
-          }
+        where: {
+          productId: searchParam,
+          [Op.or]: [{ quantity: 0 }, { expired: true }],
+          VendorId: vendor.id
+        }
       });
 
       if (productsToUpdate.length === 0) {
-        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+        return res
+          .status(404)
+          .json({ status: "fail", message: req.t("productnotfound") });
       }
 
-      const productIdsToUpdate = productsToUpdate.map(product => product.productId);
-       // update product available to false
+      const productIdsToUpdate = productsToUpdate.map(
+        (product) => product.productId
+      );
+      // update product available to false
       await Product.update(
-          { available: false },
-          { where: { productId: productIdsToUpdate } }
+        { available: false },
+        { where: { productId: productIdsToUpdate } }
       );
 
-      return res.status(200).json({ status: "success",message:req.t("productupdated") });
-  } catch (error) {
+      return res
+        .status(200)
+        .json({ status: "success", message: req.t("productupdated") });
+    } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
+    }
   }
-}
 
-static async enableProduct(req, res) {
-  const { searchParam } = req.query;
-  
-  try {
-    const  existingVendor =  await Vendor.findOne({where:{UserId:req.user.id}});
-  const vendor = existingVendor.toJSON();
-      const productsToUpdate = await Product.findAll({
-          where: {
-            productId: searchParam,
-                 [Op.or]: [
-                      { quantity: { [Op.ne]: 0 } },
-                      { expired: false }
-                  ]
-              ,
-            VendorId: vendor.id 
-          }
+  static async enableProduct(req, res) {
+    const { searchParam } = req.query;
+
+    try {
+      const existingVendor = await Vendor.findOne({
+        where: { UserId: req.user.id }
       });
-      
+      const vendor = existingVendor.toJSON();
+      const productsToUpdate = await Product.findAll({
+        where: {
+          productId: searchParam,
+          [Op.or]: [{ quantity: { [Op.ne]: 0 } }, { expired: false }],
+          VendorId: vendor.id
+        }
+      });
+
       if (productsToUpdate.length === 0) {
-        return res.status(404).json({ status: "fail", message: req.t("productnotfound")});
+        return res
+          .status(404)
+          .json({ status: "fail", message: req.t("productnotfound") });
       }
 
-      const productIdsToUpdate = productsToUpdate.map(product => product.productId);
+      const productIdsToUpdate = productsToUpdate.map(
+        (product) => product.productId
+      );
       // update product available to true
       await Product.update(
-          { available: true },
-          { where: { productId: productIdsToUpdate } }
+        { available: true },
+        { where: { productId: productIdsToUpdate } }
       );
-      return res.status(200).json({ status: "success", message:req.t("productupdated") });
-  } catch (error) {
+      return res
+        .status(200)
+        .json({ status: "success", message: req.t("productupdated") });
+    } catch (error) {
       return res.status(500).json({ status: "error", error: error.message });
+    }
   }
-}
 }
 
 export default ProductController;

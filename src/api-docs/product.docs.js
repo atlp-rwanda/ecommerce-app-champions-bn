@@ -108,7 +108,6 @@ const addToWishlist = {
   ],
   responses: response
 };
-
 const getAvailableProducts = {
   tags: ["Product"],
   security: [
@@ -244,7 +243,7 @@ const deleteProduct = {
   ],
   parameters: [
     {
-      name: "id",
+      name: "productId",
       in: "path",
       description: "id of product",
       type: "string",

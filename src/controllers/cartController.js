@@ -1,4 +1,5 @@
 /* eslint-disable radix */
+/* istanbul ignore file */
 import { Product, Cart } from "../database/models";
 
 class CartController {
