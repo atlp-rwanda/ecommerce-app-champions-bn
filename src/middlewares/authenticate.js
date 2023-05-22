@@ -52,6 +52,7 @@ export const verifyVendor = (req, res, next) => {
 export const verifyBuyer = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.role.roleName === "buyer") {
+      console.log(req,"=================");
       return next();
     } else {
       return res

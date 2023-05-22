@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     subject: DataTypes.STRING,
     message: DataTypes.STRING,
     type: DataTypes.STRING,
-    isRead:DataTypes.BOOLEAN,
+    isRead:{type:DataTypes.BOOLEAN, defaultValue:false },
     userId:DataTypes.INTEGER,
 
   }, {

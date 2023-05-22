@@ -1,38 +1,40 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable import/prefer-default-export */
 /* istanbul ignore file */
-import * as dotenv from 'dotenv';
-import db, { sequelize } from '../database/models/index';
+import * as dotenv from "dotenv";
+import cron from "node-cron";
+import EventEmitter from "events";
+import db, { sequelize } from "../database/models/index";
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-import cron from 'node-cron';
-import EventEmitter from 'events';
+
 const emitter = new EventEmitter();
 const { User } = db;
 dotenv.config();
 
-let mailList=[];
+const mailList = [];
 const transporter = nodemailer.createTransport({
-    service: process.env.SERVICE,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD
-    }
+  service: process.env.SERVICE,
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD
+  }
+});
+
+const sendPasswordChangePromptEmail = async (user) => {
+  const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: "1h"
   });
+  const frontendResetLink = `${process.env.FRONTEND_APP_URL}`;
+  const mailOptions = {
+    to: user,
+    from: `ATLP-Champions E-commerce <${process.env.EMAIL}>`,
+    subject: "Your App Password Reset",
 
-  const sendPasswordChangePromptEmail = async (user) =>{
- 
-    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
-      expiresIn: "1h"
-    });
-    const frontendResetLink = `${process.env.FRONTEND_APP_URL}`;
-    const mailOptions = {
-      to: user,
-      from: `ATLP-Champions E-commerce <${process.env.EMAIL}>`,
-      subject: "Your App Password Reset",
-
-
-      
-      html: `
+    html: `
       <p>Hello,</p>
       <p>You are receiving this email because your password has expired.</p>
       <p>Please click on the following button to update your password:</p>
@@ -41,40 +43,32 @@ const transporter = nodemailer.createTransport({
       </button>
       <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
     `
-    };
-    await transporter.sendMail(mailOptions);
+  };
+  await transporter.sendMail(mailOptions);
+};
 
-  }
-  
-export const checkPassword = () =>{
-    (async () => {
-        cron.schedule(`${process.env.CRON_SCHEDULE}`, async () => {
-          const expiredUsers = await User.findAll({
-            where: sequelize.literal(`
+export const checkPassword = () => {
+  (async () => {
+    cron.schedule(`${process.env.CRON_SCHEDULE}`, async () => {
+      const expiredUsers = await User.findAll({
+        where: sequelize.literal(`
               NOW() - "lastPasswordUpdate" > INTERVAL '${process.env.PASSWORD_EXPIRY}'
-            `),
-          });
-        if (expiredUsers.length) {
-            try {
-              for (let i = 0; i < expiredUsers.length; i++) {
-                // Update status of the User to NeedsToUpdatePassword
-                await expiredUsers[i].update({ passwordStatus: false });
-                mailList.push(expiredUsers[i].email)
-
-              }
-              sendPasswordChangePromptEmail(mailList)
-              console.log("emails sent")
-
-            } catch (error) {
-              console.log(error);
-            }
-          } else {
-            console.log('No expired password');
+            `)
+      });
+      if (expiredUsers.length) {
+        try {
+          for (let i = 0; i < expiredUsers.length; i++) {
+            // Update status of the User to NeedsToUpdatePassword
+            await expiredUsers[i].update({ passwordStatus: false });
+            mailList.push(expiredUsers[i].email);
           }
-        
-        });
-      })();
-}
-emitter.on('start', checkPassword);
-emitter.emit('start');
-
+          sendPasswordChangePromptEmail(mailList);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  })();
+};
+emitter.on("start", checkPassword);
+emitter.emit("start");

@@ -1,3 +1,5 @@
+const logger = require("eslint-watch/src/logger");
+
 /* istanbul ignore file */
 require("dotenv").config();
 
@@ -7,7 +9,8 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DEV_DATABASE,
     host: process.env.DB_HOST,
-    dialect:'postgres'
+    dialect:'postgres',
+    logging: false
   },
   test: {
     username: process.env.TEST_DB_USERNAME,
