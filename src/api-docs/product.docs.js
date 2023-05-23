@@ -343,6 +343,27 @@ const getExpiredProducts = {
   responses:response
 };
 
+
+const removeItemFromWishList = {
+  tags: ["Product"],
+  description: "remove product from wishlist",
+  security: [
+    {
+      token: [],
+    },
+  ],
+  parameters: [
+    {
+      name: "id",
+      in: "path",
+      description: "id of the product you want to remove",
+      type: "string",
+      example: "1"
+    }
+  ],
+  responses: response
+};
+
 const productRouteDoc = {
   "/api/product/create": {
     post: postProduct
@@ -370,6 +391,9 @@ const productRouteDoc = {
   },
   "/api/product/retrieveWishlistItems": {
     get: retrieveProductItems
+  },
+  "/api/product/remove-from-wishlist/{id}": {
+    delete: removeItemFromWishList
   },
   "/api/product/get-seller-products":{get: listProduct},
    

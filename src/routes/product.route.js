@@ -16,6 +16,7 @@ productRoute.get("/getAvailable",ProductController.getAvailableProduct);
 productRoute.get("/getOne/:id", ProductController.getProductById);
 productRoute.post("/addToWishlist/:productId",verifyBuyer,checkPassword,ProductController.addToWishlist);
 productRoute.get("/retrieveWishlistItems",verifyBuyer,ProductController.retrieveProductItems);
+productRoute.delete("/remove-from-wishlist/:id",verifyBuyer,ProductController.deleteItemFromWishlist);
 productRoute.get("/recommended", ProductController.getRecommendedProducts);
 productRoute.get("/checkExpired", ProductController.checkExpiredProducts);
 productRoute.post("/create",verifyVendor,uploadImages("productImage"),validate(productSchema),productExistAlready,ProductController.createProduct);
