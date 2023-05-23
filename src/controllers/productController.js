@@ -385,6 +385,21 @@ class ProductController {
     }
   }
 
+  static async deleteItemFromWishlist(req,res){
+    try {
+      const myWishlists = await Wishlist.findOne({where:{userId:req.user.id}});
+      if(!myWishlists){
+        return res.status(404).json({status:"error",message:"wishlist Item not found"});
+      }
+      const newWishedProducts = myWishlists.dataValues.products.filter(item  => item !== parseInt(req.params.id));
+      const updatedWishList = await Wishlist.update({products:newWishedProducts},{where:{userId:req.user.id}});
+      return res.status(200).json({status:"success",data:updatedWishList});
+    
+    } catch (error) {
+      return res.status(500).json({status:"error",error:error.message});
+    }
+  }
+
   static async checkExpiredProducts(req, res) {
     try {
       const expiredProducts = await Product.findAll({
