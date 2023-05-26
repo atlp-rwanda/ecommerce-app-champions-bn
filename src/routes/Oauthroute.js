@@ -23,7 +23,7 @@ try {
     (req, res) => {
       const {token} = req.user;
       res.cookie("token", token);
-      res.redirect(`${process.env.REDIRECT_URL}`);
+      res.redirect(`${process.env.REDIRECT_URL}/loginSuccess?token=${token}`);
     }
   );
   
